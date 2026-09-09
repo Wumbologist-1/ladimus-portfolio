@@ -1,0 +1,4 @@
+.section {
+  padding-block: var(--space-section);
+  scroll-margin-block-start: var(--space-6);
+}

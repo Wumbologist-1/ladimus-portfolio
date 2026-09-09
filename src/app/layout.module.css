@@ -1,0 +1,28 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100svh;
+}
+
+.main {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.skipLink {
+  position: fixed;
+  inset-block-start: var(--space-4);
+  inset-inline-start: var(--space-4);
+  z-index: 10;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-sm);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font-weight: 600;
+  transform: translateY(calc(-100% - var(--space-6)));
+}
+
+.skipLink:focus {
+  transform: translateY(0);
+  color: var(--color-on-accent);
+}
