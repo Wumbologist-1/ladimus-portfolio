@@ -7,9 +7,8 @@ export function SiteHeader() {
   return (
     <header className={styles.header}>
       <Container className={styles.inner}>
-        <Link className={styles.brand} href="/" aria-label="Ladimus home">
-          <span className={styles.mark} aria-hidden="true">L.</span>
-          <span>LADIMUS</span>
+        <Link className={styles.brand} href="/" aria-label={`${site.name} home`}>
+          <span>{site.name}</span>
         </Link>
         <nav aria-label="Primary">
           <ul className={styles.navigation}>

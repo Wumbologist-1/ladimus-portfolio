@@ -14,6 +14,7 @@
   --color-secondary: #80dbe8;
   --color-on-accent: #122006;
   --metallic-treatment: linear-gradient(135deg, #f2f5f6 0%, #9ba8af 52%, #d5dce0 100%);
+  --metallic-border: linear-gradient(135deg, #657278 0%, #343e43 35%, #242c30 70%, #49565d 100%);
 
   --font-sans: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --font-mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;

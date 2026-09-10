@@ -2,9 +2,10 @@
 
 ## Scope
 
-Portfolio v0.1 is one Next.js App Router application. This foundation establishes
-the toolchain, a responsive shell, semantic design tokens, a small homepage, and
-a typed project content contract. It does not implement full case studies or Ask
+Portfolio v0.2 remains one Next.js App Router application. This public homepage preserves
+the toolchain, responsive shell, semantic design tokens, and typed project content
+contract. It adds engineering focus, featured work, about, and contact sections.
+It does not implement full case studies or Ask
 Ladimus. The existing README, agent instructions, and ignore rules are preserved.
 
 ## Runtime and dependencies
@@ -70,7 +71,8 @@ Components consume semantic tokens instead of duplicating palette values.
 These plain CSS tokens can later be extracted into a shared ecosystem package.
 
 The foundation uses graphite surfaces, high-contrast text, a green primary action,
-cyan labels and focus rings, and a restrained metallic wordmark. Glow is limited
+cyan labels and focus rings, and a restrained metallic wordmark. A metallic border
+gradient frames the flagship project; CSS radial illumination adds depth. Glow is limited
 to the opportunity status dot. There is no continuous animation or glass blur.
 
 Layouts are mobile-first, with fluid type and spacing, wrapping navigation and
@@ -83,16 +85,18 @@ skip link, focusable main target, labelled navigation, section heading associati
 visible focus rings, semantic lists, and real anchors. Navigation and action links
 have at least 44px vertical targets. Reduced-motion preferences disable transition
 durations; forced colors retain readable wordmark text. Status information has a
-text label rather than relying on its green dot. Resume availability is stated
-explicitly at the linked profile section.
+text label rather than relying on its green dot. Contact destinations are real anchors; the résumé is hidden until a verified asset is supplied.
 
 ## Project content model
 
-Project includes slug, title, summary, category, technologies, status, featured,
+Project includes slug, title, summary, category, technologies, optional status and
+themes, featured,
 optional HTTPS repository/demo URLs, and an optional CaseStudy. CaseStudy starts
 with problem, approach, and outcome strings. Do not invent outcomes to fill it.
 
-The first record describes this repository. Content uses `satisfies readonly
+The featured record describes Ladimus Review using approved public-safe positioning.
+Themes are distinct from verified technologies. Status is optional to avoid implying
+an unverified release stage. Content uses `satisfies readonly
 Project[]` for compile-time checking without a runtime schema dependency. This
 does not validate external content: add boundary validation if content later
 comes from a CMS or API. Slugs must be unique and URL-safe before detail routing.
@@ -155,11 +159,27 @@ build followed by next start (or the hosting provider's supported adapter).
 Current content can be prerendered; static-export-only mode is intentionally not
 enabled so a future server endpoint remains possible. No hosting vendor is selected.
 
-No environment variables are required. Configure the verified public domain before
-adding canonical URLs, sitemap, robots policy, or absolute social metadata. Supply
-approved GitHub and resume destinations through site configuration/content. Until
-a GitHub URL is confirmed, its action leads to an explicit availability note.
+No environment variables are required. The root layout provides a descriptive
+title, description, Open Graph website metadata, and Twitter summary metadata.
+Configure the verified public domain before adding canonical URLs, sitemap,
+or absolute social images. No domain is inferred from local development.
 
-Deliberate deferrals: final copy, brand font/assets, full project case studies,
-external integrations, Ask Ladimus, CI provider setup, analytics, and deployment.
-These are follow-up decisions, not hidden placeholder implementations.
+Verified brand, public name, GitHub, LinkedIn, email, logo dimensions/path, and
+optional résumé are centralized in src/config/site.ts. Profile links use their
+verified destinations directly in the current tab; email uses mailto. A null
+résumé destination is omitted from the page. The footer edition remains 0.2.
+
+The canonical public/images/Ladimus_logo.png is 1052 × 215 pixels (about 4.9:1).
+The hero uses next/image with intrinsic dimensions, responsive sizes, and preload.
+CSS preserves its aspect ratio and limits its width to 480px. The source asset
+is unchanged. Text explicitly identifies Ladimus Engineering and Luis Tomassini.
+The wide wordmark is unsuitable for a legible small favicon; a dedicated approved
+square icon is a follow-up. No replacement icon is generated. Social metadata
+remains text-only pending a suitable social asset and verified production domain.
+
+Identity and contact publication gaps are resolved. A résumé, dedicated icon,
+project repository URL, and production domain remain optional content follow-ups.
+No analytics, dependencies, or Client Components were added.
+
+Deliberate deferrals: full project case studies, external integrations, Ask Ladimus,
+CI provider setup, analytics, and deployment.

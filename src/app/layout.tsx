@@ -7,8 +7,17 @@ import "@/styles/globals.css";
 import styles from "./layout.module.css";
 
 export const metadata: Metadata = {
-  title: { default: site.title, template: "%s | Ladimus" },
+  title: { default: site.title, template: `%s | ${site.name}` },
   description: site.description,
+  applicationName: site.name,
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: site.name,
+    title: site.title,
+    description: site.description,
+  },
+  twitter: { card: "summary", title: site.title, description: site.description },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {

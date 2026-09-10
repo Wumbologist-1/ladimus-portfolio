@@ -10,7 +10,8 @@ export type Project = {
   summary: string;
   category: string;
   technologies: readonly string[];
-  status: "planned" | "in-progress" | "released";
+  status?: "planned" | "in-progress" | "released";
+  themes?: readonly string[];
   featured: boolean;
   repositoryUrl?: `https://${string}`;
   demoUrl?: `https://${string}`;
