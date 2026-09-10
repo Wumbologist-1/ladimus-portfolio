@@ -25,11 +25,11 @@ export const contactLinks = [
 export const site = {
   name: "Ladimus Engineering",
   logo: { src: "/images/Ladimus_logo.png", width: 1052, height: 215 },
-  buildLabel: "0.2",
+  buildLabel: "0.3",
   title: "Ladimus Engineering | Luis Tomassini",
   description: "Luis Tomassini’s independent work in AI engineering, agentic systems, DevOps/platform engineering, developer tooling, automation, and software engineering. Open to opportunities.",
   navigation: [
-    { label: "Work", href: "/#work" },
+    { label: "Work", href: "/work" },
     { label: "About", href: "/#about" },
     { label: "GitHub", href: profile.githubUrl },
     { label: "Contact", href: "/#contact" },

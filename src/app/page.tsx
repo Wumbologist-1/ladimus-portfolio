@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { ProjectCard } from "@/features/projects/project-card";
+import { ReviewVisual } from "@/features/projects/review-visual";
 import { ActionLink } from "@/components/ui/action-link";
 import { Section } from "@/components/ui/section";
 import { contactLinks, profile, site } from "@/config/site";
@@ -13,16 +15,25 @@ export default function Home() {
           <p className={styles.eyebrow}>{site.hero.eyebrow}</p>
           <p className={styles.status}><span aria-hidden="true" />{site.hero.status}</p>
         </div>
-        <Image className={styles.logo} src={site.logo.src} width={site.logo.width} height={site.logo.height} sizes="(max-width: 560px) 90vw, 480px" alt="Ladimus" preload />
-        <h1 id="hero-title" className={styles.wordmark}>{site.name}</h1>
-        <p className={styles.engineer}>{profile.name}</p>
-        <p className={styles.headline}>{site.hero.headline}</p>
-        <p className={styles.introduction}>{site.hero.introduction}</p>
-        <p className={styles.identity}>{site.hero.identity}</p>
-        <div className={styles.actions}>
-          <ActionLink href="#work" variant="primary">Explore My Work</ActionLink>
-          <ActionLink href={profile.githubUrl}>GitHub</ActionLink>
-          <a className={styles.profileLink} href={profile.linkedinUrl}>LinkedIn <span aria-hidden="true">↗</span></a>
+        <div className={styles.heroGrid}>
+          <div className={styles.heroCopy}>
+            <Image className={styles.logo} src={site.logo.src} width={site.logo.width} height={site.logo.height} sizes="(max-width: 420px) 90vw, 368px" alt="Ladimus" preload />
+            <h1 id="hero-title" className={styles.wordmark}>{site.name}</h1>
+            <p className={styles.engineer}>{profile.name}</p>
+            <p className={styles.headline}>{site.hero.headline}</p>
+            <p className={styles.introduction}>{site.hero.introduction}</p>
+            <p className={styles.identity}>{site.hero.identity}</p>
+            <div className={styles.actions}>
+              <ActionLink href="/work" variant="primary">Explore My Work</ActionLink>
+              <ActionLink href={profile.githubUrl}>GitHub</ActionLink>
+              <a className={styles.profileLink} href={profile.linkedinUrl}>LinkedIn <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+          <aside className={styles.heroFeature} aria-label="Featured engineering work">
+            <p className={styles.eyebrow}>Inside the work / Ladimus Review</p>
+            <ReviewVisual />
+            <a className={styles.profileLink} href="/projects/ladimus-review">Explore validation-oriented AI engineering <span aria-hidden="true">↗</span></a>
+          </aside>
         </div>
         <ul className={styles.disciplines} aria-label="Engineering disciplines">
           {site.hero.disciplines.map((discipline) => <li key={discipline}>{discipline}</li>)}
@@ -52,29 +63,11 @@ export default function Home() {
           <h2 id="work-title">Trust is an engineering problem.</h2>
           <p>Independent work at the intersection of AI, tooling, and reliability.</p>
         </div>
+        <div className={styles.actions}><ActionLink href="/work">View all work</ActionLink></div>
         <ul className={styles.projects} aria-label="Featured projects">
           {projects.map((project) => (
             <li key={project.slug}>
-              <article className={styles.project} aria-labelledby={`project-${project.slug}`}>
-                <div>
-                  <div className={styles.projectMeta}>
-                    <p className={styles.category}>{project.category}</p>
-                    <span className={styles.badge}>Flagship project</span>
-                  </div>
-                  <h3 id={`project-${project.slug}`}>{project.title}</h3>
-                  <p className={styles.projectSummary}>{project.summary}</p>
-                  <ul className={styles.technologies} aria-label={`${project.title} themes`}>
-                    {project.themes.map((theme) => <li key={theme}>{theme}</li>)}
-                  </ul>
-                </div>
-                <aside className={styles.projectAside} aria-label="Project perspective">
-                  <p className={styles.eyebrow}>The central question</p>
-                  <p className={styles.projectQuestion}>The code is generated.<br />What makes it trustworthy?</p>
-                  <div className={styles.rule} aria-hidden="true" />
-                  <p>Reliability starts with how we evaluate engineering output.</p>
-                  <a className={styles.profileLink} href="#about">My engineering perspective <span aria-hidden="true">↓</span></a>
-                </aside>
-              </article>
+              <ProjectCard project={project} />
             </li>
           ))}
         </ul>

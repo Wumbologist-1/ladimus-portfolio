@@ -2,11 +2,11 @@
 
 ## Scope
 
-Portfolio v0.2 remains one Next.js App Router application. This public homepage preserves
-the toolchain, responsive shell, semantic design tokens, and typed project content
-contract. It adds engineering focus, featured work, about, and contact sections.
-It does not implement full case studies or Ask
-Ladimus. The existing README, agent instructions, and ignore rules are preserved.
+Portfolio v0.3 remains one Next.js App Router application. The homepage, /work,
+and /projects/ladimus-review are prerendered Server Component routes. The project
+page is a compact editorial overview with three real evidence captures and an
+explicitly unpublished video walkthrough slot;
+there is no backend, CMS, or deep case-study infrastructure.
 
 ## Runtime and dependencies
 
@@ -36,9 +36,13 @@ src/
     layout/               Site header and footer
     ui/                   Container, Section, ActionLink
   config/site.ts          Identity, editable hero/profile copy, navigation, links
-  content/projects.ts    Repository-owned project records
+  content/projects.ts     Repository-owned project records
+  content/ladimus-review.ts Editorial principles and media records
   features/projects/
-    types.ts              Project and case-study contracts
+    types.ts              Project, case-study, and media contracts
+    project-card.tsx       Shared homepage/work project presentation
+    review-visual.tsx      Labelled conceptual validation diagram
+    project-media.tsx      Image, captioned video, and placeholder rendering
   styles/
     tokens.css            Shared Ladimus design vocabulary
     globals.css           Reset, base elements, selection, focus
@@ -51,7 +55,9 @@ under public/images when real image assets exist. Avoid empty feature scaffoldin
 Container owns the shared content width and gutters. Section adds vertical
 spacing and requires a labelled heading association. ActionLink uses Next.js Link,
 which renders an anchor for navigation, not a button with simulated link behavior.
-No generic Surface component is needed by the current single project presentation.
+ProjectCard shares the featured presentation between the homepage and /work.
+The current single project uses ReviewVisual, a CSS illustration explicitly labelled
+as conceptual rather than a screenshot or evidence of a shipped implementation.
 
 ## Server and client components
 
@@ -70,10 +76,12 @@ treatment, spacing, typography, content widths, radii, elevation, focus, and mot
 Components consume semantic tokens instead of duplicating palette values.
 These plain CSS tokens can later be extracted into a shared ecosystem package.
 
-The foundation uses graphite surfaces, high-contrast text, a green primary action,
-cyan labels and focus rings, and a restrained metallic wordmark. A metallic border
-gradient frames the flagship project; CSS radial illumination adds depth. Glow is limited
-to the opportunity status dot. There is no continuous animation or glass blur.
+The design retains graphite surfaces, high-contrast text, green primary actions,
+cyan focus/labels, and metallic typography. Shared technical-surface and faint-grid
+tokens frame cards and the conceptual diagram. The homepage uses a split hero,
+radial lighting, and a one-time CSS entrance (700ms) and grid fade (1400ms).
+Animations only run with prefers-reduced-motion: no-preference. Card hover movement
+is disabled under reduced motion; there are no continuous animations or new packages.
 
 Layouts are mobile-first, with fluid type and spacing, wrapping navigation and
 actions, and a two-column profile layout only when space permits. A local system
@@ -91,7 +99,7 @@ text label rather than relying on its green dot. Contact destinations are real a
 
 Project includes slug, title, summary, category, technologies, optional status and
 themes, featured,
-optional HTTPS repository/demo URLs, and an optional CaseStudy. CaseStudy starts
+optional local detail URL, optional HTTPS repository/demo URLs, and an optional CaseStudy. CaseStudy starts
 with problem, approach, and outcome strings. Do not invent outcomes to fill it.
 
 The featured record describes Ladimus Review using approved public-safe positioning.
@@ -101,17 +109,35 @@ Project[]` for compile-time checking without a runtime schema dependency. This
 does not validate external content: add boundary validation if content later
 comes from a CMS or API. Slugs must be unique and URL-safe before detail routing.
 
-The current page renders the small project list directly. No selector layer exists
-yet because there is no filtering, sorting, or lookup behavior to extract. Introduce
-features/projects/queries.ts and meaningful tests when those operations are needed.
+The homepage and /work render the single repository-owned record through ProjectCard.
+The Ladimus Review route imports that same named record directly. No dynamic lookup,
+selector layer, CMS, MDX, or slug router is needed for this single detail page.
+Unknown project URLs use the existing 404.
 
-## Future project details
+## Project detail and media
 
-Add app/projects/[slug]/page.tsx when real case studies are ready. Resolve a project
-by slug, prerender published detail pages, return notFound() for unknown or
-unpublished entries, and generate per-project metadata. Keep display components
-under features/projects. Add MDX only when authored long-form content requires it.
-The current project entry is deliberately not a link to an unimplemented route.
+/projects/ladimus-review includes overview, problem, design principles, a conceptual
+workflow, technology disclosure, and proof/media sections. Per-route titles,
+descriptions, Open Graph, and Twitter metadata describe the relevant page.
+The story and media records live in content/ladimus-review.ts.
+The verified implementation stack and public repository are published alongside
+three real captures: structured review, human approval, and fail-closed execution
+authority. The detail page's source action uses the project record's repositoryUrl.
+Only the video walkthrough remains unpublished; measured outcomes are not claimed.
+
+ProjectMedia is a discriminated union:
+- placeholder: format label plus shared id, title, and caption;
+- image: local src, meaningful alt text, intrinsic width and height;
+- video: local MP4 src and an English WebVTT captionsSrc.
+
+Replace a placeholder record with a real image/video record when approved media is
+available. Current captures live under public/media/ladimus-review with matching
+root-relative paths. next/image preserves image dimensions; every image also has
+a visible, keyboard-accessible link to its original asset in a new tab, with
+noopener/noreferrer and an accessible name identifying the capture. Videos use
+native controls, preload=none, and a captions track. Figures retain visible captions.
+Do not put secrets or proprietary output in public assets. The unpublished video
+slot has no fake playback controls or recording.
 
 ## Future Ask Ladimus boundary
 
@@ -167,19 +193,19 @@ or absolute social images. No domain is inferred from local development.
 Verified brand, public name, GitHub, LinkedIn, email, logo dimensions/path, and
 optional résumé are centralized in src/config/site.ts. Profile links use their
 verified destinations directly in the current tab; email uses mailto. A null
-résumé destination is omitted from the page. The footer edition remains 0.2.
+résumé destination is omitted from the page. The footer edition is 0.3.
 
 The canonical public/images/Ladimus_logo.png is 1052 × 215 pixels (about 4.9:1).
 The hero uses next/image with intrinsic dimensions, responsive sizes, and preload.
-CSS preserves its aspect ratio and limits its width to 480px. The source asset
+CSS preserves its aspect ratio and limits its width to 368px. The source asset
 is unchanged. Text explicitly identifies Ladimus Engineering and Luis Tomassini.
 The wide wordmark is unsuitable for a legible small favicon; a dedicated approved
 square icon is a follow-up. No replacement icon is generated. Social metadata
 remains text-only pending a suitable social asset and verified production domain.
 
-Identity and contact publication gaps are resolved. A résumé, dedicated icon,
-project repository URL, and production domain remain optional content follow-ups.
+Identity, contact, and project repository publication gaps are resolved. A résumé,
+dedicated icon, video walkthrough, and production domain remain optional follow-ups.
 No analytics, dependencies, or Client Components were added.
 
-Deliberate deferrals: full project case studies, external integrations, Ask Ladimus,
+Deliberate deferrals: extended case-study infrastructure, external integrations, Ask Ladimus,
 CI provider setup, analytics, and deployment.

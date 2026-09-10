@@ -1,0 +1,91 @@
+.visual {
+  margin: 0;
+  min-inline-size: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--surface-technical);
+  overflow: hidden;
+  box-shadow: var(--shadow-surface);
+}
+.caption, .foot {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  font: var(--text-xs) var(--font-mono);
+  color: var(--color-metal);
+}
+.caption {
+  border-block-end: 1px solid var(--color-border-subtle);
+}
+.caption span, .foot span {
+  color: var(--color-text-muted);
+}
+.field {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  justify-items: center;
+  padding: var(--space-7) var(--space-4);
+  background-image: var(--technical-grid);
+  background-size: 32px 32px;
+}
+.orbit {
+  position: absolute;
+  z-index: -1;
+  inset: 12% 8%;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 50%;
+  transform: rotate(-25deg);
+  background: radial-gradient(ellipse, rgb(128 219 232 / 8%), transparent 65%);
+}
+.orbit::after {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 50%;
+}
+.input, .output {
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-metal);
+  font-size: var(--text-xs);
+  text-align: center;
+}
+.connection {
+  inline-size: 1px;
+  block-size: 2rem;
+  background: linear-gradient(var(--color-border), var(--color-accent));
+}
+.core {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  inline-size: min(100%, 17rem);
+  padding: var(--space-5);
+  background: linear-gradient(135deg, var(--color-surface-raised), var(--color-background));
+  border: 1px solid var(--color-metal);
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 3rem rgb(180 239 99 / 7%);
+}
+.core strong {
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+.core > span:last-child {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+.symbol {
+  color: var(--color-accent);
+  font: 1.5rem var(--font-mono);
+}
+.foot {
+  border-block-start: 1px solid var(--color-border-subtle);
+}

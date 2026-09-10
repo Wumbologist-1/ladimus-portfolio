@@ -16,6 +16,9 @@
   --metallic-treatment: linear-gradient(135deg, #f2f5f6 0%, #9ba8af 52%, #d5dce0 100%);
   --metallic-border: linear-gradient(135deg, #657278 0%, #343e43 35%, #242c30 70%, #49565d 100%);
 
+  --surface-technical: linear-gradient(145deg, #20292d 0%, #121618 45%, #0b0d0e 100%);
+  --technical-grid: linear-gradient(rgb(128 219 232 / 4%) 1px, transparent 1px), linear-gradient(90deg, rgb(128 219 232 / 4%) 1px, transparent 1px);
+
   --font-sans: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --font-mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
   --text-xs: 0.75rem;

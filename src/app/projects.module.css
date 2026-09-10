@@ -1,0 +1,208 @@
+.hero {
+  position: relative;
+  background: radial-gradient(ellipse at 90% 20%, rgb(128 219 232 / 9%), transparent 60%), var(--color-background);
+  border-block-end: 1px solid var(--color-border);
+}
+
+.eyebrow {
+  color: var(--color-secondary);
+  font: var(--text-xs) var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  line-height: 1.6;
+}
+
+.hero h1 {
+  font-size: clamp(2.75rem, 1.5rem + 4.5vw, 6rem);
+  letter-spacing: -0.055em;
+  font-weight: 500;
+  margin-block: var(--space-5);
+}
+
+.hero h1 span {
+  color: var(--color-metal);
+}
+
+.lead {
+  max-inline-size: 52ch;
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-block-start: var(--space-6);
+}
+
+.sectionHead {
+  display: grid;
+  gap: var(--space-4);
+  max-inline-size: 46rem;
+}
+
+.sectionHead > p:last-child {
+  color: var(--color-text-muted);
+}
+
+.sectionHead h2, .editorial h2, .closing h2 {
+  font: 500 var(--text-heading)/1.15 var(--font-sans);
+  letter-spacing: -0.04em;
+}
+
+.projectList {
+  display: grid;
+  gap: var(--space-6);
+  margin-block-start: var(--space-7);
+}
+
+.closing {
+  border-block-start: 1px solid var(--color-border);
+  background: var(--surface-technical);
+}
+
+.closing h2 {
+  max-inline-size: 24ch;
+  margin-block-start: var(--space-5);
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  margin-block-end: var(--space-6);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.split, .editorial {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.split {
+  align-items: center;
+}
+
+.facts {
+  display: grid;
+  gap: var(--space-5);
+  padding-block-start: var(--space-6);
+  margin: var(--space-7) 0 0;
+  border-block-start: 1px solid var(--color-border);
+}
+
+.facts dt {
+  color: var(--color-text-muted);
+  font: var(--text-xs) var(--font-mono);
+  margin-block-end: var(--space-2);
+}
+
+.facts dd {
+  margin: 0;
+}
+
+.editorial h2 {
+  margin-block-start: var(--space-5);
+}
+
+.band {
+  border-block: 1px solid var(--color-border-subtle);
+  background: var(--color-surface);
+}
+
+.prose {
+  color: var(--color-text-muted);
+  font-size: var(--text-lg);
+}
+
+.prose blockquote {
+  margin: var(--space-6) 0 0;
+  border-inline-start: 2px solid var(--color-accent);
+  padding-inline-start: var(--space-5);
+  color: var(--color-metal);
+  font-size: var(--text-heading);
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+}
+
+.principles {
+  display: grid;
+  gap: var(--space-5);
+  margin-block-start: var(--space-7);
+}
+
+.principles article {
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--surface-technical);
+}
+
+.principles h3, .workflow h3 {
+  font-size: var(--text-lg);
+  font-weight: 500;
+  margin-block: var(--space-4);
+}
+
+.principles p, .workflow p {
+  color: var(--color-text-muted);
+}
+
+.workflow {
+  padding: 0;
+  margin: var(--space-7) 0 0;
+  list-style: none;
+  display: grid;
+  gap: var(--space-5);
+}
+
+.workflow li {
+  display: flex;
+  gap: var(--space-5);
+  border-block-start: 1px solid var(--color-border);
+  padding-block-start: var(--space-5);
+}
+
+.workflow li > span {
+  color: var(--color-accent);
+  font: var(--text-xs) var(--font-mono);
+  padding-block-start: var(--space-4);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+  margin-block: var(--space-5) 0;
+}
+
+.tags li {
+  border: 1px solid var(--color-border);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  color: var(--color-metal);
+  font: var(--text-xs) var(--font-mono);
+}
+
+@media (min-width: 48rem) {
+  .facts, .principles {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .editorial {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  }
+  .workflow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 64rem) {
+  .split {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: var(--space-8);
+  }
+}
