@@ -275,3 +275,23 @@ test('identity budgets are finite and authority is calmer than possibility', () 
   assert.ok(presetModule.presets.authority.motion < presetModule.presets.possibility.motion);
   assert.ok(presetModule.presets.review.order > presetModule.presets.possibility.order);
 });
+
+test('scroll and pointer cancellation invalidate a pending tap', () => {
+  const s = setup(); s.visible(true); s.step();
+  const down = () => s.hero.dispatchEvent(Object.assign(new Event('pointerdown'), { clientX: 150, clientY: 70, isPrimary: true, button: 0, pointerId: 1 }));
+  const up = () => s.hero.dispatchEvent(Object.assign(new Event('pointerup'), { clientX: 150, clientY: 70, pointerId: 1 }));
+  down(); s.scroll(); up(); assert.equal(s.runtime.inspect().activeSignals, 0);
+  down(); s.hero.dispatchEvent(new Event('pointercancel')); up();
+  assert.equal(s.runtime.inspect().activeSignals, 0);
+  s.runtime.dispose();
+});
+
+test('compact transition clears old routes and enforces the smaller signal budget', () => {
+  const s = setup(); s.visible(true); s.step(); s.tap();
+  assert.ok(s.runtime.inspect().activeSignals > 0);
+  s.coarse(); s.step();
+  assert.equal(s.runtime.inspect().activeSignals, 0);
+  for (let i = 0; i < 20; i++) { s.step(); s.tap(); }
+  assert.ok(s.runtime.inspect().activeSignals <= 2);
+  s.runtime.dispose();
+});
