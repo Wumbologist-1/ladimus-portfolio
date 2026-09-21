@@ -9,6 +9,7 @@
 html {
   background: var(--color-background);
   scroll-padding-block-start: var(--space-6);
+  scroll-padding-block-end: 5rem;
 }
 
 body {
@@ -64,4 +65,51 @@ svg {
 ::selection {
   background: var(--color-accent);
   color: var(--color-on-accent);
+}
+
+/* Section-local stacking keeps decorative geometry above the static surface
+   and below content. These light fields also survive without JavaScript. */
+[data-living-region] {
+  position: relative;
+  isolation: isolate;
+}
+
+[data-living-region]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 78% 18%, rgb(128 219 232 / 7%), transparent 44%),
+    radial-gradient(ellipse at 8% 82%, rgb(180 239 99 / 4%), transparent 38%);
+}
+
+[data-living-region="possibility"]::after {
+  background: radial-gradient(ellipse at 74% 15%, rgb(128 219 232 / 11%), transparent 42%),
+    radial-gradient(ellipse at 12% 75%, rgb(180 239 99 / 5%), transparent 38%);
+}
+
+[data-living-region="authority"]::after { opacity: 0.35; }
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    [data-living-region]:not(:first-child) > div > [data-topology-clear] {
+      animation: section-arrival linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+  }
+}
+
+@keyframes section-arrival {
+  from { opacity: 0.78; }
+  to { opacity: 1; }
+}
+
+@media (forced-colors: active) {
+  [data-living-region]::after { display: none; }
+}
+
+@media print {
+  [data-living-region]::after { display: none; }
 }

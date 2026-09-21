@@ -1,4 +1,5 @@
 .card {
+  position: relative;
   display: grid;
   gap: var(--space-7);
   padding: clamp(1.25rem, 3vw, 3rem);
@@ -6,6 +7,31 @@
   border-radius: var(--radius-md);
   background: linear-gradient(125deg, var(--color-surface-raised), var(--color-surface) 55%) padding-box, var(--metallic-border) border-box;
   box-shadow: var(--shadow-surface);
+  background-size: 160% 100%;
+  transition: background-position 450ms ease-out, border-color var(--motion-fast);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 1rem;
+  inset-inline-end: 1.25rem;
+  inline-size: 3rem;
+  block-size: 2px;
+  background: linear-gradient(90deg, var(--color-border), var(--color-secondary));
+  opacity: 0.4;
+  transition: opacity var(--motion-fast), inline-size 450ms ease-out;
+}
+
+.card:is(:hover, :focus-within) {
+  background-position: 100% 0;
+  border-color: var(--color-secondary);
+}
+
+.card:is(:hover, :focus-within)::before { opacity: 1; inline-size: 4.5rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .card::before { transition: none; }
 }
 
 .copy {

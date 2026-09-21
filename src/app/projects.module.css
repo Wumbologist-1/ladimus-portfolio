@@ -29,6 +29,33 @@
   color: var(--color-text-muted);
 }
 
+.workIntro { max-inline-size: 58rem; }
+
+.checkpoints {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+  margin: var(--space-7) 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--color-metal);
+  font: var(--text-xs)/1.6 var(--font-mono);
+}
+
+.checkpoints li {
+  border-block-start: 1px solid var(--color-border);
+  padding-block-start: var(--space-3);
+}
+
+.checkpoints span {
+  color: var(--color-secondary);
+  margin-inline-end: var(--space-3);
+}
+
+@media (min-width: 48rem) {
+  .checkpoints { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;

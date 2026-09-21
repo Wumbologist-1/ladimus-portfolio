@@ -17,15 +17,17 @@ export const metadata: Metadata = {
 export default function Work() {
   return (
     <>
-      <Section aria-labelledby="work-title" className={styles.hero}>
+      <Section aria-labelledby="work-title" className={styles.hero} visual="systems">
+        <div className={styles.workIntro} data-topology-clear>
         <p className={styles.eyebrow}>Work / {profile.name}</p>
         <h1 id="work-title">Engineering beyond<br /><span>the generated answer.</span></h1>
         <p className={styles.lead}>Independent systems, tooling, and the decisions behind them. Built around one recurring question: what makes engineering output trustworthy?</p>
         <div className={styles.actions}><ActionLink href="#featured" variant="primary">Inspect featured work</ActionLink><ActionLink href={profile.githubUrl}>GitHub profile</ActionLink></div>
+        </div>
       </Section>
-      <Section id="featured" aria-labelledby="featured-title">
-        <div className={styles.sectionHead}><p className={styles.eyebrow}>01 / Selected project</p><h2 id="featured-title">A focus on reliability.</h2><p>AI engineering, developer tooling, and explicit engineering boundaries.</p></div>
-        <div className={styles.projectList}>{projects.map(project => <ProjectCard key={project.slug} project={project} />)}</div>
+      <Section id="featured" aria-labelledby="featured-title" visual="systems">
+        <div className={styles.sectionHead} data-topology-clear><p className={styles.eyebrow}>01 / Selected project</p><h2 id="featured-title">A focus on reliability.</h2><p>AI engineering, developer tooling, and explicit engineering boundaries.</p></div>
+        <div className={styles.projectList} data-topology-clear>{projects.map(project => <ProjectCard key={project.slug} project={project} />)}</div>
       </Section>
       <Section aria-labelledby="connect-title" className={styles.closing}>
         <p className={styles.eyebrow}>Open to opportunities</p>

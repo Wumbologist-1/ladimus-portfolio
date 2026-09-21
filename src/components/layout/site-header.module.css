@@ -33,6 +33,7 @@
 }
 
 .navigation a {
+  position: relative;
   display: inline-flex;
   align-items: center;
   min-block-size: 2.75rem;
@@ -48,6 +49,20 @@
   padding-inline: var(--space-3);
 }
 
-.navigation a:hover {
+.navigation a:is(:hover, :focus-visible) {
   color: var(--color-accent);
 }
+
+.navigation a::after {
+  content: "";
+  position: absolute;
+  inset-inline: var(--space-2);
+  inset-block-end: 0.3rem;
+  block-size: 1px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-secondary));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--motion-fast) var(--motion-ease);
+}
+
+.navigation a:is(:hover, :focus-visible)::after { transform: scaleX(1); }

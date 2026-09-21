@@ -2,7 +2,7 @@
 
 ## Scope
 
-Portfolio v0.3 remains one Next.js App Router application. The homepage, /work,
+Portfolio v0.4 remains one Next.js App Router application. The homepage, /work,
 and /projects/ladimus-review are prerendered Server Component routes. The project
 page is a compact editorial overview with three real evidence captures and an
 explicitly unpublished video walkthrough slot;
@@ -43,6 +43,7 @@ src/
     project-card.tsx       Shared homepage/work project presentation
     review-visual.tsx      Labelled conceptual validation diagram
     project-media.tsx      Image, captioned video, and placeholder rendering
+  features/living-interface/ Canvas enhancement, topology, presets, shared runtime
   styles/
     tokens.css            Shared Ladimus design vocabulary
     globals.css           Reset, base elements, selection, focus
@@ -61,13 +62,35 @@ as conceptual rather than a screenshot or evidence of a shipped implementation.
 
 ## Server and client components
 
-All authored components are Server Components. The header uses wrapping, visible
+Route content remains Server Components; LivingInterface and MotionControl are
+small client boundaries. The header uses wrapping, visible
 links rather than a scripted mobile menu. Fragment links and page navigation work
 without application JavaScript. Next.js still supplies its framework runtime.
 
 Add `use client` only at an interaction boundary that requires browser state or
 events. Keep that boundary small; do not convert the root layout or static content
 to client components to support a local interaction. No context provider is needed.
+
+## Living Interface
+
+Native Canvas 2D progressively enhances selected sections with deterministic,
+connected topology. Each decorative, pointer-transparent canvas is bounded to its
+section and masks reading regions. The renderer loads after the initial paint;
+animation uses one shared scheduler with no per-frame React state.
+
+Homepage identities progress through possibility, structure, evidence, and
+authority. /work uses systems; Ladimus Review uses ordered review topology.
+Short connected energy pulses, restrained glow, and depth respond to fine pointers
+and native scroll position without changing scrolling or content layout.
+
+A shared Pause / Resume motion control persists the preference in session storage.
+Offscreen regions and hidden documents suspend animation. Compact/coarse-pointer
+budgets reduce nodes, pixel ratio, and movement; sustained expensive frames trigger
+a one-way performance downgrade. Backing-store area is capped.
+
+Reduced motion, forced colors, and print disable the canvas and its control.
+Without JavaScript, or when Canvas context creation fails, server-rendered content,
+CSS surfaces, and native navigation remain usable; no motion control is shown.
 
 ## Styling and accessibility
 
@@ -81,7 +104,7 @@ cyan focus/labels, and metallic typography. Shared technical-surface and faint-g
 tokens frame cards and the conceptual diagram. The homepage uses a split hero,
 radial lighting, and a one-time CSS entrance (700ms) and grid fade (1400ms).
 Animations only run with prefers-reduced-motion: no-preference. Card hover movement
-is disabled under reduced motion; there are no continuous animations or new packages.
+is disabled under reduced motion. Ambient Canvas animation adds no dependencies.
 
 Layouts are mobile-first, with fluid type and spacing, wrapping navigation and
 actions, and a two-column profile layout only when space permits. A local system
@@ -167,10 +190,11 @@ optional-property checks. Compiler cache output stays under the already-ignored
 Lint and type checking are separate gates: a production build does not replace
 lint. Run all three in future CI with npm ci. Do not ignore build/type errors.
 
-There is currently no custom application logic requiring a unit-test framework.
-Add tests for project lookup, publication filtering, or external data validation
-when that behavior is introduced. Use browser tests for future interactive flows;
-avoid tests that only repeat static JSX or TypeScript field declarations.
+Run `node --test tests/living-interface.test.mjs` for topology, rendering budgets,
+renderer lifecycle, shared scheduling, and session motion preference regressions.
+With a production server and existing Chromium CDP endpoint, run
+`node tests/browser-living-interface.mjs`; PORTFOLIO_URL and BROWSER_CDP override
+its local defaults. Browser artifacts stay in ignored scratch output.
 
 For this shell, browser verification should cover small and large viewports,
 horizontal overflow, keyboard traversal, skip-link focus, fragment destinations,
@@ -183,7 +207,8 @@ performance after hosting is selected; no Lighthouse or Web Vitals score is prom
 Host on a platform supporting the standard Next.js Node runtime, with a production
 build followed by next start (or the hosting provider's supported adapter).
 Current content can be prerendered; static-export-only mode is intentionally not
-enabled so a future server endpoint remains possible. No hosting vendor is selected.
+enabled so a future server endpoint remains possible. The repository is connected
+to Vercel for automatic deployment from main.
 
 No environment variables are required. The root layout provides a descriptive
 title, description, Open Graph website metadata, and Twitter summary metadata.
@@ -193,7 +218,7 @@ or absolute social images. No domain is inferred from local development.
 Verified brand, public name, GitHub, LinkedIn, email, logo dimensions/path, and
 optional résumé are centralized in src/config/site.ts. Profile links use their
 verified destinations directly in the current tab; email uses mailto. A null
-résumé destination is omitted from the page. The footer edition is 0.3.
+résumé destination is omitted from the page. The footer edition is 0.4.
 
 The canonical public/images/Ladimus_logo.png is 1052 × 215 pixels (about 4.9:1).
 The hero uses next/image with intrinsic dimensions, responsive sizes, and preload.
@@ -205,7 +230,7 @@ remains text-only pending a suitable social asset and verified production domain
 
 Identity, contact, and project repository publication gaps are resolved. A résumé,
 dedicated icon, video walkthrough, and production domain remain optional follow-ups.
-No analytics, dependencies, or Client Components were added.
+No analytics or dependencies were added for the Living Interface.
 
 Deliberate deferrals: extended case-study infrastructure, external integrations, Ask Ladimus,
-CI provider setup, analytics, and deployment.
+CI provider setup and analytics.

@@ -1,0 +1,38 @@
+.canvas {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.control {
+  position: fixed;
+  z-index: 10;
+  inset-inline-end: var(--page-gutter);
+  inset-block-end: max(1rem, env(safe-area-inset-bottom));
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-block-size: 2.75rem;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-background);
+  color: var(--color-text-muted);
+  font: var(--text-xs) var(--font-mono);
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgb(0 0 0 / 18%);
+}
+
+.indicator { color: var(--color-secondary); }
+.control:is(:hover, :focus-visible) { color: var(--color-text); border-color: var(--color-secondary); }
+
+@media (prefers-reduced-motion: reduce), (forced-colors: active) {
+  .canvas, .control { display: none; }
+}
+
+@media print {
+  .canvas, .control { display: none; }
+}

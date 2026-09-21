@@ -285,6 +285,12 @@
 }
 
 @media (forced-colors: active) {
+  .logo {
+    /* The transparent metallic artwork needs its dark backing in light
+       high-contrast themes; surrounding text keeps system colors. */
+    forced-color-adjust: none;
+    background: var(--color-background);
+  }
   .wordmark {
     background: none;
     color: CanvasText;
