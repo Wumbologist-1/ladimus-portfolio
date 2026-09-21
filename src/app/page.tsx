@@ -1,12 +1,11 @@
 import Image from "next/image";
 import { ProjectCard } from "@/features/projects/project-card";
-import { ReviewVisual } from "@/features/projects/review-visual";
+import { LadimusCore } from "@/features/living-interface/ladimus-core";
 import { ActionLink } from "@/components/ui/action-link";
 import { Section } from "@/components/ui/section";
 import { contactLinks, profile, site } from "@/config/site";
 import { projects } from "@/content/projects";
 import styles from "./page.module.css";
-
 export default function Home() {
   return (
     <>
@@ -29,9 +28,9 @@ export default function Home() {
               <a className={styles.profileLink} href={profile.linkedinUrl}>LinkedIn <span aria-hidden="true">↗</span></a>
             </div>
           </div>
-          <aside className={styles.heroFeature} aria-label="Featured engineering work" data-topology-clear>
-            <p className={styles.eyebrow}>Inside the work / Ladimus Review</p>
-            <ReviewVisual />
+          <aside className={styles.heroFeature} aria-label="Featured engineering work">
+
+            <LadimusCore />
             <a className={styles.profileLink} href="/projects/ladimus-review">Explore validation-oriented AI engineering <span aria-hidden="true">↗</span></a>
           </aside>
         </div>
@@ -57,7 +56,7 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section id="work" aria-labelledby="work-title" className={styles.work} visual="evidence">
+      <Section id="work" aria-labelledby="work-title" className={styles.work} visual="systems">
         <div className={styles.sectionHeading} data-topology-clear>
           <p className={styles.eyebrow}>02 / Featured work</p>
           <h2 id="work-title">Trust is an engineering problem.</h2>

@@ -5,7 +5,7 @@ import styles from "./project-card.module.css";
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className={styles.card} aria-labelledby={`project-${project.slug}`}>
+    <article data-field-reactive className={styles.card} aria-labelledby={`project-${project.slug}`}>
       <div className={styles.copy}>
         <p className={styles.label}>Flagship / Independent engineering</p>
         <p className={styles.category}>{project.category}</p>

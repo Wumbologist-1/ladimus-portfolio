@@ -14,7 +14,7 @@ export function ActionLink({
   ...props
 }: ActionLinkProps) {
   return (
-    <Link className={`${styles.link} ${styles[variant]} ${className}`} {...props}>
+    <Link data-field-reactive className={`${styles.link} ${styles[variant]} ${className}`} {...props}>
       {children}
       <span aria-hidden="true">↗</span>
     </Link>

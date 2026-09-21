@@ -1,10 +1,11 @@
+import { createSignals, decorativeTarget, isTap, SIGNAL_SECONDS } from "./signals";
 import { createTopology, damp } from "./topology";
 import { renderingBudget } from "./performance";
 import { presets, type VisualIdentity } from "./presets";
 import { requestFrame, cancelFrame } from "./runtime";
 
 export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boolean, identity: VisualIdentity = "possibility") {
-  const hero = canvas.closest("section");
+  const hero = canvas.closest<HTMLElement>("[data-living-surface], section");
   const context = canvas.getContext("2d");
   if (!hero || !context) return null;
   const ctx = context;
@@ -22,6 +23,12 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
   let graph = createTopology(budget.compact, identity);
   let points = graph.nodes.map(() => ({ x: 0, y: 0, energy: 0, pulse: 0 }));
   let clips: Path2D[] = [];
+  let exclusions: { x: number; y: number; w: number; h: number }[] = [];
+  let signals = createSignals(graph, budget.compact);
+  let gesture: { x: number; y: number; time: number; scroll: number; id: number } | null = null;
+  let lastDispatch = -Infinity;
+  let reactive = -1;
+  let reactiveEnergy = 0;
   let halo: CanvasGradient;
   let order: number = preset.order;
   let frame = 0;
@@ -58,6 +65,8 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
     if (previousCompact !== budget.compact) {
       graph = createTopology(budget.compact, identity);
       points = graph.nodes.map(() => ({ x: 0, y: 0, energy: 0, pulse: 0 }));
+      signals = createSignals(graph, budget.compact);
+      reactive = -1;
     }
     canvas.width = Math.max(1, Math.floor(width * budget.ratio));
     canvas.height = Math.max(1, Math.floor(height * budget.ratio));
@@ -71,6 +80,7 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
     halo.addColorStop(0.15, `${cyan}99`);
     halo.addColorStop(1, `${cyan}00`);
     clips = [];
+    exclusions = [];
     // Reserve complete reading/panel regions, not moving per-glyph masks.
     for (const region of hero!.querySelectorAll("[data-topology-clear]")) {
       const box = region.getBoundingClientRect();
@@ -78,11 +88,14 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
       clip.rect(0, 0, width, height);
       clip.rect(box.left - bounds.left - 12, box.top - bounds.top - 10, box.width + 24, box.height + 20);
       clips.push(clip);
+      exclusions.push({ x: box.left - bounds.left - 12, y: box.top - bounds.top - 10, w: box.width + 24, h: box.height + 20 });
     }
     dirty = false;
   }
 
   function draw(dt: number) {
+    signals.advance(dt);
+    reactiveEnergy = damp(reactiveEnergy, reactive >= 0 ? 1 : 0, dt, 0.25);
     pointerX = damp(pointerX, targetX, dt);
     pointerY = damp(pointerY, targetY, dt);
     energy = damp(energy, pointerInside && fine.matches && !budget.compact ? 1 : 0, dt);
@@ -97,10 +110,10 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
     for (let i = 0; i < graph.nodes.length; i++) {
       const node = graph.nodes[i]!;
       const point = points[i]!;
-      const influence = Math.max(0, 1 - Math.hypot(node.x - (pointerX + 1) / 2, node.y - (pointerY + 1) / 2) / 0.65) * energy;
+      const influence = Math.max(0, 1 - Math.hypot(node.x - (pointerX + 1) / 2, node.y - (pointerY + 1) / 2) / 0.36) * energy;
       point.x = node.x * width + Math.sin(time * 0.12 + node.phase) * budget.amplitude * preset.motion + pointerX * node.depth * 5 * influence;
       point.y = (node.y + (node.settledY - node.y) * order) * height + Math.cos(time * 0.1 + node.phase) * budget.amplitude * preset.motion + pointerY * node.depth * 4 * influence - scrollOffset * node.depth;
-      point.energy = influence;
+      point.energy = Math.max(influence, node.cluster === reactive ? reactiveEnergy * 0.65 : 0);
       point.pulse = 0;
     }
     ctx.lineWidth = 0.75;
@@ -109,38 +122,19 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
       const start = points[a]!;
       const end = points[b]!;
       const depth = (graph.nodes[a]!.depth + graph.nodes[b]!.depth) / 2;
-      const crossRail = Math.floor(a / 3) === Math.floor(b / 3);
+      const crossRail = graph.nodes[a]!.cluster !== graph.nodes[b]!.cluster;
       ctx.globalAlpha = preset.line * (0.5 + depth * 0.5) * (crossRail ? 0.42 : 1) + Math.max(start.energy, end.energy) * 0.13;
       ctx.beginPath();
       ctx.moveTo(start.x, start.y);
       ctx.lineTo(end.x, end.y);
       ctx.stroke();
     }
-    // A short coordinated route, followed by a long rest. Smoothstep gives the
-    // pulse an accelerating / settling curve without moving the topology.
+    // Ambient and dispatched signals use exactly the same graph edges.
     const period = preset.period * (budget.compact ? 1.6 : 1);
-    const cycle = (time + 2) % period;
-    if (cycle < 4) {
-      const route = graph.paths[Math.floor(time / period) % graph.paths.length]!;
-      const phase = cycle / 4;
-      const head = phase * phase * (3 - 2 * phase) * (route.length - 1);
-      for (let i = 0; i < route.length; i++) {
-        points[route[i]!]!.pulse = Math.max(0, 1 - Math.abs(head - i) / 0.65) * Math.sin(phase * Math.PI) * preset.energy;
-      }
-      for (let i = 0; i < route.length - 1; i++) {
-        const start = points[route[i]!]!;
-        const end = points[route[i + 1]!]!;
-        const tail = Math.max(0, Math.min(1, head - i - 0.6));
-        const lead = Math.max(0, Math.min(1, head - i));
-        if (lead <= tail) continue;
-        ctx.strokeStyle = cyan;
-        ctx.globalAlpha = Math.sin(phase * Math.PI) * 0.7 * preset.energy;
-        ctx.lineWidth = 1.4;
-        ctx.beginPath();
-        ctx.moveTo(start.x + (end.x - start.x) * tail, start.y + (end.y - start.y) * tail);
-        ctx.lineTo(start.x + (end.x - start.x) * lead, start.y + (end.y - start.y) * lead);
-        ctx.stroke();
-      }
+    const cycle = time % period;
+    if (cycle < SIGNAL_SECONDS) paintSignal(graph.paths[Math.floor(time / period) % graph.paths.length]!, cycle, preset.energy * 0.6);
+    for (const slot of signals.slots) {
+      if (slot.age < SIGNAL_SECONDS) paintSignal(slot.route, slot.age, slot.strength);
     }
     for (let i = 0; i < points.length; i++) {
       const point = points[i]!;
@@ -170,6 +164,73 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
     }
     ctx.restore();
   }
+
+  function paintSignal(route: number[], age: number, strength: number) {
+    const phase = age / SIGNAL_SECONDS;
+    const head = phase * (route.length - 1);
+    const fade = Math.min(1, (1 - phase) * 5) * strength;
+    for (let i = 0; i < route.length; i++) {
+      const point = points[route[i]!]!;
+      point.pulse = Math.max(point.pulse, Math.max(0, 1 - Math.abs(head - i) / 1.2) * fade);
+      if (i === route.length - 1) continue;
+      const end = points[route[i + 1]!]!;
+      const tail = Math.max(0, Math.min(1, head - i - 0.85));
+      const lead = Math.max(0, Math.min(1, head - i));
+      if (lead <= tail) continue;
+      ctx.strokeStyle = cyan; ctx.globalAlpha = fade * 0.85; ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(point.x + (end.x - point.x) * tail, point.y + (end.y - point.y) * tail);
+      ctx.lineTo(point.x + (end.x - point.x) * lead, point.y + (end.y - point.y) * lead);
+      ctx.stroke();
+    }
+  }
+
+  function nearest(x: number, y: number) {
+    let best = -1, distance = Infinity;
+    for (let i = 0; i < points.length; i++) {
+      const p = points[i]!;
+      if (exclusions.some(r => p.x >= r.x && p.x <= r.x + r.w && p.y >= r.y && p.y <= r.y + r.h)) continue;
+      const d = Math.hypot(p.x - x, p.y - y);
+      if (d < distance) { best = i; distance = d; }
+    }
+    return best;
+  }
+  function enabled() { return !disposed && !paused && visible && !document.hidden; }
+  function ownTarget(target: EventTarget | null) {
+    return target instanceof Element && target.closest("[data-living-surface], section") === hero;
+  }
+  hero.addEventListener("pointerdown", event => {
+    gesture = null;
+    if (!enabled() || !event.isPrimary || event.button !== 0 || !ownTarget(event.target) || !decorativeTarget(event.target)) return;
+    gesture = { x: event.clientX, y: event.clientY, time: performance.now(), scroll: window.scrollY, id: event.pointerId };
+  }, options);
+  hero.addEventListener("pointerup", event => {
+    const start = gesture; gesture = null;
+    const now = performance.now();
+    if (!start || start.id !== event.pointerId || !enabled() || !ownTarget(event.target) || !decorativeTarget(event.target)
+      || window.getSelection()?.toString() || !isTap(start, event.clientX, event.clientY, now, window.scrollY) || now - lastDispatch < 180) return;
+    const index = nearest(event.clientX - left, event.clientY + scroll - top);
+    if (signals.dispatch(index)) {
+      lastDispatch = now;
+      // A quiet handoff follows an alternate connected branch, never particles.
+      const branch = graph.adjacency[index]?.find(n => !graph.paths[index]!.includes(n));
+      if (!budget.compact && identity !== "review" && branch !== undefined) signals.dispatch(branch, 0.55);
+    }
+  }, options);
+  hero.addEventListener("pointercancel", () => { gesture = null; }, options);
+  const react = (event: Event) => {
+    if (!enabled() || !(event.target instanceof Element)) return;
+    if (event.type === "pointerover" && (!fine.matches || budget.compact)) return;
+    const target = event.target.closest("[data-field-reactive]");
+    if (!target) return;
+    const box = target.getBoundingClientRect();
+    const index = nearest(box.left + box.width / 2 - left, box.top + box.height / 2 + scroll - top);
+    reactive = graph.nodes[index]?.cluster ?? -1;
+  };
+  hero.addEventListener("pointerover", react, options);
+  hero.addEventListener("focusin", react, options);
+  hero.addEventListener("pointerout", () => { reactive = -1; }, options);
+  hero.addEventListener("focusout", () => { reactive = -1; }, options);
 
   function tick(now: number) {
     frame = 0;
@@ -219,7 +280,7 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
     }
   }
   hero.addEventListener("pointermove", (event) => {
-    if (!fine.matches || budget.compact || event.pointerType === "touch") return;
+    if (!enabled() || !fine.matches || budget.compact || event.pointerType === "touch") return;
     targetX = Math.max(-1, Math.min(1, (event.clientX - left) / width * 2 - 1));
     targetY = Math.max(-1, Math.min(1, (event.clientY + scroll - top) / height * 2 - 1));
     pointerInside = true;
@@ -228,7 +289,7 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
   hero.addEventListener("pointerleave", resetPointer, options);
   hero.addEventListener("animationend", invalidate, options);
   window.addEventListener("blur", resetPointer, options);
-  window.addEventListener("scroll", () => { scroll = window.scrollY; }, options);
+  window.addEventListener("scroll", () => { scroll = window.scrollY; gesture = null; }, options);
   window.addEventListener("resize", invalidate, options);
   document.addEventListener("visibilitychange", schedule, options);
   coarse.addEventListener("change", invalidate, options);
@@ -245,9 +306,11 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
   measure();
   if (paused) draw(0);
   return {
-    pause(value: boolean) { paused = value; schedule(); },
+    pause(value: boolean) { paused = value; gesture = null; if (paused) { signals.clear(); reactive = -1; } schedule(); },
+    inspect() { return { activeSignals: signals.active, dispatched: signals.dispatched, compact: budget.compact }; },
     dispose() {
       disposed = true;
+      signals.clear(); gesture = null;
       cancelFrame(frame);
       abort.abort();
       resize.disconnect();

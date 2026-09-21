@@ -1,12 +1,13 @@
 // Production-browser checks using an existing Chromium CDP endpoint; no package
-// or browser installation. Start `npm run start -- --port 3104` first.
+// or browser installation. All navigation must target a public deployment.
 // BROWSER_CDP and PORTFOLIO_URL override the local defaults.
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 
 const endpoint = process.env.BROWSER_CDP || 'http://127.0.0.1:9224';
-const origin = process.env.PORTFOLIO_URL || 'http://localhost:3104';
-const artifactDirectory = 'scratch/v04-review';
+const origin = process.env.PORTFOLIO_URL;
+assert.ok(origin && /^https:\/\//.test(origin) && !/localhost|127\.0\.0\.1/.test(origin), 'PORTFOLIO_URL must be a public HTTPS deployment');
+const artifactDirectory = process.env.ARTIFACT_DIR || 'scratch/v05-review';
 await mkdir(artifactDirectory, { recursive: true });
 const target = await (await fetch(`${endpoint}/json/new?about:blank`, { method: 'PUT' })).json();
 const ws = new WebSocket(target.webSocketDebuggerUrl);
@@ -44,7 +45,7 @@ const navigate = async path => {
   await until('document.querySelector("[data-motion-control]")');
   await wait(1600);
 };
-const viewport = width => send('Emulation.setDeviceMetricsOverride', { width, height: 1000, deviceScaleFactor: 2, mobile: false });
+const viewport = width => send('Emulation.setDeviceMetricsOverride', { width, height: ({320:800,375:812,390:844,430:932,768:1024,1440:1000,1920:1080})[width], deviceScaleFactor: 2, mobile: false });
 const screenshot = async (name, selector = 'main section') => {
   const clip = await evaluate(`(()=>{const box=document.querySelector(${JSON.stringify(selector)}).getBoundingClientRect();return {x:0,y:box.top+scrollY,width:innerWidth,height:box.height,scale:1/devicePixelRatio}})()`);
   const { data } = await send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: true, clip });
@@ -75,6 +76,8 @@ await send('Page.addScriptToEvaluateOnNewDocument', { source: `
 window.__draws=0;window.__cost=[];window.__commits=0;window.__canvasStats=new Map();window.__pendingFrames=new Set();window.__shifts=0;
 const clear=CanvasRenderingContext2D.prototype.clearRect;
 CanvasRenderingContext2D.prototype.clearRect=function(...args){__draws++;const old=__canvasStats.get(this.canvas);__canvasStats.set(this.canvas,{draws:(old?.draws||0)+1,nodes:0});return clear.apply(this,args)};
+const stroke=CanvasRenderingContext2D.prototype.stroke;
+CanvasRenderingContext2D.prototype.stroke=function(...args){if(this.lineWidth===2){window.__signalStrokes=(window.__signalStrokes||0)+1}return stroke.apply(this,args)};
 const arc=CanvasRenderingContext2D.prototype.arc;
 CanvasRenderingContext2D.prototype.arc=function(...args){if(args[2]<=2.2)__canvasStats.get(this.canvas).nodes++;return arc.apply(this,args)};
 const raf=window.requestAnimationFrame,cancel=window.cancelAnimationFrame;
@@ -86,7 +89,7 @@ new PerformanceObserver(list=>{for(const item of list.getEntries())if(!item.hadR
 
 try {
   for (const path of ['/', '/work', '/projects/ladimus-review']) {
-    for (const width of [320, 375, 768, 1440, 1920]) {
+    for (const width of [320, 375, 390, 430, 768, 1440, 1920]) {
       await viewport(width); await navigate(path);
       const state = await evaluate(`(()=>({
         overflow:document.documentElement.scrollWidth>innerWidth,
@@ -113,7 +116,7 @@ try {
   assert.equal(await evaluate('__commits'), commits); assert.equal(await evaluate('__shifts'), shifts);
   assert.equal(await evaluate('__pendingFrames.size'), 1);
   record('Stable React commits, layout, and one shared frame');
-  record('Shared draw callback cost (ms)', await evaluate('({samples:__cost.length,mean:__cost.reduce((a,b)=>a+b,0)/__cost.length,p95:[...__cost].sort((a,b)=>a-b)[Math.floor(__cost.length*.95)]})'));
+  record('Shared draw callback cost (ms)', await evaluate('({samples:__cost.length,mean:__cost.reduce((a,b)=>a+b,0)/__cost.length,max:Math.max(...__cost),p95:[...__cost].sort((a,b)=>a-b)[Math.floor(__cost.length*.95)]})'));
 
   await key('Tab', 'Tab', 9);
   assert.equal(await evaluate('document.activeElement.textContent'), 'Skip to main content');
@@ -130,7 +133,7 @@ try {
   record('Skip link, visible keyboard focus, Enter/Space pause, stored preference');
 
   await navigate('/');
-  for (const identity of ['structure', 'evidence', 'authority']) {
+  for (const identity of ['structure', 'systems', 'authority']) {
     await evaluate(`document.querySelector('[data-living-region="${identity}"]').scrollIntoView()`); await wait(500);
     assert.ok(await evaluate(`__canvasStats.get(document.querySelector('[data-living-canvas="${identity}"]')).draws>1`));
     await screenshot(`home-${identity}`, `[data-living-region="${identity}"]`);
@@ -179,7 +182,7 @@ try {
   record('Browser back/forward');
 
   for (let cycle = 0; cycle < 3; cycle++) {
-    await evaluate('document.querySelector("header a").click()'); await until('location.pathname==="/" && document.querySelectorAll("canvas").length===5'); await wait(1400);
+    await evaluate('document.querySelector("header a").click()'); await until('location.pathname==="/" && document.querySelectorAll("canvas").length===6'); await wait(1400);
     const count = await evaluate('__canvasStats.get(document.querySelector("canvas")).draws');
     await wait(1000); const rate = await evaluate('__canvasStats.get(document.querySelector("canvas")).draws') - count;
     assert.ok(rate > 15 && rate <= 35, `Single loop: ${rate}`);

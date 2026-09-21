@@ -2,7 +2,7 @@
 
 ## Scope
 
-Portfolio v0.4 remains one Next.js App Router application. The homepage, /work,
+Portfolio v0.5 remains one Next.js App Router application. The homepage, /work,
 and /projects/ladimus-review are prerendered Server Component routes. The project
 page is a compact editorial overview with three real evidence captures and an
 explicitly unpublished video walkthrough slot;
@@ -74,14 +74,27 @@ to client components to support a local interaction. No context provider is need
 ## Living Interface
 
 Native Canvas 2D progressively enhances selected sections with deterministic,
-connected topology. Each decorative, pointer-transparent canvas is bounded to its
+connected clusters with primary checkpoints, precomputed adjacency, and short routes.
+A sparse CSS structural field frames the topology. Each decorative, pointer-transparent canvas is bounded to its
 section and masks reading regions. The renderer loads after the initial paint;
 animation uses one shared scheduler with no per-frame React state.
 
 Homepage identities progress through possibility, structure, evidence, and
-authority. /work uses systems; Ladimus Review uses ordered review topology.
+authority, with systems orchestration around featured work. /work uses systems; Ladimus Review uses ordered review topology.
 Short connected energy pulses, restrained glow, and depth respond to fine pointers
 and native scroll position without changing scrolling or content layout.
+The hero Ladimus Core combines a static SVG control boundary and metallic monogram
+with a bounded Canvas ring and four conceptual checkpoint gates. Its compact layout
+and semantic caption remain available without JavaScript.
+
+Delegated pointer events dispatch signals only in decorative space. Primary pointer
+down/up must stay within 8px and 450ms; scrolling, cancellation, selected text,
+content, and interactive targets suppress dispatch. No pointer capture, preventDefault,
+or custom scrolling is used. Fixed signal slots (two compact, four desktop) expire
+after 2.8 seconds; optional branch handoffs follow connected adjacency. Fine-pointer
+proximity and project/CTA hover or keyboard focus activate nearby clusters.
+Pause blocks all input-driven animation as well as ambient motion. Runtime disposal
+clears signals, observers, and listeners. React never owns frame or signal state.
 
 A shared Pause / Resume motion control persists the preference in session storage.
 Offscreen regions and hidden documents suspend animation. Compact/coarse-pointer
@@ -218,7 +231,7 @@ or absolute social images. No domain is inferred from local development.
 Verified brand, public name, GitHub, LinkedIn, email, logo dimensions/path, and
 optional résumé are centralized in src/config/site.ts. Profile links use their
 verified destinations directly in the current tab; email uses mailto. A null
-résumé destination is omitted from the page. The footer edition is 0.4.
+résumé destination is omitted from the page. The footer edition is 0.5.
 
 The canonical public/images/Ladimus_logo.png is 1052 × 215 pixels (about 4.9:1).
 The hero uses next/image with intrinsic dimensions, responsive sizes, and preload.

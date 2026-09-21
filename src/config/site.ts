@@ -25,7 +25,7 @@ export const contactLinks = [
 export const site = {
   name: "Ladimus Engineering",
   logo: { src: "/images/Ladimus_logo.png", width: 1052, height: 215 },
-  buildLabel: "0.4",
+  buildLabel: "0.5",
   title: "Ladimus Engineering | Luis Tomassini",
   description: "Luis Tomassini’s independent work in AI engineering, agentic systems, DevOps/platform engineering, developer tooling, automation, and software engineering. Open to opportunities.",
   navigation: [

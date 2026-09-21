@@ -74,6 +74,21 @@ svg {
   isolation: isolate;
 }
 
+/* Sparse framing survives no-JS and gives the moving graph a fixed reference. */
+[data-living-region]:not(:first-child)::before {
+  content: "";
+  position: absolute;
+  inset: 1.25rem var(--page-gutter);
+  z-index: -2;
+  pointer-events: none;
+  border-inline: 1px solid rgb(128 219 232 / 7%);
+  background: linear-gradient(90deg, var(--color-secondary) 1px, transparent 1px) 0 0 / 4rem 4px repeat-x,
+    linear-gradient(90deg, var(--color-metal) 1px, transparent 1px) 0 100% / 4rem 4px repeat-x;
+  opacity: 0.32;
+}
+
+[data-living-region="review"]::before { border-inline-end-color: var(--color-secondary); }
+
 [data-living-region]::after {
   content: "";
   position: absolute;
@@ -107,9 +122,9 @@ svg {
 }
 
 @media (forced-colors: active) {
-  [data-living-region]::after { display: none; }
+  [data-living-region]::before, [data-living-region]::after { display: none; }
 }
 
 @media print {
-  [data-living-region]::after { display: none; }
+  [data-living-region]::before, [data-living-region]::after { display: none; }
 }

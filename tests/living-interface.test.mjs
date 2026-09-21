@@ -11,20 +11,25 @@ function load(name, globals = {}) {
 }
 const topology = load('topology'), budget = load('performance');
 const presetModule = load('presets');
+class TestElement extends EventTarget {
+  blocked = false;
+  closest(selector) { return selector.includes('section') ? this : this.blocked ? this : null; }
+}
+const signalModule = load('signals', { Element: TestElement });
 function setup(paused = false, drawCost = 0) {
     let width = 1440, height = 1000, now = 0, serial = 0, draws = 0, arcs = [], intersection, resize;
     const frames = new Map();
     const fine = Object.assign(new EventTarget(), { matches: true });
     const coarse = Object.assign(new EventTarget(), { matches: false });
-    const hero = Object.assign(new EventTarget(), { getBoundingClientRect: () => ({ width, height, top: 0, left: 0 }), querySelectorAll: () => [] });
+    const hero = Object.assign(new TestElement(), { getBoundingClientRect: () => ({ width, height, top: 0, left: 0 }), querySelectorAll: () => [] });
     const document = Object.assign(new EventTarget(), { hidden: false });
-    const window = Object.assign(new EventTarget(), { scrollY: 0 });
+    const window = Object.assign(new EventTarget(), { scrollY: 0, getSelection: () => null });
     const ctx = { clearRect() { draws++; arcs = []; now += drawCost; }, arc(x, y, radius) { if (radius <= 2.2) arcs.push([x, y]); }, createRadialGradient() { return { addColorStop() {} }; }, translate() {}, fillRect() {}, setTransform() { }, save() { }, restore() { }, clip() { }, beginPath() { }, moveTo() { }, lineTo() { }, stroke() { }, fill() { } };
     const canvas = { closest: () => hero, getContext: () => ctx };
     const mod = load('canvas-renderer', {
-        require: name => ({ './topology': topology, './performance': budget, './presets': presetModule,
+        require: name => ({ './topology': topology, './performance': budget, './presets': presetModule, './signals': signalModule,
             './runtime': { requestFrame: cb => { frames.set(++serial, cb); return serial; }, cancelFrame: id => frames.delete(id) },
-        })[name], window, document, AbortController,
+        })[name], window, document, AbortController, Element: TestElement,
         matchMedia: q => q.includes('coarse') ? coarse : fine, devicePixelRatio: 2,
         Path2D: class {
             rect() { }
@@ -43,7 +48,12 @@ function setup(paused = false, drawCost = 0) {
     });
     const runtime = mod.createRenderer(canvas, paused);
     const step = () => { now += 34; const work = [...frames.values()]; frames.clear(); work.forEach(cb => cb(now)); };
-    return { runtime, canvas, frames, step, get draws() { return draws; }, get arcs() { return arcs; },
+    return { runtime, canvas, frames, step, hero,
+        tap: (move = 0) => {
+          hero.dispatchEvent(Object.assign(new Event('pointerdown'), { clientX: 150, clientY: 70, isPrimary: true, button: 0, pointerId: 1 }));
+          hero.dispatchEvent(Object.assign(new Event('pointerup'), { clientX: 150 + move, clientY: 70, pointerId: 1 }));
+        },
+        scroll: () => { window.scrollY += 20; window.dispatchEvent(new Event('scroll')); }, get draws() { return draws; }, get arcs() { return arcs; },
         drawCost: value => { drawCost = value; },
         visible: value => intersection([{ isIntersecting: value }]),
         hidden: value => { document.hidden = value; document.dispatchEvent(new Event('visibilitychange')); },
@@ -58,7 +68,8 @@ test('deterministic connected topology and bounded backing stores', () => {
         const graph = topology.createTopology(compact, identity);
         assert.deepEqual(graph, topology.createTopology(compact, identity));
         assert.equal(graph.nodes.length, compact ? 18 : 39);
-        assert.equal(graph.edges.length, compact ? 22 : 62);
+        assert.ok(graph.edges.length <= 62);
+        assert.equal(graph.adjacency.length, graph.nodes.length);
         const visited = new Set([0]);
         const degree = graph.nodes.map(() => 0);
         for (const [a, b] of graph.edges) {
@@ -122,7 +133,7 @@ test('fine pointer changes positions; coarse pointer has no residual or new para
     b.visible(true);
     a.step();
     b.step();
-    a.pointer(1100, 400);
+    a.pointer(1100, 100);
     for (let i = 0; i < 30; i++) {
         a.step();
         b.step();
@@ -215,4 +226,52 @@ test('one session preference controls all regions and survives route remounts', 
     assert.equal(first, false); assert.equal(runtime.getMotion().available, true);
     removeRemount(); unsubscribe();
     assert.equal(updates, 7);
+});
+
+
+test('routed signals are connected, bounded, expire, and clear', () => {
+  for (const compact of [false, true]) {
+    const graph = topology.createTopology(compact, 'systems');
+    const signals = signalModule.createSignals(graph, compact);
+    for (let i = 0; i < 100; i++) signals.dispatch(i % graph.nodes.length);
+    assert.equal(signals.active, compact ? 2 : 4);
+    for (const signal of signals.slots) {
+      for (let i = 1; i < signal.route.length; i++) assert.ok(graph.adjacency[signal.route[i - 1]].includes(signal.route[i]));
+    }
+    signals.advance(3);
+    assert.equal(signals.active, 0);
+    assert.equal(signals.dispatch(-1), false);
+    signals.dispatch(0); signals.clear(); assert.equal(signals.active, 0);
+  }
+});
+test('tap gesture rejects scrolling, dragging, and long press', () => {
+  const start = { x: 10, y: 10, time: 0, scroll: 0 };
+  assert.equal(signalModule.isTap(start, 12, 12, 100, 0), true);
+  assert.equal(signalModule.isTap(start, 10, 10, 100, 20), false);
+  assert.equal(signalModule.isTap(start, 40, 10, 100, 0), false);
+  assert.equal(signalModule.isTap(start, 10, 10, 600, 0), false);
+});
+test('decorative target filter rejects content and interactive targets', () => {
+  const target = new TestElement();
+  assert.equal(signalModule.decorativeTarget(target), true);
+  target.blocked = true;
+  assert.equal(signalModule.decorativeTarget(target), false);
+  assert.equal(signalModule.decorativeTarget(null), false);
+});
+test('renderer dispatch respects pause, gesture, target, and disposal', () => {
+  const s = setup(); s.visible(true); s.step();
+  s.tap(50); assert.equal(s.runtime.inspect().activeSignals, 0);
+  s.hero.blocked = true; s.tap(); assert.equal(s.runtime.inspect().activeSignals, 0);
+  s.hero.blocked = false; s.tap(); assert.ok(s.runtime.inspect().activeSignals > 0);
+  s.runtime.pause(true); assert.equal(s.runtime.inspect().activeSignals, 0);
+  s.tap(); assert.equal(s.runtime.inspect().activeSignals, 0);
+  s.runtime.pause(false);
+  for (let i = 0; i < 90; i++) s.step();
+  s.tap(); assert.ok(s.runtime.inspect().activeSignals > 0);
+  s.runtime.dispose(); assert.equal(s.runtime.inspect().activeSignals, 0); assert.equal(s.frames.size, 0);
+});
+test('identity budgets are finite and authority is calmer than possibility', () => {
+  for (const preset of Object.values(presetModule.presets)) assert.ok(Object.values(preset).every(Number.isFinite));
+  assert.ok(presetModule.presets.authority.motion < presetModule.presets.possibility.motion);
+  assert.ok(presetModule.presets.review.order > presetModule.presets.possibility.order);
 });

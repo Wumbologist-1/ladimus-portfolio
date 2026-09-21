@@ -1,46 +1,47 @@
 import type { VisualIdentity } from "./presets";
 
-export type Node = { x: number; y: number; settledY: number; depth: number; phase: number; primary: boolean };
+export type Node = { x: number; y: number; settledY: number; depth: number; phase: number; primary: boolean; cluster: number; checkpoint: boolean };
 export type Edge = readonly [number, number];
 
-// Three gently staggered rails form a connected, designed lattice. No random
-// particle placement or proximity search; topology stays stable across frames.
+// Designed cluster chains with checkpoint hubs. Adjacency and bounded routes are
+// computed once; no graph traversal occurs per frame.
 export function createTopology(compact: boolean, identity: VisualIdentity = "possibility") {
-  const columns = compact ? 6 : 13;
+  const count = compact ? 18 : 39;
+  const clusters = compact ? 2 : 3;
+  const size = count / clusters;
   const nodes: Node[] = [];
   const edges: Edge[] = [];
-  for (let column = 0; column < columns; column++) {
-    for (let rail = 0; rail < 3; rail++) {
-      const index = nodes.length;
-      const cluster = Math.min(2, Math.floor(column / (compact ? 2 : 4)));
-      const settledY = identity === "systems"
-        ? [0.38, 0.5, 0.62][cluster]! + (rail - 1) * 0.23
-        : [0.1, 0.49, 0.87][rail]!;
-      const x = identity === "systems"
-        ? 0.05 + cluster * 0.33 + (column - cluster * (compact ? 2 : 4)) * (compact ? 0.18 : 0.06)
-        : 0.035 + column / (columns - 1) * 0.93;
-      nodes.push({
-        x: Math.min(0.965, x),
-        y: settledY + Math.sin(column * 1.7 + rail) * (identity === "review" ? 0.012 : 0.045),
-        settledY,
-        depth: 0.35 + rail * 0.3,
-        phase: column * 1.3 + rail * 2.1,
-        primary: (column % (compact ? 2 : 3) === 0 && rail !== 1) || (identity === "review" && rail === 1),
-      });
-      if (column > 0) edges.push([index - 3, index]);
-      if (rail > 0 && (!compact || column % 2 === 0)) edges.push([index - 1, index]);
+  for (let i = 0; i < count; i++) {
+    const cluster = Math.floor(i / size), local = i % size;
+    const t = local / (size - 1);
+    const ordered = identity === "review" || identity === "structure";
+    let x = (compact ? [0.18, 0.8] : [0.17, 0.5, 0.83])[cluster]! + (t - 0.5) * (compact ? 0.28 : 0.26);
+    let y = (cluster % 2 ? 0.94 : 0.065) + (ordered ? (local % 3 - 1) * 0.014 : Math.sin(t * Math.PI * 2) * 0.026);
+    if (identity === "core") {
+      const angle = -Math.PI / 2 + i / count * Math.PI * 2;
+      x = 0.5 + Math.cos(angle) * 0.39;
+      y = 0.5 + Math.sin(angle) * 0.39;
     }
+    nodes.push({ x, y, settledY: y, depth: 0.4 + (local % 3) * 0.25,
+      phase: i * 1.3, primary: local === 0 || local === Math.floor(size / 2),
+      cluster, checkpoint: local === 0 || local === Math.floor(size / 2) });
+    if (i > 0) edges.push([i - 1, i]);
+    if (local === size - 1) edges.push([i - size + 1, i]);
   }
-  // One additional cross-rail connection keeps the compact graph balanced.
-  if (compact) edges.push([16, 17]);
-  // Precomputed, connected three-edge routes; no proximity searches per frame.
-  const paths: number[][] = [];
-  for (let rail = 0; rail < 3; rail++) {
-    for (let column = 0; column < columns - 3; column += 3) {
-      paths.push([column * 3 + rail, (column + 1) * 3 + rail, (column + 2) * 3 + rail, (column + 3) * 3 + rail]);
+  const adjacency: number[][] = nodes.map(() => []);
+  for (const [a, b] of edges) { adjacency[a]!.push(b); adjacency[b]!.push(a); }
+  const paths = nodes.map((_, start) => {
+    const path = [start];
+    let current = start;
+    for (let step = 0; step < 5; step++) {
+      const next = adjacency[current]!.find(n => n > current && !path.includes(n))
+        ?? adjacency[current]!.find(n => !path.includes(n));
+      if (next === undefined) break;
+      path.push(next); current = next;
     }
-  }
-  return { nodes, edges, paths };
+    return path;
+  });
+  return { nodes, edges, adjacency, paths };
 }
 
 export function damp(current: number, target: number, seconds: number, tau = 0.45) {
