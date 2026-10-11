@@ -1,8 +1,8 @@
 import type { EvidenceChunk, RetrievalHint, Skill } from "./contracts.ts";
 
-const stop = new Set("what who how has have does did do is are the a an of for to and in his he luis tomassini experience tell me about kind much real with built work engineering".split(" "));
+const stop = new Set("what who how has have does did do is are the a an of for to and in his he luis tomassini experience tell me about kind much real with built build work engineering explain projects best demonstrate".split(" "));
 export function tokens(value: string) {
-  const normalized=value.toLowerCase().replace(/\bjudgment\b/g,"validation").replace(/\bprototypes\b/g,"prototype").replace(/\bsystems\b/g,"system");
+  const normalized=value.toLowerCase().replace(/[’']s\b/g,"").replace(/\bjudgment\b/g,"validation").replace(/\bprototypes\b/g,"prototype").replace(/\bsystems\b/g,"system");
   return [...new Set(normalized.match(/[a-z0-9+#]+(?:[./-][a-z0-9+#]+)*/g) ?? [])].filter(t => !stop.has(t));
 }
 const contains = (value: string, token: string) => tokens(value).includes(token);
@@ -19,7 +19,8 @@ export function retrieveEvidence(query: string, chunks: EvidenceChunk[], hints: 
     score += activeHints.reduce((sum,h) => sum + (h.evidence_ids.includes(chunk.recordId) ? 4 : 0),0);
     if (mapped.has(chunk.recordId)) score += 3;
     // Named system queries retain depth; overview queries diversify records.
-    const named = chunk.keywords.some(alias => alias.length > 3 && query.toLowerCase().includes(alias.toLowerCase())) || query.toLowerCase().includes(chunk.title.toLowerCase());
+    // Organizations and skills identify a topic, not a request for one system's depth.
+    const named = ["system","project"].includes(chunk.category) && (chunk.keywords.some(alias => alias.length > 3 && alias.toLowerCase() !== "romtech" && alias.toLowerCase() !== chunk.organization.toLowerCase() && !skills.some(s => s.skill.toLowerCase() === alias.toLowerCase()) && query.toLowerCase().includes(alias.toLowerCase())) || query.toLowerCase().includes(chunk.title.toLowerCase()));
     if (named) score += 8;
     return { chunk, score, named };
   }).filter(r => r.score >= 2).sort((a,b) => b.score-a.score || a.chunk.id.localeCompare(b.chunk.id));

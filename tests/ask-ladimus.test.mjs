@@ -55,6 +55,18 @@ test('lexical, metadata, intent and skill evidence ranking are deterministic and
 test('all supplied acceptance topics retrieve evidence',()=>{
  for(const q of ['AI systems','agentic systems','ROMTech','production ownership','Azure','backend','RAG','AI reliability','CI/CD','Android testing','automation impact','engineering judgment','production systems and prototypes'])assert.ok(retrieveEvidence(q,chunks,hints.intents,skills).length>0,q);
 });
+
+test('production phrasing ignores possessives and question fillers while preserving engineering relevance',()=>{
+ const retrieve=q=>retrieveEvidence(q,chunks,hints.intents,skills);
+ for(const q of ["Explain Luis's experience with agentic systems.","What is Luis’s Azure experience?","What projects best demonstrate engineering judgment?"]){
+  const result=retrieve(q);assert.ok(result.length>0);assert.ok(result.every(c=>c.status!=='historical_variant'),q);
+ }
+ assert.ok(retrieve("Explain Luis's experience with agentic systems.").some(c=>c.recordId==='system-pr-assistant'));
+ for(const q of ['What did Luis build at ROMTech?','What experience does Luis have with CI/CD?']){
+  const result=retrieve(q);assert.equal(new Set(result.map(c=>c.recordId)).size,result.length,q);
+ }
+ assert.ok(retrieve('PR Assistant stale-head rejection').filter(c=>c.recordId==='system-pr-assistant').length>=2);
+});
 test('query shape and bounds reject invalid input',()=>{
  for(const v of [null,{},[],{query:9},{query:''},{query:'  '},{query:'x'.repeat(601)},{query:'bad\u0000input'}])assert.equal(parseQuery(v),null);
  assert.equal(parseQuery({query:' Azure experience '}),'Azure experience');
