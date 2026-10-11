@@ -67,6 +67,16 @@ test('production phrasing ignores possessives and question fillers while preserv
  }
  assert.ok(retrieve('PR Assistant stale-head rejection').filter(c=>c.recordId==='system-pr-assistant').length>=2);
 });
+test('production impact and named prototype queries retain decisive evidence',()=>{
+ const retrieve=q=>retrieveEvidence(q,chunks,hints.intents,skills);
+ const impact=retrieve('What measurable production impact did his automation have?');
+ assert.ok(impact.some(c=>c.recordId==='system-genie-swopsbot' && c.facts.some(f=>f.includes('99.52'))));
+ assert.ok(impact.length<=5);
+ const prototype=retrieve('Was ROMGuide a company-wide production platform?');
+ assert.equal(prototype[0].recordId,'system-romguide');assert.equal(prototype[0].status,'prototype_built');
+ assert.deepEqual(retrieve('quantum banana metrics'),[]);
+});
+
 test('query shape and bounds reject invalid input',()=>{
  for(const v of [null,{},[],{query:9},{query:''},{query:'  '},{query:'x'.repeat(601)},{query:'bad\u0000input'}])assert.equal(parseQuery(v),null);
  assert.equal(parseQuery({query:' Azure experience '}),'Azure experience');
