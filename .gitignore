@@ -37,4 +37,4 @@ scratch/
 
 # private ingestion sources and generated private drafts
 private/
-work/
+/work/
