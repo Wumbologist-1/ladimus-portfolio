@@ -4,14 +4,15 @@ import {readFileSync} from 'node:fs';
 import { normalizeCorpus,chunkRecords,validateRecords,assertPublicSafe } from '../src/features/ask-ladimus/corpus.ts';
 import {retrieveEvidence} from '../src/features/ask-ladimus/retrieval.ts';
 import {parseQuery,queryPolicy} from '../src/features/ask-ladimus/policy.ts';
-import {groundSelection} from '../src/features/ask-ladimus/grounding.ts';
+import {groundAnswer} from '../src/features/ask-ladimus/grounding.ts';
+import {createSynthesisPlan} from '../src/features/ask-ladimus/synthesis.ts';
 import {answerQuery} from '../src/features/ask-ladimus/service.ts';
 import {createLimiter} from '../src/features/ask-ladimus/limits.ts';
 import {createAskHandler} from '../src/features/ask-ladimus/handler.ts';
 const read=name=>JSON.parse(readFileSync(`src/data/career/${name}.json`,'utf8'));
 const records=read('records'),chunks=read('chunks'),hints=read('retrieval-hints'),skills=Object.values(read('skills')).flat(),guards=read('claim-guards');
 const options=(overrides={})=>({chunks,hints:hints.intents,skills,guards,guarded:hints.unsupported_or_guarded_terms,configured:true,
- generate:async(_q,c)=>({selection:[{evidenceId:c[0].id,factIndex:0}]}),signal:new AbortController().signal,emit:()=>{},...overrides});
+ generate:async(q,c)=>{const p=createSynthesisPlan(q,c);return {answer:p.answer.slice(0,3),follow_ups:p.follow_ups};},signal:new AbortController().signal,emit:()=>{},telemetry:{record:()=>{}},...overrides});
 test('public schema, unique stable IDs, bounded deterministic chunks',()=>{
  validateRecords(records);assert.equal(new Set(records.map(r=>r.id)).size,records.length);
  assert.deepEqual(chunkRecords(records),chunks);assert.deepEqual(chunkRecords(records),chunkRecords(records));
@@ -94,13 +95,14 @@ test('all guarded technologies and aliases produce qualified refusal, not positi
 test('conflict, seniority and years questions are qualified',()=>{
  for(const q of ['Is Luis a senior AI engineer?','When will Luis graduate?','Was PR Assistant adopted company-wide?','How many years of professional experience?'])assert.equal(queryPolicy(q,hints.unsupported_or_guarded_terms).kind,'qualified');
 });
-test('grounding rejects invented IDs, fact indices, malformed and oversized output',()=>{
- const c=chunks[0];assert.deepEqual(groundSelection({selection:[{evidenceId:c.id,factIndex:0}]},[c]),[{text:c.facts[0],evidenceId:c.id}]);
- for(const out of [null,{}, {selection:'bad'},{selection:[{evidenceId:'invented',factIndex:0}]},{selection:[{evidenceId:c.id,factIndex:999}]},{selection:[{evidenceId:c.id,factIndex:-1}]},{selection:Array(11).fill({evidenceId:c.id,factIndex:0})}])assert.throws(()=>groundSelection(out,[c]));
+test('grounding rejects invented IDs, altered facts, malformed and oversized output',()=>{
+ const c=chunks[0],p=createSynthesisPlan('career',[c]);const valid={answer:p.answer,follow_ups:p.follow_ups};
+ assert.deepEqual(groundAnswer(valid,[c],p).claims,p.answer);
+ for(const out of [null,{}, {answer:'bad',follow_ups:[]},{answer:[{text:'Invented',evidence_ids:[c.id]}],follow_ups:[]},{answer:[{text:p.answer[0].text,evidence_ids:['invented']}],follow_ups:[]},{answer:Array(11).fill(p.answer[0]),follow_ups:[]}])assert.throws(()=>groundAnswer(out,[c],p));
 });
 test('no evidence never invokes model',async()=>{const r=await answerQuery('underwater basket weaving',options({generate:()=>{throw Error('must not call')}}));assert.equal(r.outcome,'no-evidence');});
-test('valid answer maps every statement to the exact retrieved evidence fact',async()=>{
- const events=[];const r=await answerQuery('Azure',options({emit:e=>events.push(e.type)}));assert.equal(r.outcome,'answered');for(const c of r.claims){assert.ok(r.evidence.some(e=>e.id===c.evidenceId));assert.ok(chunks.find(e=>e.id===c.evidenceId).facts.includes(c.text));}
+test('valid answer maps every passage to retrieved evidence and approved synthesis',async()=>{
+ const events=[];const r=await answerQuery('Azure',options({emit:e=>events.push(e.type)}));assert.equal(r.outcome,'answered');const p=createSynthesisPlan('Azure',chunks.filter(c=>r.evidence.some(e=>e.id===c.id)));for(const c of r.claims){assert.ok(c.evidence_ids.every(id=>r.evidence.some(e=>e.id===id)));assert.ok(p.answer.some(a=>a.text===c.text));}
  assert.deepEqual(events,['retrieval:start','retrieval:complete','generation:start']);
 });
 test('provider unavailable preserves retrieved evidence without claiming generation',async()=>{const r=await answerQuery('Azure',options({configured:false,generate:()=>{throw Error('must not call')}}));assert.equal(r.outcome,'unavailable');assert.ok(r.evidence.length>0);assert.equal(r.claims.length,0);});
@@ -109,7 +111,7 @@ test('provider failure, malformed output, fabricated evidence and timeout settle
   const r=await answerQuery('Azure',options({generate,timeoutMs:10}));assert.equal(r.outcome,'unavailable');assert.equal(r.claims.length,0);assert.ok(!JSON.stringify(r).includes('secret provider detail'));
  }
 });
-test('empty selection refuses unsupported substantive claims',async()=>{const r=await answerQuery('Azure',options({generate:async()=>({selection:[]})}));assert.equal(r.outcome,'no-evidence');assert.equal(r.claims.length,0);});
+test('empty synthesis refuses unsupported substantive claims',async()=>{const r=await answerQuery('Azure',options({generate:async()=>({answer:[],follow_ups:[]})}));assert.equal(r.outcome,'no-evidence');assert.equal(r.claims.length,0);});
 test('rate limiter windows, identities and bounds',()=>{
  const limiter=createLimiter(2,1000);assert.equal(limiter.take('a',0),0);assert.equal(limiter.take('a',1),0);assert.equal(limiter.take('a',2),1);assert.equal(limiter.take('b',2),0);assert.equal(limiter.take('a',1000),0);
 });
@@ -132,7 +134,7 @@ test('POST rate limit returns graceful 429 and Retry-After',async()=>{
  const response=await handler(req({query:'Azure'}));assert.equal(response.status,429);assert.ok(response.headers.get('retry-after'));
 });
 test('POST concurrency bound rejects excess active generation',async()=>{
- let release;const wait=new Promise(resolve=>{release=resolve});const handler=createAskHandler(()=>options({generate:async(_q,c)=>{await wait;return {selection:[{evidenceId:c[0].id,factIndex:0}]}}}));
+ let release;const wait=new Promise(resolve=>{release=resolve});const handler=createAskHandler(()=>options({generate:async(q,c)=>{await wait;const p=createSynthesisPlan(q,c);return {answer:p.answer.slice(0,3),follow_ups:p.follow_ups};}}));
  const responses=[];for(let n=0;n<3;n++)responses.push(await handler(req({query:'Azure'})));
  assert.equal((await handler(req({query:'Azure'}))).status,503);release();await Promise.all(responses.map(r=>r.text()));
 });

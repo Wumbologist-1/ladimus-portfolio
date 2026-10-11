@@ -12,10 +12,14 @@ export type ClaimGuards = {
   conflicts: { topic: string; canonical: string; variants: string[]; resolution: string }[];
 };
 export type Evidence = { id: string; recordId: string; label: string; category: string; status: string; excerpt: string; qualifiers: string[] };
-export type AnswerClaim = { text: string; evidenceId: string };
+export type AnswerClaim = { text: string; evidence_ids: string[] };
+export type AnswerStyle = "paragraphs" | "list";
+export type SynthesisPlan = {
+  intent: string; style: AnswerStyle; answer: AnswerClaim[]; follow_ups: string[];
+};
 export type AskResult = {
   outcome: "answered" | "partial" | "no-evidence" | "unavailable" | "refused";
-  message: string; claims: AnswerClaim[]; evidence: Evidence[];
+  message: string; claims: AnswerClaim[]; style: AnswerStyle; evidence: Evidence[];
   coverage: string; followUps: string[];
 };
 export type AskWireEvent =

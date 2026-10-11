@@ -1,4 +1,4 @@
-# Ladimus Portfolio architecture — v0.6
+# Ladimus Portfolio architecture — v0.6.1
 
 ## Application and trust boundaries
 
@@ -6,7 +6,7 @@ One Next.js App Router application, with TypeScript strict mode and no component
 AI SDK, animation, or database dependency added. `/`, `/work`,
 `/projects/ladimus-review`, and `/ask` are prerendered. `POST /api/ask` is a dynamic
 Node server endpoint. The portfolio content remains server-rendered and usable
-without JavaScript. The version label is Portfolio Build 0.6.
+without JavaScript. The version label is Portfolio Build 0.6.1.
 
 The existing v0.5 Living Interface remains the foundation. Ask Ladimus adds small
 client boundaries for the console and launcher; the root layout and route content
@@ -151,15 +151,31 @@ plus structured-metadata hybrid ranking, not a claim of vector search. It works
 without any provider credential. Only selected chunks, not the entire corpus, are
 sent to generation.
 
-`generateGroundedAnswer()` is the isolated provider boundary. The model selects and
-orders relevant approved statements using `{selection:[{evidenceId,factIndex}]}`.
-`groundSelection()` mechanically rejects invalid IDs, invalid fact indices,
-malformed selections, excessive selections, and oversized answers. Only exact
-approved facts become rendered career statements. Free-form provider text never
-becomes a claim. This extractive synthesis is intentionally stricter than merely
-checking that invented prose cites an existing ID. Evidence cards expose maturity,
-source statements, and qualifiers alongside responses. Output is rendered as text,
-never raw model HTML.
+`generateGroundedAnswer()` is the isolated provider boundary. In v0.6.1,
+`createSynthesisPlan()` makes reviewed editorial passages available only when all
+of their exact supporting facts and maturity statuses exist in retrieved chunks.
+The model selects and organizes these cohesive passages through
+`{answer:[{text,evidence_ids}],follow_ups:string[]}`. This changes the editorial
+layer without changing retrieval, top-K, the public corpus, or the visual runtime.
+
+`groundAnswer()` rejects unknown fields, invented or non-retrieved IDs, missing
+supporting IDs, altered prose, duplicate passages, unapproved follow-ups, excessive
+units, and answers over 5,000 characters. An existing citation does not authorize
+an arbitrary claim. Unsupported prose rejects the whole response; no fabricated
+support or silent factual repair is attempted. Updating corpus facts or maturity
+disables dependent editorial passages until they are reviewed. This deliberately
+uses a closed editorial vocabulary rather than claiming deterministic semantic
+entailment of unrestricted LLM prose. Narrow topics without a reviewed passage
+retain an exact-fact fallback with title and maturity labels.
+
+Explanatory answers render 2–4 paragraphs where enough evidence exists. Natural
+system/project-list questions render a framing paragraph and a concise list.
+Direct openings, related engineering themes, concrete ownership and significance,
+official titles, and maturity limits are part of the reviewed prose. Metrics are
+available only for relevant impact intent. The model selects 2–3 topic-specific,
+evidence-supported follow-ups when available. Unsupported technology questions
+remain brief and bypass generation. Evidence cards retain the actual source facts,
+maturity, and qualifiers; all prose is React text, never raw model HTML.
 
 ## API, privacy, and operations
 
@@ -168,12 +184,50 @@ and at most 4KB of body bytes. Query safety rejects private-data and prompt over
 requests before model access. Corpus text is inert evidence, not instructions.
 The provider has no tools, filesystem, private documents, or environment access.
 Provider failures are sanitized; credentials, internal prompts, stack traces and
-configuration are not API response fields. Questions are not logged or persisted.
-No response cache is used for this release.
+configuration are not API response fields. No response cache is used for this release.
+
+### Ask usage telemetry
+
+`recordAskTelemetry()` is a small server-side abstraction. The Hobby deployment
+uses one structured `console.info(JSON.stringify(event))` record per completed Ask
+attempt, typed `ask_ladimus_query`. The only fields are sanitized `query`, finite
+category `intent`, at most five public `evidence_ids`, finite outcome `status`, and
+rounded `latency_ms` clamped to 0–60,000. Statuses are `success`, `no_evidence`,
+`generation_unavailable`, `provider_error`, `validation_rejected`, and
+`rate_limited`. Unsupported experience and privacy refusals are `no_evidence`;
+privacy requests have a `private` intent and their text is omitted entirely.
+Rate-limited requests record an empty query without reading the rejected body.
+Malformed or origin-rejected requests are not logged.
+
+`sanitizeQuery()` redacts email addresses, phone-like strings, common API keys,
+bearer tokens, JWTs, labeled credentials, long opaque tokens, and URLs (including
+query strings, fragments, and credentials). It removes control characters,
+bounds logged questions to 240 characters, and omits excessive input over 2,048
+characters. It is a conservative heuristic, not a promise that arbitrary prose
+cannot contain personal information. The subordinate input disclosure explains
+privacy redaction, absence of visitor identifiers in these events, and asks
+visitors to avoid personal details and secrets.
+
+The provider interface receives the sanitized, whitelisted event; it never gets
+a raw query or request object. Telemetry does not collect IPs, persistent visitor
+IDs, fingerprints, authentication identifiers, or geolocation, and does not join
+request metadata to query content. The existing ephemeral IP rate limiter remains
+separate. No prompts, provider payloads, policy text, retrieved excerpts, or private
+corpus fields are logged. Runtime log retention/access are managed by Vercel;
+this release adds no database or visitor-profile store. Both synchronous provider
+throws and asynchronous rejections are swallowed, and telemetry is never awaited
+on the answer path.
+
+A future server-side Web Analytics provider on an eligible Pro plan, persistent
+store, or private insights dashboard can implement `AskTelemetryProvider.record`
+without changing retrieval, generation, or sanitization. This release does not
+assume custom Analytics events are available on Hobby. Any future storage provider
+must define retention and access boundaries separately; long-running work needs
+the hosting platform's background-work lifecycle rather than delaying answers.
 
 Budgets: eight requests/minute per platform IP per instance; 2,000 bounded rate
-buckets; three active requests per instance; five evidence chunks; ten selected
-statements; 5,000 answer characters; 1,200 completion tokens; 18-second provider
+buckets; three active requests per instance; five evidence chunks; four explanatory
+passages or six list units; 5,000 answer characters; 1,200 completion tokens; 18-second provider
 timeout; 25-second client timeout; 30-second route budget. On Vercel, the platform's
 `x-vercel-forwarded-for` header identifies callers. Locally requests share a local
 bucket. These in-memory controls are per instance, not globally distributed;

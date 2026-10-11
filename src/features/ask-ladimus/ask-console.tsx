@@ -6,9 +6,10 @@ import type { AskResult, AskWireEvent, Evidence } from "./contracts";
 import { emitIntelligence } from "@/features/living-interface/event-bridge";
 import { LivingInterface } from "@/features/living-interface/living-interface";
 import styles from "./ask.module.css";
+import { AnswerPassages } from "./answer-passages";
 
 type Phase="idle"|"understanding"|"retrieving"|"grounding"|"composing"|"complete"|"error";
-const labels:Record<Phase,string>={idle:"Ready for a question",understanding:"Understanding · validating your question",retrieving:"Retrieving public evidence",grounding:"Grounding · evidence retrieved",composing:"Composing from approved statements",complete:"Response complete",error:"Request could not complete"};
+const labels:Record<Phase,string>={idle:"Ready for a question",understanding:"Understanding · validating your question",retrieving:"Retrieving public evidence",grounding:"Grounding · evidence retrieved",composing:"Composing grounded synthesis",complete:"Response complete",error:"Request could not complete"};
 
 export function AskConsole({compact=false}:{compact?:boolean}) {
   const id=useId(); const [query,setQuery]=useState("");const [submitted,setSubmitted]=useState("");
@@ -51,9 +52,10 @@ export function AskConsole({compact=false}:{compact?:boolean}) {
     <div className={styles.queryArea} data-topology-clear>
       <form onSubmit={submit} className={styles.form} aria-busy={busy}>
         <label htmlFor={`${id}-query`}>What would you like to know about Luis?</label>
-        <textarea id={`${id}-query`} value={query} onChange={event=>setQuery(event.target.value)} maxLength={600} rows={2} placeholder="Ask about systems, decisions, or production experience…" required minLength={3} aria-describedby={`${id}-boundary`} />
+        <textarea id={`${id}-query`} value={query} onChange={event=>setQuery(event.target.value)} maxLength={600} rows={2} placeholder="Ask about systems, decisions, or production experience…" required minLength={3} aria-describedby={`${id}-boundary ${id}-privacy`} />
         <div className={styles.formFoot}><p id={`${id}-boundary`}>Public evidence. Clear limits. Inspectable sources.</p><button type="submit" disabled={busy} data-field-reactive>{busy ? "Working…" : "Ask Ladimus"}<span aria-hidden="true">↗</span></button></div>
       </form>
+      <p id={`${id}-privacy`} className={styles.disclosure}>Questions may be logged after privacy redaction to improve Ask Ladimus and understand visitor interests. No visitor identifiers are included. Please avoid sharing personal details or secrets.</p>
       <div className={styles.suggestions} aria-label="Suggested questions">{suggestedQuestions.slice(0,compact?4:8).map(question=><button key={question} type="button" disabled={busy} onClick={()=>void ask(question)} data-field-reactive>{question}<span aria-hidden="true">↗</span></button>)}</div>
     </div>
     <div className={styles.phase} role="status" aria-live="polite" aria-atomic="true"><span aria-hidden="true" />{labels[phase]}{phase==="complete" && result ? ` · ${result.coverage}` : ""}</div>
@@ -63,7 +65,9 @@ export function AskConsole({compact=false}:{compact?:boolean}) {
         <p className={styles.label}>01 / Response</p><h3>{submitted}</h3>
         {busy && <p className={styles.waiting}>The answer will appear here. Evidence arrives directly from retrieval.</p>}
         {result?.message && <p className={styles.notice}>{result.message}</p>}
-        {result && result.claims.length>0 && <><p className={styles.label}>Source-bound synthesis</p><ul className={styles.claims}>{result.claims.map((claim,index)=><li key={`${claim.evidenceId}-${index}`}>{claim.text}<a href={`#${id}-${claim.evidenceId}`} aria-label={`Evidence for statement ${index+1}`}>[{evidence.findIndex(e=>e.id===claim.evidenceId)+1}]</a></li>)}</ul></>}
+        {result && result.claims.length>0 && <><p className={styles.label}>Grounded synthesis</p><div className={styles.claims}>
+          <AnswerPassages claims={result.claims} style={result.style} evidence={evidence} id={id} />
+        </div></>}
         {result && <div className={styles.followUps}>{result.followUps.map(question=><button type="button" key={question} disabled={busy} onClick={()=>void ask(question)}>{question} →</button>)}</div>}
       </section>
       <section className={styles.sources} aria-label="Retrieved evidence" data-topology-clear><p className={styles.label}>02 / Evidence · {evidence.length} sources</p>

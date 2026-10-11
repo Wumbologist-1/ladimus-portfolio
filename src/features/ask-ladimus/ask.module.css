@@ -24,8 +24,10 @@
 .answer h3 {font-size:1.4rem;line-height:1.4;margin-block-end:1.5rem;}
 .notice {padding:1rem;border-inline-start:2px solid var(--color-metal);background:#1e272b;margin-block-end:1.5rem;color:var(--color-metal);}
 .waiting {color:var(--color-text-muted);font-size:.9rem;}
-.claims {padding-inline-start:1.1rem;display:grid;gap:1.25rem;margin:0;}
-.claims li {font-size:.95rem;text-wrap:pretty;}
+.disclosure {margin-block-start:.75rem;max-inline-size:65ch;font-size:.72rem;line-height:1.6;color:var(--color-text-muted);}
+.claims {display:grid;gap:1.25rem;margin:0;font-size:.95rem;text-wrap:pretty;}
+.claims p {margin:0;}
+.claims ul {display:grid;gap:1.25rem;padding-inline-start:1.1rem;margin:0;}
 .claims a {color:var(--color-secondary);padding:.5rem;margin-inline-start:.25rem;white-space:nowrap;}
 .followUps {display:grid;gap:.5rem;margin-block-start:2rem;}
 .evidence {border:1px solid var(--color-border);border-radius:.5rem;padding:1.1rem;background:linear-gradient(135deg,#1c2529,#12181b);margin-block-start:.8rem;scroll-margin-block-start:11rem;}
