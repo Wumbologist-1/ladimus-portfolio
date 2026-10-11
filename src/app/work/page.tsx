@@ -26,7 +26,7 @@ export default function Work() {
         </div>
       </Section>
       <Section id="featured" aria-labelledby="featured-title" visual="systems">
-        <div className={styles.sectionHead} data-topology-clear><p className={styles.eyebrow}>01 / Selected project</p><h2 id="featured-title">A focus on reliability.</h2><p>AI engineering, developer tooling, and explicit engineering boundaries.</p></div>
+        <div className={styles.sectionHead} data-topology-clear><p className={styles.eyebrow}>01 / Selected systems</p><h2 id="featured-title">A focus on reliability.</h2><p>AI engineering, developer tooling, and explicit engineering boundaries.</p></div>
         <div className={styles.projectList} data-topology-clear>{projects.map(project => <ProjectCard key={project.slug} project={project} />)}</div>
       </Section>
       <Section aria-labelledby="connect-title" className={styles.closing}>

@@ -13,7 +13,7 @@ export type Project = {
   status?: "planned" | "in-progress" | "released";
   themes?: readonly string[];
   featured: boolean;
-  detailUrl?: `/projects/${string}`;
+  detailUrl?: `/projects/${string}` | "/ask";
   repositoryUrl?: `https://${string}`;
   demoUrl?: `https://${string}`;
   caseStudy?: CaseStudy;

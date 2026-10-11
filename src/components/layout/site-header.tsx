@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { site } from "@/config/site";
 import { MotionControl } from "@/features/living-interface/living-interface";
+import { AskLauncher } from "@/features/ask-ladimus/ask-launcher";
 import styles from "./site-header.module.css";
 
 export function SiteHeader() {
@@ -17,6 +18,7 @@ export function SiteHeader() {
               <li key={item.href}><Link href={item.href}>{item.label}</Link></li>
             ))}
           </ul>
+          <AskLauncher />
         </nav>
         <div className={styles.motionSlot}><MotionControl /></div>
       </Container>

@@ -18,3 +18,17 @@
 .foot { padding-block: 0.75rem; border-block-start: 1px solid var(--color-border); letter-spacing: 0; }
 @media (max-width: 47.99rem) { .field { inline-size: min(100%, 19rem); } }
 @media (forced-colors: active) { .geometry { stroke: CanvasText; opacity: 1; } .hex { fill: Canvas; stroke: CanvasText; } .mark { stroke: CanvasText; } .gate { border-color: CanvasText; } }
+/* v0.6: a bounded metallic control object with concentric depth. */
+.field { background:radial-gradient(circle at 50% 48%,#23333b 0%,#101a20 27%,transparent 66%); }
+.geometry { filter:drop-shadow(0 10px 12px #0007); }
+.shell { stroke:url(#core-metal);stroke-width:7;opacity:.48; }
+.controlRing { stroke:var(--color-metal);stroke-width:.7;stroke-dasharray:25 7 2 7;opacity:.38; }
+.routes {stroke:var(--color-secondary);opacity:.55;stroke-width:1;}
+.checkpoints {stroke:var(--color-accent);stroke-width:3;}
+.innerShell {stroke:#647681;stroke-width:.6;fill:#17242b;}
+.hex {fill:#0a1117;stroke-width:2;}
+.mark {stroke-width:8;filter:drop-shadow(0 3px 3px #000);}
+.gate {background:linear-gradient(135deg,#26343b,#10191e);border:1px solid #435159;border-inline-start:2px solid var(--color-secondary);border-radius:3px;box-shadow:0 5px 15px #0004;}
+.approval,.authority {border-inline-start-color:var(--color-accent);}
+@media(max-width:47.99rem){.field{inline-size:min(100%,17rem);}.gate{font-size:.5rem;}.caption,.foot{font-size:.6rem;}}
+@media(forced-colors:active){.shell,.controlRing,.innerShell,.checkpoints,.routes{stroke:CanvasText;}.innerShell{fill:Canvas;}.geometry{filter:none;}}

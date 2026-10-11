@@ -132,3 +132,10 @@ svg {
 @media print {
   [data-living-region]::before, [data-living-region]::after { display: none; }
 }
+/* Authored surface framing; content remains independently readable. */
+[data-living-region]:not(:first-child)::before {opacity:.6;background:linear-gradient(90deg,var(--color-secondary) 1px,transparent 1px) 0 0/4rem 4px repeat-x,linear-gradient(90deg,var(--color-metal) 1px,transparent 1px) 0 100%/4rem 4px repeat-x;}
+[data-living-region="intelligence"]::after {background:radial-gradient(ellipse at 86% 10%,#27404866,transparent 45%),linear-gradient(110deg,#0c1317,#121a1c);}
+[data-living-region="systems"]::after {background:radial-gradient(ellipse at 5% 50%,#34423733,transparent 55%);}
+[data-living-region] {border-block-start-color:#354148;}
+[data-living-region] h2 {text-wrap:balance;}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important;}}

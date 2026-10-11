@@ -1,0 +1,22 @@
+.hero {padding-block-start:clamp(2.5rem,5vw,5rem);}
+.intro {display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:center;gap:3rem;margin-block-end:3rem;}
+.eyebrow {color:var(--color-secondary);font:.7rem/1.6 var(--font-mono);text-transform:uppercase;letter-spacing:.13em;}
+.intro h1 {font-size:clamp(3.5rem,7vw,7.5rem);font-weight:500;letter-spacing:-.065em;margin-block:1.25rem;}
+.intro h1 span {color:var(--color-metal);}
+.lead {font-size:clamp(1.3rem,2.3vw,2rem);line-height:1.35;letter-spacing:-.025em;}
+.description {max-width:45ch;color:var(--color-text-muted);margin-block-start:1.25rem;}
+.core {max-width:23rem;justify-self:end;}
+.flow {display:flex;flex-wrap:wrap;list-style:none;padding:0;gap:1rem;margin-block:2rem 0;font:.7rem/1.6 var(--font-mono);color:var(--color-metal);}
+.flow li:not(:last-child)::after {content:' →';padding-inline-start:1rem;color:var(--color-secondary);}
+.architecture h2 {font-size:var(--text-heading);letter-spacing:-.035em;font-weight:500;margin-block:1rem 1.5rem;}
+.architecture>p {max-width:65ch;color:var(--color-text-muted);}
+.steps {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));list-style:none;padding:0;margin:3rem 0;gap:1px;background:var(--color-border);border:1px solid var(--color-border);border-radius:.75rem;overflow:hidden;}
+.steps li {background:var(--surface-technical);padding:1.5rem;}
+.steps span {font:.65rem/1.6 var(--font-mono);color:var(--color-secondary);text-transform:uppercase;}
+.steps h3 {font-size:1.1rem;margin-block:1rem;}
+.steps p {font-size:.85rem;color:var(--color-text-muted);}
+.boundaries {display:flex;flex-wrap:wrap;list-style:none;padding:0;gap:.75rem;font:.75rem/1.6 var(--font-mono);}
+.boundaries li {padding:.75rem 1rem;border:1px solid var(--color-border);border-radius:.35rem;color:var(--color-metal);}
+.note {margin-block-start:1.5rem;font-size:.85rem;}
+@media(max-width:63.99rem){.steps {grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:47.99rem){.intro {grid-template-columns:1fr;gap:1.5rem;}.core {width:100%;max-width:18rem;justify-self:center;}.steps {grid-template-columns:1fr;}.flow {gap:.7rem;}.flow li:not(:last-child)::after {padding-inline-start:.7rem;}}

@@ -1,251 +1,245 @@
-# Ladimus Portfolio architecture
+# Ladimus Portfolio architecture — v0.6
 
-## Scope
+## Application and trust boundaries
 
-Portfolio v0.5 remains one Next.js App Router application. The homepage, /work,
-and /projects/ladimus-review are prerendered Server Component routes. The project
-page is a compact editorial overview with three real evidence captures and an
-explicitly unpublished video walkthrough slot;
-there is no backend, CMS, or deep case-study infrastructure.
+One Next.js App Router application, with TypeScript strict mode and no component,
+AI SDK, animation, or database dependency added. `/`, `/work`,
+`/projects/ladimus-review`, and `/ask` are prerendered. `POST /api/ask` is a dynamic
+Node server endpoint. The portfolio content remains server-rendered and usable
+without JavaScript. The version label is Portfolio Build 0.6.
 
-## Runtime and dependencies
+The existing v0.5 Living Interface remains the foundation. Ask Ladimus adds small
+client boundaries for the console and launcher; the root layout and route content
+remain Server Components. The drawer console is dynamically imported when opened.
+Provider code and corpus imports live behind the server-only API boundary. No
+career index, embeddings, provider SDK, credential, or internal prompt is imported
+by a client component.
 
-- Node.js 22.19.0 is the verified local runtime; use the Node 22 line for deployment.
-- npm 10.9.3 is the recorded package manager. On this Windows environment use
-  `npm.cmd`, because PowerShell's execution policy blocks `npm.ps1`.
-- Next.js and React are pinned to compatible stable releases. Direct dependency
-  versions and transitive resolutions are recorded in package.json and package-lock.json.
-- ESLint 9 is intentional: the React, import, and accessibility plugins used by
-  eslint-config-next do not yet declare support for ESLint 10. npm marks ESLint
-  9.39.5 as unsupported; track coordinated plugin/framework upgrades to ESLint 10.
-- TypeScript 5.9 is intentional: the current typescript-eslint peer range excludes
-  TypeScript 7. Keep compiler and lint upgrades coordinated.
-- No component framework, CSS framework, animation package, AI SDK, database,
-  authentication library, or global state manager is installed.
+## Visual runtime
 
-Use `npm.cmd ci` for repeatable dependency installation from the lockfile. Review
-engine and peer requirements when updating packages; do not bypass them with
-`--force` or `--legacy-peer-deps`.
+The interface has three coordinated layers: restrained structural rails and
+section frames; deterministic local topology with primary anchors, checkpoints,
+and branching subsystem chains; graph-connected traveling energy with checkpoint
+handoffs and destination framing. Metallic surfaces, directional lighting, quieter
+cross-cluster connections, a layered Core shell, and mobile-specific compositions
+reinforce that hierarchy.
 
-## Application structure
+Fine pointers affect a bounded local field. Per-node offsets settle with time-based
+damping at depth-dependent speeds, with small displacement, secondary energy along
+adjacent graph edges, and a restrained local light field. Nodes do not capture or
+follow the pointer across the page. Coarse pointers use compact graphs and native
+taps. Decorative taps reject interactive targets, text, scrolling, drags, long
+presses, cancellation, and selected text. No preventDefault, pointer capture,
+custom cursor, or scroll hijacking is used.
 
-```text
-src/
-  app/                    Route composition, root layout, metadata, 404
-  components/
-    layout/               Site header and footer
-    ui/                   Container, Section, ActionLink
-  config/site.ts          Identity, editable hero/profile copy, navigation, links
-  content/projects.ts     Repository-owned project records
-  content/ladimus-review.ts Editorial principles and media records
-  features/projects/
-    types.ts              Project, case-study, and media contracts
-    project-card.tsx       Shared homepage/work project presentation
-    review-visual.tsx      Labelled conceptual validation diagram
-    project-media.tsx      Image, captioned video, and placeholder rendering
-  features/living-interface/ Canvas enhancement, topology, presets, shared runtime
-  styles/
-    tokens.css            Shared Ladimus design vocabulary
-    globals.css           Reset, base elements, selection, focus
-```
+Project cards and CTA/profile links activate nearby clusters on hover and keyboard
+focus. IntersectionObserver triggers a bounded arrival illumination, without React
+state per frame. The Core remains semantic static SVG geometry with metallic
+shells, control rings, checkpoint gates, short route geometry, and a compact mobile
+presentation. These are conceptual engineering motifs, not live telemetry.
 
-Styles live beside components in CSS Modules. Route files compose the page;
-shared UI primitives do not import project content or route modules. Add assets
-under public/images when real image assets exist. Avoid empty feature scaffolding.
+All canvases retain one shared requestAnimationFrame scheduler. Fixed dispatched
+signal slots remain two on compact devices and four on desktop; connected routes
+expire after 2.8 seconds. Node counts remain 18 compact and 39 desktop. DPR,
+backing-store area, visibility, hidden-tab suspension, adaptive downgrade, cleanup,
+and persistent session Pause/Resume behavior are retained. Pause suppresses input
+and semantic events as well as ambient motion. Mobile motion control occupies a
+reserved sticky-header slot, with safe-area padding and anchor-scroll clearance.
 
-Container owns the shared content width and gutters. Section adds vertical
-spacing and requires a labelled heading association. ActionLink uses Next.js Link,
-which renders an anchor for navigation, not a button with simulated link behavior.
-ProjectCard shares the featured presentation between the homepage and /work.
-The current single project uses ReviewVisual, a CSS illustration explicitly labelled
-as conceptual rather than a screenshot or evidence of a shipped implementation.
+## Semantic event bridge
 
-## Server and client components
+`features/living-interface/event-bridge.ts` accepts bounded application events:
+`query:start`, `retrieval:start`, `retrieval:complete`, `generation:start`,
+`response:complete`, and `response:error`. React owns application state; Canvas
+owns only its bounded rendering response. Actual retrieval record IDs map
+consistently to authored evidence clusters. No evidence IDs means no evidence
+illumination. Failure, unavailable generation, refusal, and no evidence clear the
+success target. Generation energizes the Core; completed grounded selection
+settles it into a quieter evidence state. The bridge carries at most five IDs and
+listeners unsubscribe during renderer cleanup.
 
-Route content remains Server Components; LivingInterface and MotionControl are
-small client boundaries. The header uses wrapping, visible
-links rather than a scripted mobile menu. Fragment links and page navigation work
-without application JavaScript. Next.js still supplies its framework runtime.
+## Ask Ladimus experience
 
-Add `use client` only at an interaction boundary that requires browser state or
-events. Keep that boundary small; do not convert the root layout or static content
-to client components to support a local interaction. No context provider is needed.
+`/ask` combines a dedicated career intelligence console with a concise architecture
+case study. The homepage and Work route include Ask Ladimus as an engineering
+project. A labelled header launcher opens a native modal dialog without changing
+the current route. Native modal behavior supplies focus containment and Escape;
+closing restores the launcher focus. Queries abort on console disposal and have a
+client timeout. The form has a real label, 600-character limit, visible focus,
+comfortable mobile textarea, disabled duplicate submission, status announcements,
+evidence links, follow-up prompts, and explicit failure states.
 
-## Living Interface
+The API returns newline-delimited JSON pipeline events. Retrieval and generation
+states originate from server work, not animated timers. Evidence arrives as a
+retrieval result before final selection. The UI does not stream unvalidated answer
+tokens: all selected statements are validated before publication. A screen reader
+receives polite phase/completion changes rather than token-by-token announcements.
+No-evidence, refusal, partial coverage, unavailable provider, timeout, busy service,
+invalid question, and rate limit all have readable text states.
 
-Native Canvas 2D progressively enhances selected sections with deterministic,
-connected clusters with primary checkpoints, precomputed adjacency, and short routes.
-A sparse CSS structural field frames the topology. Each decorative, pointer-transparent canvas is bounded to its
-section and masks reading regions. The renderer loads after the initial paint;
-animation uses one shared scheduler with no per-frame React state.
+## Public corpus and offline ingestion
 
-Homepage identities progress through possibility, structure, evidence, and
-authority, with systems orchestration around featured work. /work uses systems; Ladimus Review uses ordered review topology.
-Short connected energy pulses, restrained glow, and depth respond to fine pointers
-and native scroll position without changing scrolling or content layout.
-The hero Ladimus Core combines a static SVG control boundary and metallic monogram
-with a bounded Canvas ring and four conceptual checkpoint gates. Its compact layout
-and semantic caption remain available without JavaScript.
+The human-approved v1 corpus supplied for this release supersedes raw-resume
+ingestion. It is the canonical source for this release. The source bundle remains
+under ignored `scratch/ask-ladimus-career-corpus-v1/`; ZIP files and raw sources are
+not committed. Split source files were audited and compared with the consolidated
+JSON before integration. `private/`, environment files, `scratch/`, and `work/` are
+ignored, while the safe `.env.example` convention is retained.
 
-Delegated pointer events dispatch signals only in decorative space. Primary pointer
-down/up must stay within 8px and 450ms; scrolling, cancellation, selected text,
-content, and interactive targets suppress dispatch. No pointer capture, preventDefault,
-or custom scrolling is used. Fixed signal slots (two compact, four desktop) expire
-after 2.8 seconds; optional branch handoffs follow connected adjacency. Fine-pointer
-proximity and project/CTA hover or keyboard focus activate nearby clusters.
-Pause blocks all input-driven animation as well as ambient motion. Runtime disposal
-clears signals, observers, and listeners. React never owns frame or signal state.
-
-A shared Pause / Resume motion control persists the preference in session storage.
-On narrow screens it occupies a reserved sticky-header slot, so the control cannot
-float over body copy. Its accessible name identifies the current action.
-Offscreen regions and hidden documents suspend animation. Compact/coarse-pointer
-budgets reduce nodes, pixel ratio, and movement; sustained expensive frames trigger
-a one-way performance downgrade. Backing-store area is capped.
-
-Reduced motion, forced colors, and print disable the canvas and its control.
-Without JavaScript, or when Canvas context creation fails, server-rendered content,
-CSS surfaces, and native navigation remain usable; no motion control is shown.
-
-## Styling and accessibility
-
-CSS custom properties are the source of truth for semantic colors, metallic
-treatment, spacing, typography, content widths, radii, elevation, focus, and motion.
-Components consume semantic tokens instead of duplicating palette values.
-These plain CSS tokens can later be extracted into a shared ecosystem package.
-
-The design retains graphite surfaces, high-contrast text, green primary actions,
-cyan focus/labels, and metallic typography. Shared technical-surface and faint-grid
-tokens frame cards and the conceptual diagram. The homepage uses a split hero,
-radial lighting, and a one-time CSS entrance (700ms) and grid fade (1400ms).
-Animations only run with prefers-reduced-motion: no-preference. Card hover movement
-is disabled under reduced motion. Ambient Canvas animation adds no dependencies.
-
-Layouts are mobile-first, with fluid type and spacing, wrapping navigation and
-actions, and a two-column profile layout only when space permits. A local system
-font stack avoids network font requests. A future licensed self-hosted font can
-replace the font tokens; use next/font/local when assets are available.
-
-Accessibility target: WCAG 2.2 AA. The shell includes an English document language,
-skip link, focusable main target, labelled navigation, section heading associations,
-visible focus rings, semantic lists, and real anchors. Navigation and action links
-have at least 44px vertical targets. Reduced-motion preferences disable transition
-durations; forced colors retain readable wordmark text. Status information has a
-text label rather than relying on its green dot. Contact destinations are real anchors; the résumé is hidden until a verified asset is supplied.
-
-## Project content model
-
-Project includes slug, title, summary, category, technologies, optional status and
-themes, featured,
-optional local detail URL, optional HTTPS repository/demo URLs, and an optional CaseStudy. CaseStudy starts
-with problem, approach, and outcome strings. Do not invent outcomes to fill it.
-
-The featured record describes Ladimus Review using approved public-safe positioning.
-Themes are distinct from verified technologies. Status is optional to avoid implying
-an unverified release stage. Content uses `satisfies readonly
-Project[]` for compile-time checking without a runtime schema dependency. This
-does not validate external content: add boundary validation if content later
-comes from a CMS or API. Slugs must be unique and URL-safe before detail routing.
-
-The homepage and /work render the single repository-owned record through ProjectCard.
-The Ladimus Review route imports that same named record directly. No dynamic lookup,
-selector layer, CMS, MDX, or slug router is needed for this single detail page.
-Unknown project URLs use the existing 404.
-
-## Project detail and media
-
-/projects/ladimus-review includes overview, problem, design principles, a conceptual
-workflow, technology disclosure, and proof/media sections. Per-route titles,
-descriptions, Open Graph, and Twitter metadata describe the relevant page.
-The story and media records live in content/ladimus-review.ts.
-The verified implementation stack and public repository are published alongside
-three real captures: structured review, human approval, and fail-closed execution
-authority. The detail page's source action uses the project record's repositoryUrl.
-Only the video walkthrough remains unpublished; measured outcomes are not claimed.
-
-ProjectMedia is a discriminated union:
-- placeholder: format label plus shared id, title, and caption;
-- image: local src, meaningful alt text, intrinsic width and height;
-- video: local MP4 src and an English WebVTT captionsSrc.
-
-Replace a placeholder record with a real image/video record when approved media is
-available. Current captures live under public/media/ladimus-review with matching
-root-relative paths. next/image preserves image dimensions; every image also has
-a visible, keyboard-accessible link to its original asset in a new tab, with
-noopener/noreferrer and an accessible name identifying the capture. Videos use
-native controls, preload=none, and a captions track. Figures retain visible captions.
-Do not put secrets or proprietary output in public assets. The unpublished video
-slot has no fake playback controls or recording.
-
-## Future Ask Ladimus boundary
-
-Reserve features/ask-ladimus for interactive UI and app/api/ask/route.ts for its
-server endpoint. Provider credentials and provider-specific code must remain in
-server-only modules. The public client must never receive secrets. When implemented,
-define validation, streaming, cancellation, errors, rate limits, and operational
-budgets at that boundary. No endpoint, provider abstraction, chat UI, or SDK exists
-in this foundation.
-
-## Validation and testing strategy
+Run the offline publication command only on reviewed public JSON:
 
 ```powershell
-npm.cmd run dev
+npm.cmd run career:ingest -- <approved-career-corpus.json> --approved-public
+```
+
+The command requires `manifest.public_safe`, scans for private fields and patterns,
+normalizes whitelisted public facts, validates schema and IDs, checks skill/hint
+references, builds bounded deterministic chunks, and writes only public artifacts
+under `src/data/career/`:
+
+- records.json — stable evidence records with title, category, organization,
+  timeframe, maturity, evidence level, facts, keywords, and claim limits.
+- chunks.json — bounded retrieval units, at most seven statements/1,800 characters.
+- skills.json — capabilities mapped to real evidence IDs, including depth labels.
+- retrieval-hints.json — intent-to-record relationships and guarded technologies.
+- claim-guards.json — original authoritative overclaim and conflict constraints.
+- manifest.json — approval flag, counts, version, hash, answer policy, exclusions.
+
+The v1 application corpus contains 24 records and 52 chunks. Detailed implementation,
+reliability, ownership, validation, deployment, human approval, and public-safe
+metrics are retained. Ingestion excludes arbitrary source notes and metadata,
+conflicting education date variants, raw addresses/phones, secrets, source paths,
+private operational identifiers and URLs. Privacy failures report no contents.
+Human review is still required: pattern checks cannot establish public approval.
+There is no runtime PDF parsing, and no raw resume is required for this release.
+Future raw documents belong under `private/career/` and must first become reviewed
+public JSON through an offline editorial process; automatic raw-resume publication
+is deliberately absent.
+
+## Provenance and conflict handling
+
+Primary source provenance: September 2026 AI Engineering Master Resume and August
+2026 ROMTech Engineering Impact Dossier; corroboration includes detailed engineering
+records, public Ladimus project history, and earlier career material. The approved
+bundle's claim guards and provenance were reviewed before promotion.
+
+Canonical ROMTech title is DevOps Engineer, March–September 2026. Shift4 title is
+POS Programming CMMT Rep I; title variants aid retrieval but are not generated
+facts. SNHU is B.S. Computer Science in progress, with no definitive graduation
+date. PR Assistant is production-onboarded with adoption limits. ROMGuide is a
+prototype. The AIOps operating model is designed, not deployed. Merged scaffolds
+remain scaffolds. Bot usage and reboot success metrics do not imply audited
+financial savings or incident-resolution improvements. Historical evidence keeps
+its historical label.
+
+AWS, EKS, Bedrock, professional Kubernetes, pgvector, Celery, Redis application
+architecture, Pyannote, and professional deployments of LangGraph, AutoGen, CrewAI,
+and LangChain are guarded. K8s and Amazon Web Services aliases are guarded too.
+Unsupported technology queries do not invoke a model to invent a positive answer;
+they explain the evidence limit and can show adjacent Azure/container evidence.
+Seniority, years, graduation dates, broad adoption, ROI, and training claims receive
+explicit qualification. Duration is not inferred by the runtime.
+
+## Retrieval and grounding
+
+`retrieveEvidence()` combines deterministic lexical scoring, weighted title/alias
+metadata, intent hints, and evidence-linked skills. Named-system questions may
+retrieve several detail chunks, while overview queries diversify records. Top-K
+is capped at five. Empty or unmatched questions return no supporting evidence.
+There is no vector database or semantic embedding index in v0.6. This is lexical
+plus structured-metadata hybrid ranking, not a claim of vector search. It works
+without any provider credential. Only selected chunks, not the entire corpus, are
+sent to generation.
+
+`generateGroundedAnswer()` is the isolated provider boundary. The model selects and
+orders relevant approved statements using `{selection:[{evidenceId,factIndex}]}`.
+`groundSelection()` mechanically rejects invalid IDs, invalid fact indices,
+malformed selections, excessive selections, and oversized answers. Only exact
+approved facts become rendered career statements. Free-form provider text never
+becomes a claim. This extractive synthesis is intentionally stricter than merely
+checking that invented prose cites an existing ID. Evidence cards expose maturity,
+source statements, and qualifiers alongside responses. Output is rendered as text,
+never raw model HTML.
+
+## API, privacy, and operations
+
+Input is JSON, same-origin when an Origin header is supplied, 3–600 characters,
+and at most 4KB of body bytes. Query safety rejects private-data and prompt override
+requests before model access. Corpus text is inert evidence, not instructions.
+The provider has no tools, filesystem, private documents, or environment access.
+Provider failures are sanitized; credentials, internal prompts, stack traces and
+configuration are not API response fields. Questions are not logged or persisted.
+No response cache is used for this release.
+
+Budgets: eight requests/minute per platform IP per instance; 2,000 bounded rate
+buckets; three active requests per instance; five evidence chunks; ten selected
+statements; 5,000 answer characters; 1,200 completion tokens; 18-second provider
+timeout; 25-second client timeout; 30-second route budget. On Vercel, the platform's
+`x-vercel-forwarded-for` header identifies callers. Locally requests share a local
+bucket. These in-memory controls are per instance, not globally distributed;
+complement them with Vercel Firewall limits and provider account spend caps for
+larger traffic. Client cancellation aborts the model request.
+
+Required server-only production configuration:
+
+```text
+ASK_LADIMUS_API_KEY
+ASK_LADIMUS_MODEL
+```
+
+Optional `ASK_LADIMUS_API_URL` is a trusted HTTPS OpenAI-compatible Chat Completions
+endpoint; the default is `https://api.openai.com/v1/chat/completions`. A configured
+model must support JSON mode and `max_completion_tokens`. No model is silently
+chosen. Provider request shape follows the official Chat Completions reference:
+https://developers.openai.com/api/reference/resources/chat/subresources/completions/methods/create
+
+Missing configuration leaves the site deployable. Retrieval and evidence inspection
+remain usable; generation visibly reports unavailable, with no success styling.
+Only `.env.example` exists locally; no live model credential was used in deterministic
+tests. Vercel environment-variable presence requires a separate production check.
+
+## Accessibility and performance validation
+
+Keyboard form submission, semantic labels, visible focus, status announcements,
+modal Escape, focus restoration, native scrolling, and readable evidence are
+implemented. Reduced motion, forced colors and print disable Canvas. Reduced
+motion disables CSS animation/transitions. Layout uses minmax(0,...) tracks,
+wrapping controls, safe-area drawer padding, a native scrollable dialog, and no
+fixed mobile chat bubble. The site remains usable if Ask Ladimus is unavailable.
+
+Required static checks:
+
+```powershell
 npm.cmd run lint
 npm.cmd run typecheck
 npm.cmd run build
-npm.cmd run start
+node --test tests/living-interface.test.mjs
+npm.cmd run test:rag
+git diff --check
 ```
 
-Lint uses Next.js Core Web Vitals and TypeScript flat configs with zero warnings
-allowed. Type checking runs Next.js type generation before strict tsc validation,
-so it works on a fresh checkout. TypeScript also enables unchecked-index and exact
-optional-property checks. Compiler cache output stays under the already-ignored
-.next directory. Generated next-env.d.ts is managed by Next.js.
+The deterministic RAG suite tests real retrieval and policy logic and mocks only
+the provider boundary. It covers IDs/schema, sanitization, canonical titles,
+maturity, skill/hint references, ranking, top-K, no/partial evidence, private and
+injection queries, guarded technologies, malformed output, citations, provider
+failure/timeouts, API validation, origin/body/query bounds, request limits and
+concurrency. Living Interface tests cover the shared scheduler, pointer damping,
+taps, compact budgets, semantic events, failure settlement, pause and cleanup.
 
-Lint and type checking are separate gates: a production build does not replace
-lint. Run all three in future CI with npm ci. Do not ignore build/type errors.
+`tests/browser-intelligence.mjs` supports the production four-route/seven-viewport
+matrix, screenshots, drawer Escape/focus restoration, motion pause, evidence,
+unsupported/private queries, reduced motion, forced colors, no-JS fallback,
+React commits, layout shifts and shared callback measurements with an existing
+Chromium CDP endpoint. `ALLOW_LOCAL_QA=1` permits internal localhost QA only; final
+acceptance uses the production URL. The retained v0.5 browser suite continues to
+cover deeper pointer/touch, remount and cleanup behavior. Browser artifacts remain
+ignored. Browser tests must actually run before claiming production acceptance.
 
-Run `node --test tests/living-interface.test.mjs` for topology, rendering budgets,
-renderer lifecycle, shared scheduling, and session motion preference regressions.
-With a production server and existing Chromium CDP endpoint, run
-`node tests/browser-living-interface.mjs`; PORTFOLIO_URL and BROWSER_CDP override
-its local defaults. Browser artifacts stay in ignored scratch output.
+## Release
 
-For this shell, browser verification should cover small and large viewports,
-horizontal overflow, keyboard traversal, skip-link focus, fragment destinations,
-404 behavior, reduced motion, and readable color contrast. Automated checks do not
-replace a screen-reader review or a complete accessibility audit. Measure real
-performance after hosting is selected; no Lighthouse or Web Vitals score is promised.
-
-## Deployment assumptions and deferrals
-
-Host on a platform supporting the standard Next.js Node runtime, with a production
-build followed by next start (or the hosting provider's supported adapter).
-Current content can be prerendered; static-export-only mode is intentionally not
-enabled so a future server endpoint remains possible. The repository is connected
-to Vercel for automatic deployment from main.
-
-No environment variables are required. The root layout provides a descriptive
-title, description, Open Graph website metadata, and Twitter summary metadata.
-Configure the verified public domain before adding canonical URLs, sitemap,
-or absolute social images. No domain is inferred from local development.
-
-Verified brand, public name, GitHub, LinkedIn, email, logo dimensions/path, and
-optional résumé are centralized in src/config/site.ts. Profile links use their
-verified destinations directly in the current tab; email uses mailto. A null
-résumé destination is omitted from the page. The footer edition is 0.5.
-
-The canonical public/images/Ladimus_logo.png is 1052 × 215 pixels (about 4.9:1).
-The hero uses next/image with intrinsic dimensions, responsive sizes, and preload.
-CSS preserves its aspect ratio and limits its width to 368px. The source asset
-is unchanged. Text explicitly identifies Ladimus Engineering and Luis Tomassini.
-The wide wordmark is unsuitable for a legible small favicon; a dedicated approved
-square icon is a follow-up. No replacement icon is generated. Social metadata
-remains text-only pending a suitable social asset and verified production domain.
-
-Identity, contact, and project repository publication gaps are resolved. A résumé,
-dedicated icon, video walkthrough, and production domain remain optional follow-ups.
-No analytics or dependencies were added for the Living Interface.
-
-Deliberate deferrals: extended case-study infrastructure, external integrations, Ask Ladimus,
-CI provider setup and analytics.
+The repository deploys automatically from main through Vercel. Use validated feature
+commits, normal pushes and fast-forward merges only. Do not claim live model
+functionality before production configuration and tests. Record release SHA and
+roll back through `git revert <release-sha>` followed by a normal main push;
+never reset shared main. Public logo and verified profile/contact destinations
+are retained. Dedicated favicon and video walkthrough remain optional follow-ups.

@@ -11,6 +11,7 @@ function load(name, globals = {}) {
 }
 const topology = load('topology'), budget = load('performance');
 const presetModule = load('presets');
+const bridgeModule = load('event-bridge');
 class TestElement extends EventTarget {
   blocked = false;
   closest(selector) { return selector.includes('section') ? this : this.blocked ? this : null; }
@@ -28,7 +29,7 @@ function setup(paused = false, drawCost = 0) {
     const canvas = { closest: () => hero, getContext: () => ctx };
     const mod = load('canvas-renderer', {
         require: name => ({ './topology': topology, './performance': budget, './presets': presetModule, './signals': signalModule,
-            './runtime': { requestFrame: cb => { frames.set(++serial, cb); return serial; }, cancelFrame: id => frames.delete(id) },
+            './runtime': { requestFrame: cb => { frames.set(++serial, cb); return serial; }, cancelFrame: id => frames.delete(id) }, './event-bridge':bridgeModule,
         })[name], window, document, AbortController, Element: TestElement,
         matchMedia: q => q.includes('coarse') ? coarse : fine, devicePixelRatio: 2,
         Path2D: class {
@@ -294,4 +295,30 @@ test('compact transition clears old routes and enforces the smaller signal budge
   for (let i = 0; i < 20; i++) { s.step(); s.tap(); }
   assert.ok(s.runtime.inspect().activeSignals <= 2);
   s.runtime.dispose();
+});
+
+test('intelligence bridge drives real evidence clusters, bounded signals, failure and cleanup', () => {
+  const env=setup();env.visible(true);env.step();
+  bridgeModule.emitIntelligence({type:'query:start'});
+  bridgeModule.emitIntelligence({type:'retrieval:start'});
+  assert.ok(env.runtime.inspect().activeSignals>0);
+  bridgeModule.emitIntelligence({type:'retrieval:complete',evidenceIds:['system-romguide','system-pr-assistant']});
+  const state=env.runtime.inspect();assert.ok(state.evidenceClusters.length>0);assert.ok(state.activeSignals<=4);
+  bridgeModule.emitIntelligence({type:'generation:start'});assert.equal(env.runtime.inspect().intelligenceTarget,1);
+  bridgeModule.emitIntelligence({type:'response:complete',success:true});assert.equal(env.runtime.inspect().intelligenceTarget,.3);
+  bridgeModule.emitIntelligence({type:'response:error'});assert.equal(env.runtime.inspect().intelligenceTarget,0);assert.equal(env.runtime.inspect().activeSignals,0);
+  env.runtime.pause(true);bridgeModule.emitIntelligence({type:'generation:start'});assert.equal(env.runtime.inspect().intelligenceTarget,0);
+  env.runtime.dispose();bridgeModule.emitIntelligence({type:'retrieval:start'});assert.equal(env.runtime.inspect().activeSignals,0);assert.equal(env.frames.size,0);
+});
+test('semantic events carry only bounded actual evidence IDs and subscriptions release', () => {
+  const events=[];const unsubscribe=bridgeModule.subscribeIntelligence(e=>events.push(e));
+  bridgeModule.emitIntelligence({type:'retrieval:complete',evidenceIds:Array.from({length:20},(_,i)=>`evidence-${i}`)});
+  assert.equal(events[0].evidenceIds.length,5);unsubscribe();bridgeModule.emitIntelligence({type:'query:start'});assert.equal(events.length,1);
+  assert.equal(bridgeModule.evidenceCluster('real-source',3),bridgeModule.evidenceCluster('real-source',3));
+});
+test('mobile intelligence events retain compact budgets and no success state on missing evidence',()=>{
+  const env=setup();env.visible(true);env.coarse();env.step();
+  bridgeModule.emitIntelligence({type:'retrieval:complete',evidenceIds:['a','b','c','d','e']});assert.ok(env.runtime.inspect().activeSignals<=2);
+  bridgeModule.emitIntelligence({type:'response:complete',success:false});assert.equal(env.runtime.inspect().intelligenceTarget,0);assert.equal(env.runtime.inspect().activeSignals,0);
+  env.runtime.dispose();
 });

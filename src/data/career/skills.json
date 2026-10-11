@@ -1,0 +1,337 @@
+{
+  "ai_agents": [
+    {
+      "skill": "Azure OpenAI",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "system-ai-code-gating"
+      ]
+    },
+    {
+      "skill": "LLM/API integration",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "system-romguide",
+        "system-ai-code-gating"
+      ]
+    },
+    {
+      "skill": "Agent orchestration",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "system-pr-assistant",
+        "system-android-test-agent"
+      ]
+    },
+    {
+      "skill": "Specialist routing",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "system-pr-assistant",
+        "system-android-test-agent"
+      ]
+    },
+    {
+      "skill": "Prompt/context engineering",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "system-ai-code-gating",
+        "system-pr-assistant"
+      ]
+    },
+    {
+      "skill": "Structured generation / validation-driven correction",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "system-pr-assistant",
+        "system-android-test-agent"
+      ]
+    },
+    {
+      "skill": "AI output evaluation and safety controls",
+      "level": "hands-on professional and open-source",
+      "evidence_ids": [
+        "system-pr-assistant",
+        "project-ladimus-review"
+      ]
+    }
+  ],
+  "rag_trust": [
+    {
+      "skill": "Retrieval-Augmented Generation (RAG)",
+      "level": "hands-on professional prototype and public project",
+      "evidence_ids": [
+        "system-romguide",
+        "project-ladimus-agent"
+      ]
+    },
+    {
+      "skill": "Chroma / ChromaDB",
+      "level": "hands-on",
+      "evidence_ids": [
+        "system-romguide",
+        "project-ladimus-agent"
+      ]
+    },
+    {
+      "skill": "Grounded retrieval / source-backed responses",
+      "level": "hands-on",
+      "evidence_ids": [
+        "system-romguide",
+        "project-ladimus-agent"
+      ]
+    },
+    {
+      "skill": "Evidence provenance",
+      "level": "hands-on",
+      "evidence_ids": [
+        "system-pr-assistant",
+        "project-ladimus-review"
+      ]
+    },
+    {
+      "skill": "Human-in-the-loop approval",
+      "level": "hands-on",
+      "evidence_ids": [
+        "system-pr-assistant",
+        "project-ladimus-review"
+      ]
+    },
+    {
+      "skill": "Fail-closed safeguards",
+      "level": "hands-on",
+      "evidence_ids": [
+        "system-pr-assistant",
+        "system-android-test-agent",
+        "project-ladimus-review"
+      ]
+    }
+  ],
+  "software_backend": [
+    {
+      "skill": "Python",
+      "level": "hands-on professional/personal",
+      "evidence_ids": [
+        "system-romguide",
+        "system-ai-code-gating",
+        "project-ladimus-agent",
+        "project-ladimus-review"
+      ]
+    },
+    {
+      "skill": "C# / .NET",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "system-genie-swopsbot"
+      ]
+    },
+    {
+      "skill": "FastAPI",
+      "level": "hands-on professional/personal",
+      "evidence_ids": [
+        "system-romguide",
+        "project-ladimus-agent"
+      ]
+    },
+    {
+      "skill": "Java / Kotlin",
+      "level": "working engineering exposure",
+      "evidence_ids": [
+        "system-android-test-agent"
+      ]
+    },
+    {
+      "skill": "JavaScript / TypeScript",
+      "level": "hands-on personal/project",
+      "evidence_ids": [
+        "project-ladimus-portfolio"
+      ]
+    },
+    {
+      "skill": "SQL",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "employment-shift4-2024"
+      ]
+    },
+    {
+      "skill": "PowerShell / Bash",
+      "level": "hands-on automation",
+      "evidence_ids": [
+        "employment-romtech-devops-2026"
+      ]
+    },
+    {
+      "skill": "REST APIs / middleware integrations",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "system-genie-swopsbot",
+        "system-romguide"
+      ]
+    }
+  ],
+  "cloud_devops": [
+    {
+      "skill": "Microsoft Azure",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "system-azure-environments",
+        "system-genie-swopsbot"
+      ]
+    },
+    {
+      "skill": "Azure Container Apps",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "system-azure-environments",
+        "system-genie-swopsbot"
+      ]
+    },
+    {
+      "skill": "Azure Container Registry",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "system-azure-environments"
+      ]
+    },
+    {
+      "skill": "Azure Functions",
+      "level": "documented professional stack",
+      "evidence_ids": [
+        "system-pr-assistant"
+      ]
+    },
+    {
+      "skill": "Docker / containers",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "system-azure-environments"
+      ]
+    },
+    {
+      "skill": "GitHub Actions",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "system-ai-code-gating",
+        "system-android-test-agent",
+        "system-pr-assistant"
+      ]
+    },
+    {
+      "skill": "GitHub Apps / Check Runs",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "system-pr-assistant"
+      ]
+    },
+    {
+      "skill": "CI/CD",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "system-ai-code-gating",
+        "system-android-test-agent"
+      ]
+    },
+    {
+      "skill": "Git / YAML",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "system-ai-code-gating",
+        "system-pr-assistant"
+      ]
+    },
+    {
+      "skill": "Azure DevOps",
+      "level": "documented tooling exposure",
+      "evidence_ids": [
+        "employment-romtech-devops-2026"
+      ]
+    }
+  ],
+  "quality_sre": [
+    {
+      "skill": "Grafana / operational observability",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "system-genie-observability"
+      ]
+    },
+    {
+      "skill": "Monitoring and log analysis",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "system-genie-observability",
+        "system-azure-environments"
+      ]
+    },
+    {
+      "skill": "Rollback / deployment recovery",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "system-azure-environments"
+      ]
+    },
+    {
+      "skill": "Release validation",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "system-azure-environments",
+        "employment-romtech-systems-analyst"
+      ]
+    },
+    {
+      "skill": "Root-cause analysis",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "employment-shift4-2024",
+        "employment-romtech-devops-2026"
+      ]
+    },
+    {
+      "skill": "Gradle / JUnit / Mockito / Hilt",
+      "level": "hands-on Android test workflow",
+      "evidence_ids": [
+        "system-android-test-agent"
+      ]
+    },
+    {
+      "skill": "UiAutomator / Android Test Orchestrator",
+      "level": "hands-on Android test workflow",
+      "evidence_ids": [
+        "system-android-test-agent"
+      ]
+    }
+  ],
+  "collaboration": [
+    {
+      "skill": "Cross-functional requirements discovery",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "employment-romtech-systems-analyst",
+        "employment-romtech-devops-2026"
+      ]
+    },
+    {
+      "skill": "Technical documentation and runbooks",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "employment-romtech-systems-analyst"
+      ]
+    },
+    {
+      "skill": "Stakeholder demos and technical-risk communication",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "employment-romtech-devops-2026"
+      ]
+    },
+    {
+      "skill": "Incident/support communication",
+      "level": "hands-on professional",
+      "evidence_ids": [
+        "employment-shift4-2024",
+        "employment-romtech-devops-2026"
+      ]
+    }
+  ]
+}

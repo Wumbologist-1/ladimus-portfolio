@@ -1,0 +1,173 @@
+{
+  "intents": [
+    {
+      "intent": "agentic_ai",
+      "keywords": [
+        "agent",
+        "agentic",
+        "multi-agent",
+        "orchestration",
+        "routing",
+        "specialist"
+      ],
+      "evidence_ids": [
+        "system-pr-assistant",
+        "system-android-test-agent",
+        "project-ladimus-review"
+      ]
+    },
+    {
+      "intent": "rag",
+      "keywords": [
+        "RAG",
+        "retrieval",
+        "vector",
+        "Chroma",
+        "grounded",
+        "citations"
+      ],
+      "evidence_ids": [
+        "system-romguide",
+        "project-ladimus-agent"
+      ]
+    },
+    {
+      "intent": "devops",
+      "keywords": [
+        "DevOps",
+        "CI/CD",
+        "deployment",
+        "release",
+        "rollback",
+        "containers"
+      ],
+      "evidence_ids": [
+        "employment-romtech-devops-2026",
+        "system-azure-environments",
+        "system-ai-code-gating"
+      ]
+    },
+    {
+      "intent": "azure",
+      "keywords": [
+        "Azure",
+        "Container Apps",
+        "ACR",
+        "Azure Functions"
+      ],
+      "evidence_ids": [
+        "system-azure-environments",
+        "system-genie-swopsbot",
+        "system-pr-assistant"
+      ]
+    },
+    {
+      "intent": "backend",
+      "keywords": [
+        "backend",
+        "API",
+        "middleware",
+        "FastAPI",
+        ".NET",
+        "C#"
+      ],
+      "evidence_ids": [
+        "system-genie-swopsbot",
+        "system-romguide"
+      ]
+    },
+    {
+      "intent": "production_ownership",
+      "keywords": [
+        "production",
+        "ownership",
+        "operate",
+        "reliability",
+        "incident",
+        "support"
+      ],
+      "evidence_ids": [
+        "system-genie-swopsbot",
+        "system-genie-observability",
+        "system-azure-environments"
+      ]
+    },
+    {
+      "intent": "android_testing",
+      "keywords": [
+        "Android",
+        "JUnit",
+        "Mockito",
+        "Hilt",
+        "UiAutomator",
+        "instrumented",
+        "unit tests"
+      ],
+      "evidence_ids": [
+        "system-android-test-agent"
+      ]
+    },
+    {
+      "intent": "ai_safety",
+      "keywords": [
+        "validation",
+        "approval",
+        "provenance",
+        "fail-closed",
+        "guardrails",
+        "trust"
+      ],
+      "evidence_ids": [
+        "system-pr-assistant",
+        "system-android-test-agent",
+        "project-ladimus-review"
+      ]
+    },
+    {
+      "intent": "early_career",
+      "keywords": [
+        "Shift4",
+        "POS",
+        "support",
+        "retail",
+        "customer service",
+        "Dave & Buster's",
+        "Best Buy",
+        "Target"
+      ],
+      "evidence_ids": [
+        "employment-shift4-2024",
+        "employment-dave-busters",
+        "employment-best-buy-2024",
+        "employment-target"
+      ]
+    },
+    {
+      "intent": "education",
+      "keywords": [
+        "SNHU",
+        "degree",
+        "education",
+        "computer science",
+        "certification"
+      ],
+      "evidence_ids": [
+        "education-snhu-bs-cs"
+      ]
+    }
+  ],
+  "unsupported_or_guarded_terms": {
+    "AWS": "No established professional AWS evidence.",
+    "EKS": "No established professional EKS evidence.",
+    "Bedrock": "No established professional Bedrock evidence.",
+    "Kubernetes": "Do not infer from transitive dependencies or local tooling.",
+    "LangGraph": "Framework familiarity is not equivalent to professional deployment.",
+    "AutoGen": "Framework familiarity is not equivalent to professional deployment.",
+    "CrewAI": "Framework familiarity is not equivalent to professional deployment.",
+    "LangChain": "Framework familiarity is not equivalent to professional deployment.",
+    "pgvector": "Not established.",
+    "Celery": "Not established.",
+    "Redis": "Not established for professional application architecture.",
+    "Pyannote": "Not established."
+  }
+}

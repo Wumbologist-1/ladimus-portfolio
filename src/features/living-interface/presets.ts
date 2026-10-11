@@ -1,4 +1,4 @@
-export type VisualIdentity = "possibility" | "structure" | "evidence" | "authority" | "systems" | "review" | "core";
+export type VisualIdentity = "possibility" | "structure" | "evidence" | "authority" | "systems" | "review" | "core" | "intelligence";
 
 // Decorative identities, never live system status. Values blend as a region
 // crosses the viewport, from its open composition to its settled composition.
@@ -10,4 +10,5 @@ export const presets = {
   systems: { order: 0.45, motion: 0.65, line: 0.32, energy: 0.75, period: 15 },
   review: { order: 0.95, motion: 0.2, line: 0.23, energy: 0.65, period: 16 },
   core: { order: 1, motion: 0.15, line: 0.5, energy: 1, period: 9 },
+  intelligence: { order: 0.8, motion: 0.3, line: 0.32, energy: 0.65, period: 19 },
 } as const;

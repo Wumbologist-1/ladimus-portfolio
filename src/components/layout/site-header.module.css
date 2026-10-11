@@ -78,3 +78,7 @@
 }
 
 @media print { .header { position: static; } }
+.header {background:linear-gradient(100deg,#101718,#131a1d 55%,#0b0e10);border-block-end-color:#3d494f;}
+.inner nav {display:flex;align-items:center;flex-wrap:wrap;gap:.75rem;}
+.navigation {gap:.25rem;}
+@media(max-width:47.99rem){.inner nav{gap:.4rem;}.navigation a{font-size:.75rem;padding-inline:.4rem;}.inner{padding-block:1rem;}.brand{font-size:.8rem;}.navigation li:last-child a{padding-inline:.65rem;}}

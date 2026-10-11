@@ -12,7 +12,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --max-warnings=0",
-    "typecheck": "next typegen && tsc --noEmit"
+    "typecheck": "next typegen && tsc --noEmit",
+    "career:ingest": "node --experimental-strip-types scripts/career-ingest.mjs",
+    "test:rag": "node --experimental-strip-types --test tests/ask-ladimus.test.mjs"
   },
   "dependencies": {
     "next": "16.3.4",

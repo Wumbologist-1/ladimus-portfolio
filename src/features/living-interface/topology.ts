@@ -16,7 +16,9 @@ export function createTopology(compact: boolean, identity: VisualIdentity = "pos
     const t = local / (size - 1);
     const ordered = identity === "review" || identity === "structure";
     let x = (compact ? [0.18, 0.8] : [0.17, 0.5, 0.83])[cluster]! + (t - 0.5) * (compact ? 0.28 : 0.26);
-    let y = (cluster % 2 ? 0.94 : 0.065) + (ordered ? (local % 3 - 1) * 0.014 : Math.sin(t * Math.PI * 2) * 0.026);
+    // Compact diamonds and offset branches read as local subsystems, with a
+    // clear hub/satellite hierarchy instead of one equal-strength streak.
+    let y = (cluster % 2 ? 0.91 : 0.085) + (ordered ? (local % 3 - 1) * 0.021 : Math.sin(t * Math.PI * 2) * 0.038);
     if (identity === "core") {
       const angle = -Math.PI / 2 + i / count * Math.PI * 2;
       x = 0.5 + Math.cos(angle) * 0.39;
@@ -27,6 +29,8 @@ export function createTopology(compact: boolean, identity: VisualIdentity = "pos
       cluster, checkpoint: local === 0 || local === Math.floor(size / 2) });
     if (i > 0) edges.push([i - 1, i]);
     if (local === size - 1) edges.push([i - size + 1, i]);
+    if (local === 4) edges.push([i-3,i]);
+    if (local === 7) edges.push([i-2,i]);
   }
   const adjacency: number[][] = nodes.map(() => []);
   for (const [a, b] of edges) { adjacency[a]!.push(b); adjacency[b]!.push(a); }

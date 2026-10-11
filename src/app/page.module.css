@@ -367,3 +367,12 @@
 @media (prefers-reduced-motion: reduce) {
   .focusCard:hover { transform: none; }
 }
+.hero {background:linear-gradient(115deg,#0d1416,#142128 70%,#101716);}
+.heroTop {padding-block-end:1.2rem;border-block-end:1px solid #34454d;margin-block-end:2.5rem;}
+.introduction {font-size:clamp(1.7rem,1.2rem + 1.3vw,2.6rem);line-height:1.28;letter-spacing:-.035em;}
+.engineer {font-size:clamp(2.4rem,1.3rem + 3.8vw,4.8rem);letter-spacing:-.055em;}
+.heroFeature {padding:1.5rem;border:1px solid #34444b;border-radius:1rem;background:linear-gradient(145deg,#20303988,#0c141a);box-shadow:0 20px 60px #0003;}
+.focusCard {border-block-start:2px solid #6c828b;background:linear-gradient(130deg,#233037,#11191e 65%);box-shadow:inset 0 1px #ffffff08;}
+.contactItem {border-radius:.65rem;}
+@media(min-width:64rem){.heroFeature{padding:2rem;}.heroGrid{grid-template-columns:minmax(0,1.15fr) minmax(0,.9fr);}}
+@media(max-width:47.99rem){.heroTop{gap:.8rem;}.heroFeature{padding:1rem;}.identity{font-size:.9rem;}.disciplines{gap:1rem;font-size:.65rem;}.logo{inline-size:min(100%,20rem);}}

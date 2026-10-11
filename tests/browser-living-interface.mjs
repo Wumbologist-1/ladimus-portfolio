@@ -123,7 +123,7 @@ try {
   record('Shared draw callback cost (ms)', await evaluate('({samples:__cost.length,mean:__cost.reduce((a,b)=>a+b,0)/__cost.length,max:Math.max(...__cost),p95:[...__cost].sort((a,b)=>a-b)[Math.floor(__cost.length*.95)]})'));
 
   assert.ok(await evaluate('Boolean(document.querySelector("[data-ladimus-core]"))'));
-  assert.ok(await evaluate('document.body.textContent.includes("0.5")'));
+  assert.ok(await evaluate('document.body.textContent.includes("0.6")'));
   await screenshot('hero-before');
   const empty = await evaluate(`(()=>{const r=document.querySelector('main section').getBoundingClientRect();return {x:innerWidth*.17,y:r.top+14}})()`);
   const mouse = (type, x, y) => send('Input.dispatchMouseEvent', { type, x, y, ...(type === 'mouseMoved' ? {} : {button:'left',clickCount:1}) });

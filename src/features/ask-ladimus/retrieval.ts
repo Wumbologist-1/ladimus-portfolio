@@ -1,0 +1,34 @@
+import type { EvidenceChunk, RetrievalHint, Skill } from "./contracts.ts";
+
+const stop = new Set("what who how has have does did do is are the a an of for to and in his he luis tomassini experience tell me about kind much real with built work engineering".split(" "));
+export function tokens(value: string) {
+  const normalized=value.toLowerCase().replace(/\bjudgment\b/g,"validation").replace(/\bprototypes\b/g,"prototype").replace(/\bsystems\b/g,"system");
+  return [...new Set(normalized.match(/[a-z0-9+#]+(?:[./-][a-z0-9+#]+)*/g) ?? [])].filter(t => !stop.has(t));
+}
+const contains = (value: string, token: string) => tokens(value).includes(token);
+
+export function retrieveEvidence(query: string, chunks: EvidenceChunk[], hints: RetrievalHint[], skills: Skill[], topK = 5) {
+  const terms = tokens(query);
+  if (!terms.length) return [];
+  const activeHints = hints.filter(h => h.keywords.some(k => tokens(k).some(t => terms.includes(t))));
+  const mapped = new Set(skills.filter(s => tokens(s.skill).some(t => terms.includes(t))).flatMap(s => s.evidence_ids));
+  const ranked = chunks.map(chunk => {
+    const body = chunk.facts.join(" ");
+    const metadata = [chunk.title, chunk.organization, ...chunk.keywords].join(" ");
+    let score = terms.reduce((sum, term) => sum + (contains(body,term) ? 1 : 0) + (contains(metadata,term) ? 3 : 0),0);
+    score += activeHints.reduce((sum,h) => sum + (h.evidence_ids.includes(chunk.recordId) ? 4 : 0),0);
+    if (mapped.has(chunk.recordId)) score += 3;
+    // Named system queries retain depth; overview queries diversify records.
+    const named = chunk.keywords.some(alias => alias.length > 3 && query.toLowerCase().includes(alias.toLowerCase())) || query.toLowerCase().includes(chunk.title.toLowerCase());
+    if (named) score += 8;
+    return { chunk, score, named };
+  }).filter(r => r.score >= 2).sort((a,b) => b.score-a.score || a.chunk.id.localeCompare(b.chunk.id));
+  const selected: EvidenceChunk[] = []; const counts = new Map<string,number>();
+  for (const row of ranked) {
+    const n = counts.get(row.chunk.recordId) ?? 0;
+    if (n >= (row.named ? 3 : 1)) continue;
+    selected.push(row.chunk); counts.set(row.chunk.recordId,n+1);
+    if (selected.length >= Math.max(1,Math.min(5,Math.floor(topK) || 5))) break;
+  }
+  return selected;
+}

@@ -45,3 +45,6 @@
 @media (prefers-reduced-motion: no-preference) {
   .link:is(:hover, :focus-visible) > span { transform: translate(2px, -2px); }
 }
+.link {border-radius:.45rem;box-shadow:inset 0 1px #ffffff12;}
+.primary {background:linear-gradient(120deg,#c5f986,#a8df61);box-shadow:inset 0 1px #eaffc5,0 5px 20px #070e074d;}
+.secondary {background:linear-gradient(125deg,#27343b,#151f24);border-color:#52616a;}

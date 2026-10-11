@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0",
+  "approvedPublic": true,
+  "records": 24,
+  "chunks": 52,
+  "sha256": "0acb184435e552c9b879fe24fae2ca5514717a945304982d98d6c83929fdecfc",
+  "answerPolicy": [
+    "Every substantive career claim should map to one or more evidence IDs.",
+    "Never invent employers, titles, dates, skills, certifications, metrics, or accomplishments.",
+    "Qualify partial evidence instead of extrapolating.",
+    "Do not infer professional deployment of a framework from familiarity alone.",
+    "Do not present prototypes, merged scaffolds, or designed roadmaps as production-wide deployments.",
+    "Do not present illustrative labor-savings estimates as audited savings.",
+    "Prefer precise status language such as production-verified, live-validated, merged, prototype, or designed."
+  ],
+  "privacyExclusions": [
+    "street/home address",
+    "phone number",
+    "compensation/salary history",
+    "severance/unemployment details",
+    "recruiter names/application history",
+    "private repository URLs",
+    "internal commit hashes/PR identifiers",
+    "credentials/tokens/API keys/environment secrets",
+    "customer/device identifiers",
+    "proprietary source code",
+    "internal-only operational identifiers not needed to explain experience"
+  ]
+}

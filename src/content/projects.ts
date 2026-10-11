@@ -13,4 +13,11 @@ export const ladimusReview = {
   repositoryUrl: "https://github.com/Wumbologist-1/ladimus-review",
 } as const satisfies Project;
 
-export const projects = [ladimusReview] as const satisfies readonly Project[];
+export const askLadimus = {
+  slug: "ask-ladimus", title: "Ask Ladimus",
+  summary: "A career intelligence interface built around sanitized evidence, bounded retrieval, claim guards, and server-validated answers. Every statement has a source you can inspect.",
+  category: "Applied AI / Retrieval Engineering", technologies: ["Next.js", "TypeScript", "RAG"],
+  themes: ["Evidence-bound generation", "Sanitized corpus", "Claim guards", "Interactive topology"],
+  featured: true, detailUrl: "/ask",
+} as const satisfies Project;
+export const projects = [ladimusReview, askLadimus] as const satisfies readonly Project[];

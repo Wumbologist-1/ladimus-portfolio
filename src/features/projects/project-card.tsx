@@ -16,7 +16,7 @@ export function ProjectCard({ project }: { project: Project }) {
         </ul>
         {project.detailUrl && <ActionLink href={project.detailUrl} variant="primary">Explore {project.title}</ActionLink>}
       </div>
-      <ReviewVisual />
+      {project.slug === "ask-ladimus" ? <div className={styles.intelligenceVisual} aria-label="Ask Ladimus retrieval architecture"><span>CAREER INTELLIGENCE</span><strong>Question.<br/>Evidence.<br/>Authority.</strong><ol><li>Public corpus</li><li>Bounded retrieval</li><li>Grounded response</li></ol><p>Every claim has a boundary.</p></div> : <ReviewVisual />}
     </article>
   );
 }

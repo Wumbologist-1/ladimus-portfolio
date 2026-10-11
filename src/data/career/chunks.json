@@ -1,0 +1,1423 @@
+[
+  {
+    "id": "employment-romtech-devops-2026--1",
+    "category": "employment",
+    "title": "DevOps Engineer",
+    "organization": "ROM Technologies, Inc.",
+    "timeframe": "2026-03 – 2026-09",
+    "status": "documented_experience",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "DevOps Engineer at ROM Technologies, Inc.; 2026-03 – 2026-09.",
+      "Designed, built, deployed, operated, and hardened AI-enabled engineering and production-automation systems spanning Microsoft Teams workflows, backend services, Azure cloud environments, GitHub-native developer tooling, Android testing, device operations, observability, and software delivery.",
+      "Owned and troubleshot separate development and production Azure Container App/API/middleware environments.",
+      "Managed container images, revisions, health verification, traffic, rollback, deployment recovery, and operational observability.",
+      "Built and operated Microsoft Teams-based production automation backed by APIs, middleware, and device-management integrations.",
+      "Architected GitHub-native agentic PR review/repair and AI-assisted testing workflows.",
+      "Built CI/CD-integrated AI risk analysis while retaining deterministic rule-backed authority for consequential gates."
+    ],
+    "keywords": [
+      "Junior DevOps Engineer",
+      "Junior DevOps Engineer / AI Automation Builder",
+      "DevOps Engineer | AI Platform & Automation",
+      "ROMTech",
+      "PowerShell / Bash",
+      "Azure DevOps",
+      "Root-cause analysis",
+      "Cross-functional requirements discovery",
+      "Stakeholder demos and technical-risk communication",
+      "Incident/support communication"
+    ],
+    "qualifiers": [],
+    "recordId": "employment-romtech-devops-2026"
+  },
+  {
+    "id": "employment-romtech-devops-2026--2",
+    "category": "employment",
+    "title": "DevOps Engineer",
+    "organization": "ROM Technologies, Inc.",
+    "timeframe": "2026-03 – 2026-09",
+    "status": "documented_experience",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Partnered across DevOps, Software Operations, Android engineering, QA, support, and leadership to identify bottlenecks, shape requirements, demo prototypes, validate changes, and move systems toward production readiness.",
+      "Documented capability: PowerShell / Bash (hands-on automation).",
+      "Documented capability: Azure DevOps (documented tooling exposure).",
+      "Documented capability: Root-cause analysis (hands-on professional).",
+      "Documented capability: Cross-functional requirements discovery (hands-on professional).",
+      "Documented capability: Stakeholder demos and technical-risk communication (hands-on professional).",
+      "Documented capability: Incident/support communication (hands-on professional)."
+    ],
+    "keywords": [
+      "Junior DevOps Engineer",
+      "Junior DevOps Engineer / AI Automation Builder",
+      "DevOps Engineer | AI Platform & Automation",
+      "ROMTech",
+      "PowerShell / Bash",
+      "Azure DevOps",
+      "Root-cause analysis",
+      "Cross-functional requirements discovery",
+      "Stakeholder demos and technical-risk communication",
+      "Incident/support communication"
+    ],
+    "qualifiers": [],
+    "recordId": "employment-romtech-devops-2026"
+  },
+  {
+    "id": "employment-romtech-systems-analyst--1",
+    "category": "employment",
+    "title": "Software Systems Analyst",
+    "organization": "ROM Technologies, Inc.",
+    "timeframe": "2024-11 – 2026-03",
+    "status": "documented_experience",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Software Systems Analyst at ROM Technologies, Inc.; 2024-11 – 2026-03.",
+      "Analyzed production issues, technical workflows, and business requirements; translated operational needs into requirements, validation plans, documentation, release/support guidance, and process improvements.",
+      "Identified automation opportunities across internal technical and operational workflows.",
+      "Translated operational needs into implementation-ready requirements, validation steps, documentation, and release guidance.",
+      "Supported QA validation, release coordination, troubleshooting, process improvement, and adoption of internal systems.",
+      "Collaborated with technical and non-technical stakeholders to clarify constraints, resolve blockers, and improve reliability.",
+      "Documented capability: Release validation (hands-on professional)."
+    ],
+    "keywords": [
+      "ROMTech",
+      "Release validation",
+      "Cross-functional requirements discovery",
+      "Technical documentation and runbooks"
+    ],
+    "qualifiers": [],
+    "recordId": "employment-romtech-systems-analyst"
+  },
+  {
+    "id": "employment-romtech-systems-analyst--2",
+    "category": "employment",
+    "title": "Software Systems Analyst",
+    "organization": "ROM Technologies, Inc.",
+    "timeframe": "2024-11 – 2026-03",
+    "status": "documented_experience",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Documented capability: Cross-functional requirements discovery (hands-on professional).",
+      "Documented capability: Technical documentation and runbooks (hands-on professional)."
+    ],
+    "keywords": [
+      "ROMTech",
+      "Release validation",
+      "Cross-functional requirements discovery",
+      "Technical documentation and runbooks"
+    ],
+    "qualifiers": [],
+    "recordId": "employment-romtech-systems-analyst"
+  },
+  {
+    "id": "employment-shift4-2024--1",
+    "category": "employment",
+    "title": "POS Programming CMMT Rep I",
+    "organization": "Shift4",
+    "timeframe": "2024-02 – 2024-11",
+    "status": "documented_experience",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "POS Programming CMMT Rep I at Shift4; 2024-02 – 2024-11.",
+      "Configured, deployed, and supported POS software in live merchant environments, including SQL updates, QA validation, configuration changes, implementation troubleshooting, defect documentation, and escalation support.",
+      "Performed software/POS configuration and deployment work in live merchant environments.",
+      "Executed SQL updates and validation steps.",
+      "Troubleshot customer-impacting production failures.",
+      "Documented defects and escalated issues when additional engineering/support was required.",
+      "Built discipline around root-cause analysis, change validation, communication, and high-availability support."
+    ],
+    "keywords": [
+      "POS Software Technician",
+      "CMMT Rep I",
+      "SQL",
+      "Root-cause analysis",
+      "Incident/support communication"
+    ],
+    "qualifiers": [],
+    "recordId": "employment-shift4-2024"
+  },
+  {
+    "id": "employment-shift4-2024--2",
+    "category": "employment",
+    "title": "POS Programming CMMT Rep I",
+    "organization": "Shift4",
+    "timeframe": "2024-02 – 2024-11",
+    "status": "documented_experience",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Documented capability: SQL (hands-on professional).",
+      "Documented capability: Root-cause analysis (hands-on professional).",
+      "Documented capability: Incident/support communication (hands-on professional)."
+    ],
+    "keywords": [
+      "POS Software Technician",
+      "CMMT Rep I",
+      "SQL",
+      "Root-cause analysis",
+      "Incident/support communication"
+    ],
+    "qualifiers": [],
+    "recordId": "employment-shift4-2024"
+  },
+  {
+    "id": "employment-hp-brand-ambassador-2024--1",
+    "category": "employment",
+    "title": "Brand Ambassador / Sales Representative",
+    "organization": "HP",
+    "timeframe": "2024-01-12 – 2024-05-08",
+    "status": "historical_variant",
+    "evidenceLevel": "historical_variant",
+    "facts": [
+      "Brand Ambassador / Sales Representative at HP; 2024-01-12 – 2024-05-08.",
+      "Earlier customer-facing technology sales experience. Keep detail minimal unless a newer authoritative source confirms additional responsibilities."
+    ],
+    "keywords": [],
+    "qualifiers": [],
+    "recordId": "employment-hp-brand-ambassador-2024"
+  },
+  {
+    "id": "employment-best-buy-2024--1",
+    "category": "employment",
+    "title": "Sales Advisor",
+    "organization": "Best Buy",
+    "timeframe": "2024-01 – 2024-05",
+    "status": "historical_variant",
+    "evidenceLevel": "historical_variant",
+    "facts": [
+      "Sales Advisor at Best Buy; 2024-01 – 2024-05.",
+      "Earlier customer-facing retail technology experience. Do not infer engineering responsibilities from this role."
+    ],
+    "keywords": [],
+    "qualifiers": [],
+    "recordId": "employment-best-buy-2024"
+  },
+  {
+    "id": "employment-dave-busters--1",
+    "category": "employment",
+    "title": "Supervisor / Trainer",
+    "organization": "Dave & Buster's",
+    "timeframe": "2022-05 – 2023-12",
+    "status": "historical_variant",
+    "evidenceLevel": "historical_variant",
+    "facts": [
+      "Supervisor / Trainer at Dave & Buster's; 2022-05 – 2023-12.",
+      "Earlier entertainment/operations experience with supervision, training, customer interaction, and fast-paced team operations."
+    ],
+    "keywords": [],
+    "qualifiers": [],
+    "recordId": "employment-dave-busters"
+  },
+  {
+    "id": "employment-target--1",
+    "category": "employment",
+    "title": "Retail Team Member",
+    "organization": "Target",
+    "timeframe": "",
+    "status": "historical_variant",
+    "evidenceLevel": "historical_variant",
+    "facts": [
+      "Retail Team Member at Target; dates not established.",
+      "Earlier teenage retail experience. Exact dates and a more specific title are not established."
+    ],
+    "keywords": [],
+    "qualifiers": [],
+    "recordId": "employment-target"
+  },
+  {
+    "id": "system-genie-swopsbot--1",
+    "category": "system",
+    "title": "Microsoft Teams Production Operations Automation Platform",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "production_verified",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Rebuilt and productionized a company-used Microsoft Teams operations platform connecting user workflows to C#/.NET APIs, middleware services, device-management providers, batch/device actions, support handoffs, and production logging.",
+      "Microsoft Teams workflows",
+      "C# / .NET backend APIs",
+      "middleware services",
+      "Azure Container Apps",
+      "device-management integrations",
+      "batch/device workflows"
+    ],
+    "keywords": [
+      "Genie",
+      "RomGenie",
+      "SwOpsBot",
+      "ROMTech",
+      "C# / .NET",
+      "REST APIs / middleware integrations",
+      "Microsoft Azure",
+      "Azure Container Apps"
+    ],
+    "qualifiers": [
+      "Do not convert usage into audited cost savings.",
+      "Do not claim support-resolution metrics as mature unless separately verified.",
+      "Do not expose internal provider/device/customer identifiers."
+    ],
+    "recordId": "system-genie-swopsbot"
+  },
+  {
+    "id": "system-genie-swopsbot--2",
+    "category": "system",
+    "title": "Microsoft Teams Production Operations Automation Platform",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "production_verified",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "support handoffs",
+      "production logging",
+      "permissions/timeout remediation",
+      "workflow/card lifecycle reliability",
+      "Converted repeated support/device operations into self-service workflows.",
+      "Reduced handoffs and standardized operational execution.",
+      "Created an auditable path for operational actions and future workflow expansion."
+    ],
+    "keywords": [
+      "Genie",
+      "RomGenie",
+      "SwOpsBot",
+      "ROMTech",
+      "C# / .NET",
+      "REST APIs / middleware integrations",
+      "Microsoft Azure",
+      "Azure Container Apps"
+    ],
+    "qualifiers": [
+      "Do not convert usage into audited cost savings.",
+      "Do not claim support-resolution metrics as mature unless separately verified.",
+      "Do not expose internal provider/device/customer identifiers."
+    ],
+    "recordId": "system-genie-swopsbot"
+  },
+  {
+    "id": "system-genie-swopsbot--3",
+    "category": "system",
+    "title": "Microsoft Teams Production Operations Automation Platform",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "production_verified",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "documented bot requests: 7156.",
+      "completed reboot workflows: 414.",
+      "successful reboots: 412.",
+      "failed reboots: 2.",
+      "reboot success rate percent: 99.52.",
+      "support claims recorded: 98.",
+      "later internal requests: exceeded 11,000."
+    ],
+    "keywords": [
+      "Genie",
+      "RomGenie",
+      "SwOpsBot",
+      "ROMTech",
+      "C# / .NET",
+      "REST APIs / middleware integrations",
+      "Microsoft Azure",
+      "Azure Container Apps"
+    ],
+    "qualifiers": [
+      "Do not convert usage into audited cost savings.",
+      "Do not claim support-resolution metrics as mature unless separately verified.",
+      "Do not expose internal provider/device/customer identifiers."
+    ],
+    "recordId": "system-genie-swopsbot"
+  },
+  {
+    "id": "system-genie-swopsbot--4",
+    "category": "system",
+    "title": "Microsoft Teams Production Operations Automation Platform",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "production_verified",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Documented capability: C# / .NET (hands-on professional).",
+      "Documented capability: REST APIs / middleware integrations (hands-on professional).",
+      "Documented capability: Microsoft Azure (hands-on professional).",
+      "Documented capability: Azure Container Apps (hands-on professional)."
+    ],
+    "keywords": [
+      "Genie",
+      "RomGenie",
+      "SwOpsBot",
+      "ROMTech",
+      "C# / .NET",
+      "REST APIs / middleware integrations",
+      "Microsoft Azure",
+      "Azure Container Apps"
+    ],
+    "qualifiers": [
+      "Do not convert usage into audited cost savings.",
+      "Do not claim support-resolution metrics as mature unless separately verified.",
+      "Do not expose internal provider/device/customer identifiers."
+    ],
+    "recordId": "system-genie-swopsbot"
+  },
+  {
+    "id": "system-genie-observability--1",
+    "category": "system",
+    "title": "Operations KPI and Observability Dashboard",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "production_verified",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Built a Grafana dashboard for operational troubleshooting and business-facing measurement of the Teams automation platform.",
+      "request volume",
+      "deduplicated submissions",
+      "reboot outcomes and success rate",
+      "support workflow activity",
+      "API traffic",
+      "log volume"
+    ],
+    "keywords": [
+      "ROMTech",
+      "Grafana / operational observability",
+      "Monitoring and log analysis"
+    ],
+    "qualifiers": [],
+    "recordId": "system-genie-observability"
+  },
+  {
+    "id": "system-genie-observability--2",
+    "category": "system",
+    "title": "Operations KPI and Observability Dashboard",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "production_verified",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "top workflow actions",
+      "recent errors",
+      "Turned operational telemetry into repeatable adoption/reliability metrics.",
+      "Improved troubleshooting visibility and created a basis for measuring future automation value.",
+      "Documented capability: Grafana / operational observability (hands-on professional).",
+      "Documented capability: Monitoring and log analysis (hands-on professional)."
+    ],
+    "keywords": [
+      "ROMTech",
+      "Grafana / operational observability",
+      "Monitoring and log analysis"
+    ],
+    "qualifiers": [],
+    "recordId": "system-genie-observability"
+  },
+  {
+    "id": "system-azure-environments--1",
+    "category": "system",
+    "title": "Azure Dev/Prod Service Environment Ownership",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "production_verified",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Managed separate production and development API/middleware service stacks using Azure Container Apps and container images, including revisions, health verification, traffic, rollback readiness, deployment recovery, and release validation.",
+      "Azure Container Apps",
+      "Azure Container Registry",
+      "container images/revisions",
+      "Dev/Prod separation",
+      "health checks",
+      "traffic management"
+    ],
+    "keywords": [
+      "ROMTech",
+      "Microsoft Azure",
+      "Azure Container Apps",
+      "Azure Container Registry",
+      "Docker / containers",
+      "Monitoring and log analysis",
+      "Rollback / deployment recovery",
+      "Release validation"
+    ],
+    "qualifiers": [
+      "Specific internal feature/product names and service identifiers are intentionally omitted."
+    ],
+    "recordId": "system-azure-environments"
+  },
+  {
+    "id": "system-azure-environments--2",
+    "category": "system",
+    "title": "Azure Dev/Prod Service Environment Ownership",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "production_verified",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "rollback",
+      "deployment recovery",
+      "release validation",
+      "Documented capability: Microsoft Azure (hands-on professional).",
+      "Documented capability: Azure Container Apps (hands-on professional).",
+      "Documented capability: Azure Container Registry (hands-on professional).",
+      "Documented capability: Docker / containers (hands-on professional)."
+    ],
+    "keywords": [
+      "ROMTech",
+      "Microsoft Azure",
+      "Azure Container Apps",
+      "Azure Container Registry",
+      "Docker / containers",
+      "Monitoring and log analysis",
+      "Rollback / deployment recovery",
+      "Release validation"
+    ],
+    "qualifiers": [
+      "Specific internal feature/product names and service identifiers are intentionally omitted."
+    ],
+    "recordId": "system-azure-environments"
+  },
+  {
+    "id": "system-azure-environments--3",
+    "category": "system",
+    "title": "Azure Dev/Prod Service Environment Ownership",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "production_verified",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Documented capability: Monitoring and log analysis (hands-on professional).",
+      "Documented capability: Rollback / deployment recovery (hands-on professional).",
+      "Documented capability: Release validation (hands-on professional)."
+    ],
+    "keywords": [
+      "ROMTech",
+      "Microsoft Azure",
+      "Azure Container Apps",
+      "Azure Container Registry",
+      "Docker / containers",
+      "Monitoring and log analysis",
+      "Rollback / deployment recovery",
+      "Release validation"
+    ],
+    "qualifiers": [
+      "Specific internal feature/product names and service identifiers are intentionally omitted."
+    ],
+    "recordId": "system-azure-environments"
+  },
+  {
+    "id": "system-genie-sre-scaffold--1",
+    "category": "system",
+    "title": "Admin-Only SRE Assistant Scaffold",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "merged_foundation",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Built and merged an access-aware private Microsoft Teams scaffold intended for AI-assisted log analysis, read-only codebase cross-reference, and operational troubleshooting for authorized users.",
+      "access-aware AI product design",
+      "SRE workflow design",
+      "Microsoft Teams integration",
+      "internal troubleshooting UX",
+      "safe read-only context planning"
+    ],
+    "keywords": [
+      "ROMTech"
+    ],
+    "qualifiers": [
+      "Do not claim broad production usage or incident-resolution impact; the merged work was a foundation/scaffold."
+    ],
+    "recordId": "system-genie-sre-scaffold"
+  },
+  {
+    "id": "system-ai-code-gating--1",
+    "category": "system",
+    "title": "AI-Assisted Code Gating and PR Risk Analysis",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "built_and_validated",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Created a CI/CD-integrated review workflow using GitHub Actions, Azure OpenAI, repository policy/configuration, changed-file and PR-diff context, deterministic risk checks, diagnostics, labels, and review artifacts.",
+      "AI output remained advisory.",
+      "Only deterministic/high-confidence rule-backed conditions controlled consequential blocking behavior.",
+      "The workflow evaluated delivery risk, test expectations, security/privacy concerns, and repository-specific context.",
+      "Human reviewers retained authority.",
+      "GitHub Actions",
+      "Azure OpenAI"
+    ],
+    "keywords": [
+      "ROMTech",
+      "Azure OpenAI",
+      "LLM/API integration",
+      "Prompt/context engineering",
+      "Python",
+      "GitHub Actions",
+      "CI/CD",
+      "Git / YAML"
+    ],
+    "qualifiers": [],
+    "recordId": "system-ai-code-gating"
+  },
+  {
+    "id": "system-ai-code-gating--2",
+    "category": "system",
+    "title": "AI-Assisted Code Gating and PR Risk Analysis",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "built_and_validated",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "policy-as-code",
+      "prompt/context design",
+      "AI governance",
+      "CI/CD safety",
+      "human-in-the-loop review",
+      "Documented capability: Azure OpenAI (hands-on professional).",
+      "Documented capability: LLM/API integration (hands-on professional)."
+    ],
+    "keywords": [
+      "ROMTech",
+      "Azure OpenAI",
+      "LLM/API integration",
+      "Prompt/context engineering",
+      "Python",
+      "GitHub Actions",
+      "CI/CD",
+      "Git / YAML"
+    ],
+    "qualifiers": [],
+    "recordId": "system-ai-code-gating"
+  },
+  {
+    "id": "system-ai-code-gating--3",
+    "category": "system",
+    "title": "AI-Assisted Code Gating and PR Risk Analysis",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "built_and_validated",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Documented capability: Prompt/context engineering (hands-on professional).",
+      "Documented capability: Python (hands-on professional/personal).",
+      "Documented capability: GitHub Actions (hands-on professional).",
+      "Documented capability: CI/CD (hands-on professional).",
+      "Documented capability: Git / YAML (hands-on professional)."
+    ],
+    "keywords": [
+      "ROMTech",
+      "Azure OpenAI",
+      "LLM/API integration",
+      "Prompt/context engineering",
+      "Python",
+      "GitHub Actions",
+      "CI/CD",
+      "Git / YAML"
+    ],
+    "qualifiers": [],
+    "recordId": "system-ai-code-gating"
+  },
+  {
+    "id": "system-android-test-agent--1",
+    "category": "system",
+    "title": "Android Unit and Instrumented Test Agent Platform",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "live_validated_with_merged_components",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Built repository-aware Android test-generation workflows that classify PR changes into deterministic routes and generate test-only candidate patches with repository-native context, validation, diagnostics, and fail-closed safeguards.",
+      "GitHub Actions",
+      "Gradle/CI validation",
+      "JUnit",
+      "Mockito",
+      "Hilt",
+      "UiAutomator"
+    ],
+    "keywords": [
+      "ROMTech",
+      "Agent orchestration",
+      "Specialist routing",
+      "Structured generation / validation-driven correction",
+      "Fail-closed safeguards",
+      "Java / Kotlin",
+      "GitHub Actions",
+      "CI/CD",
+      "Gradle / JUnit / Mockito / Hilt",
+      "UiAutomator / Android Test Orchestrator"
+    ],
+    "qualifiers": [],
+    "recordId": "system-android-test-agent"
+  },
+  {
+    "id": "system-android-test-agent--2",
+    "category": "system",
+    "title": "Android Unit and Instrumented Test Agent Platform",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "live_validated_with_merged_components",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Android Test Orchestrator",
+      "test-only path enforcement",
+      "ephemeral workspace patch application",
+      "compile-versus-runtime evidence",
+      "structured diagnostics",
+      "source-context isolation",
+      "bounded request/retry accounting"
+    ],
+    "keywords": [
+      "ROMTech",
+      "Agent orchestration",
+      "Specialist routing",
+      "Structured generation / validation-driven correction",
+      "Fail-closed safeguards",
+      "Java / Kotlin",
+      "GitHub Actions",
+      "CI/CD",
+      "Gradle / JUnit / Mockito / Hilt",
+      "UiAutomator / Android Test Orchestrator"
+    ],
+    "qualifiers": [],
+    "recordId": "system-android-test-agent"
+  },
+  {
+    "id": "system-android-test-agent--3",
+    "category": "system",
+    "title": "Android Unit and Instrumented Test Agent Platform",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "live_validated_with_merged_components",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "narrow validation-driven corrective generation",
+      "allowed test-path enforcement",
+      "patch application validation",
+      "block commit-back on failed validation",
+      "trusted workflow / untrusted PR-source separation",
+      "deterministic assertion validation",
+      "fail-closed when required validation surfaces cannot be proven"
+    ],
+    "keywords": [
+      "ROMTech",
+      "Agent orchestration",
+      "Specialist routing",
+      "Structured generation / validation-driven correction",
+      "Fail-closed safeguards",
+      "Java / Kotlin",
+      "GitHub Actions",
+      "CI/CD",
+      "Gradle / JUnit / Mockito / Hilt",
+      "UiAutomator / Android Test Orchestrator"
+    ],
+    "qualifiers": [],
+    "recordId": "system-android-test-agent"
+  },
+  {
+    "id": "system-android-test-agent--4",
+    "category": "system",
+    "title": "Android Unit and Instrumented Test Agent Platform",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "live_validated_with_merged_components",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "A routed instrumented-test specialist was merged into the production Android repository.",
+      "Testing included deliberately abnormal repository-scale scenarios to exercise safety behavior.",
+      "Documented capability: Agent orchestration (hands-on professional).",
+      "Documented capability: Specialist routing (hands-on professional).",
+      "Documented capability: Structured generation / validation-driven correction (hands-on professional).",
+      "Documented capability: Fail-closed safeguards (hands-on).",
+      "Documented capability: Java / Kotlin (working engineering exposure)."
+    ],
+    "keywords": [
+      "ROMTech",
+      "Agent orchestration",
+      "Specialist routing",
+      "Structured generation / validation-driven correction",
+      "Fail-closed safeguards",
+      "Java / Kotlin",
+      "GitHub Actions",
+      "CI/CD",
+      "Gradle / JUnit / Mockito / Hilt",
+      "UiAutomator / Android Test Orchestrator"
+    ],
+    "qualifiers": [],
+    "recordId": "system-android-test-agent"
+  },
+  {
+    "id": "system-android-test-agent--5",
+    "category": "system",
+    "title": "Android Unit and Instrumented Test Agent Platform",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "live_validated_with_merged_components",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Documented capability: GitHub Actions (hands-on professional).",
+      "Documented capability: CI/CD (hands-on professional).",
+      "Documented capability: Gradle / JUnit / Mockito / Hilt (hands-on Android test workflow).",
+      "Documented capability: UiAutomator / Android Test Orchestrator (hands-on Android test workflow)."
+    ],
+    "keywords": [
+      "ROMTech",
+      "Agent orchestration",
+      "Specialist routing",
+      "Structured generation / validation-driven correction",
+      "Fail-closed safeguards",
+      "Java / Kotlin",
+      "GitHub Actions",
+      "CI/CD",
+      "Gradle / JUnit / Mockito / Hilt",
+      "UiAutomator / Android Test Orchestrator"
+    ],
+    "qualifiers": [],
+    "recordId": "system-android-test-agent"
+  },
+  {
+    "id": "system-pr-assistant--1",
+    "category": "system",
+    "title": "GitHub-Native Agentic PR Review and Repair Platform",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "production_onboarded_with_adoption_limits",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Designed a single developer-facing orchestration and safety layer that reviews pull requests, routes work to specialist capabilities, prepares exact reviewable code/test changes, requires approval, validates current repository state, applies only approved immutable previews, and performs controlled commit-back and fresh re-review.",
+      "single developer-facing PR Assistant",
+      "specialist routing",
+      "repository-aware context",
+      "GitHub-native review/check surfaces",
+      "exact immutable previews",
+      "regression-test previews"
+    ],
+    "keywords": [
+      "ROMTech",
+      "PR Assistant",
+      "Agent orchestration",
+      "Specialist routing",
+      "Prompt/context engineering",
+      "Structured generation / validation-driven correction",
+      "AI output evaluation and safety controls",
+      "Evidence provenance",
+      "Human-in-the-loop approval",
+      "Fail-closed safeguards",
+      "Azure Functions",
+      "GitHub Actions",
+      "GitHub Apps / Check Runs",
+      "Git / YAML"
+    ],
+    "qualifiers": [
+      "An earlier August dossier recorded production onboarding as pending; the later September master resume says production-onboarded.",
+      "Use the later source for onboarding status, but do not claim company-wide adoption, ROI, or widespread team usage without later evidence."
+    ],
+    "recordId": "system-pr-assistant"
+  },
+  {
+    "id": "system-pr-assistant--2",
+    "category": "system",
+    "title": "GitHub-Native Agentic PR Review and Repair Platform",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "production_onboarded_with_adoption_limits",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "explicit human approval",
+      "targeted validation",
+      "controlled commit-back",
+      "fresh-review convergence",
+      "head-SHA binding",
+      "source/content hashes",
+      "stale-head rejection"
+    ],
+    "keywords": [
+      "ROMTech",
+      "PR Assistant",
+      "Agent orchestration",
+      "Specialist routing",
+      "Prompt/context engineering",
+      "Structured generation / validation-driven correction",
+      "AI output evaluation and safety controls",
+      "Evidence provenance",
+      "Human-in-the-loop approval",
+      "Fail-closed safeguards",
+      "Azure Functions",
+      "GitHub Actions",
+      "GitHub Apps / Check Runs",
+      "Git / YAML"
+    ],
+    "qualifiers": [
+      "An earlier August dossier recorded production onboarding as pending; the later September master resume says production-onboarded.",
+      "Use the later source for onboarding status, but do not claim company-wide adoption, ROI, or widespread team usage without later evidence."
+    ],
+    "recordId": "system-pr-assistant"
+  },
+  {
+    "id": "system-pr-assistant--3",
+    "category": "system",
+    "title": "GitHub-Native Agentic PR Review and Repair Platform",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "production_onboarded_with_adoption_limits",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "manifest integrity",
+      "file-scope enforcement",
+      "source-provenance separation",
+      "tamper detection",
+      "deterministic current-head verification",
+      "bounded model-call budgets",
+      "narrow validation-driven corrective generation"
+    ],
+    "keywords": [
+      "ROMTech",
+      "PR Assistant",
+      "Agent orchestration",
+      "Specialist routing",
+      "Prompt/context engineering",
+      "Structured generation / validation-driven correction",
+      "AI output evaluation and safety controls",
+      "Evidence provenance",
+      "Human-in-the-loop approval",
+      "Fail-closed safeguards",
+      "Azure Functions",
+      "GitHub Actions",
+      "GitHub Apps / Check Runs",
+      "Git / YAML"
+    ],
+    "qualifiers": [
+      "An earlier August dossier recorded production onboarding as pending; the later September master resume says production-onboarded.",
+      "Use the later source for onboarding status, but do not claim company-wide adoption, ROI, or widespread team usage without later evidence."
+    ],
+    "recordId": "system-pr-assistant"
+  },
+  {
+    "id": "system-pr-assistant--4",
+    "category": "system",
+    "title": "GitHub-Native Agentic PR Review and Repair Platform",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "production_onboarded_with_adoption_limits",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "untrusted PR-head code treated as inert data in privileged review paths",
+      "A realistic diagnostic run found two distinct semantic defects in previously unseen Android code.",
+      "The run produced two exact code previews and two repository-aware regression-test previews.",
+      "Overlapping previews disabled bulk apply rather than combining unsafe AI-generated changes.",
+      "Documented capability: Agent orchestration (hands-on professional).",
+      "Documented capability: Specialist routing (hands-on professional).",
+      "Documented capability: Prompt/context engineering (hands-on professional)."
+    ],
+    "keywords": [
+      "ROMTech",
+      "PR Assistant",
+      "Agent orchestration",
+      "Specialist routing",
+      "Prompt/context engineering",
+      "Structured generation / validation-driven correction",
+      "AI output evaluation and safety controls",
+      "Evidence provenance",
+      "Human-in-the-loop approval",
+      "Fail-closed safeguards",
+      "Azure Functions",
+      "GitHub Actions",
+      "GitHub Apps / Check Runs",
+      "Git / YAML"
+    ],
+    "qualifiers": [
+      "An earlier August dossier recorded production onboarding as pending; the later September master resume says production-onboarded.",
+      "Use the later source for onboarding status, but do not claim company-wide adoption, ROI, or widespread team usage without later evidence."
+    ],
+    "recordId": "system-pr-assistant"
+  },
+  {
+    "id": "system-pr-assistant--5",
+    "category": "system",
+    "title": "GitHub-Native Agentic PR Review and Repair Platform",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "production_onboarded_with_adoption_limits",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Documented capability: Structured generation / validation-driven correction (hands-on professional).",
+      "Documented capability: AI output evaluation and safety controls (hands-on professional and open-source).",
+      "Documented capability: Evidence provenance (hands-on).",
+      "Documented capability: Human-in-the-loop approval (hands-on).",
+      "Documented capability: Fail-closed safeguards (hands-on).",
+      "Documented capability: Azure Functions (documented professional stack).",
+      "Documented capability: GitHub Actions (hands-on professional)."
+    ],
+    "keywords": [
+      "ROMTech",
+      "PR Assistant",
+      "Agent orchestration",
+      "Specialist routing",
+      "Prompt/context engineering",
+      "Structured generation / validation-driven correction",
+      "AI output evaluation and safety controls",
+      "Evidence provenance",
+      "Human-in-the-loop approval",
+      "Fail-closed safeguards",
+      "Azure Functions",
+      "GitHub Actions",
+      "GitHub Apps / Check Runs",
+      "Git / YAML"
+    ],
+    "qualifiers": [
+      "An earlier August dossier recorded production onboarding as pending; the later September master resume says production-onboarded.",
+      "Use the later source for onboarding status, but do not claim company-wide adoption, ROI, or widespread team usage without later evidence."
+    ],
+    "recordId": "system-pr-assistant"
+  },
+  {
+    "id": "system-pr-assistant--6",
+    "category": "system",
+    "title": "GitHub-Native Agentic PR Review and Repair Platform",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "production_onboarded_with_adoption_limits",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Documented capability: GitHub Apps / Check Runs (hands-on professional).",
+      "Documented capability: Git / YAML (hands-on professional)."
+    ],
+    "keywords": [
+      "ROMTech",
+      "PR Assistant",
+      "Agent orchestration",
+      "Specialist routing",
+      "Prompt/context engineering",
+      "Structured generation / validation-driven correction",
+      "AI output evaluation and safety controls",
+      "Evidence provenance",
+      "Human-in-the-loop approval",
+      "Fail-closed safeguards",
+      "Azure Functions",
+      "GitHub Actions",
+      "GitHub Apps / Check Runs",
+      "Git / YAML"
+    ],
+    "qualifiers": [
+      "An earlier August dossier recorded production onboarding as pending; the later September master resume says production-onboarded.",
+      "Use the later source for onboarding status, but do not claim company-wide adoption, ROI, or widespread team usage without later evidence."
+    ],
+    "recordId": "system-pr-assistant"
+  },
+  {
+    "id": "system-romguide--1",
+    "category": "system",
+    "title": "Retrieval-Augmented Internal Support Copilot",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "prototype_built",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Built a FastAPI-based internal troubleshooting and knowledge-access prototype using LLM integration, local document retrieval, Chroma vector storage, and RAG architecture.",
+      "grounded answers over unconstrained generation",
+      "inspectable retrieval",
+      "source traceability",
+      "clear distinction between prototype evidence and production adoption",
+      "Python",
+      "FastAPI"
+    ],
+    "keywords": [
+      "ROMGuide",
+      "Internal AI Support Copilot",
+      "ROMTech",
+      "LLM/API integration",
+      "Retrieval-Augmented Generation (RAG)",
+      "Chroma / ChromaDB",
+      "Grounded retrieval / source-backed responses",
+      "Python",
+      "FastAPI",
+      "REST APIs / middleware integrations"
+    ],
+    "qualifiers": [
+      "Do not describe as production-wide deployment."
+    ],
+    "recordId": "system-romguide"
+  },
+  {
+    "id": "system-romguide--2",
+    "category": "system",
+    "title": "Retrieval-Augmented Internal Support Copilot",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "prototype_built",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "RAG",
+      "Chroma",
+      "LLM/API integration",
+      "backend API design",
+      "source-grounded answer design",
+      "Documented capability: LLM/API integration (hands-on professional).",
+      "Documented capability: Retrieval-Augmented Generation (RAG) (hands-on professional prototype and public project)."
+    ],
+    "keywords": [
+      "ROMGuide",
+      "Internal AI Support Copilot",
+      "ROMTech",
+      "LLM/API integration",
+      "Retrieval-Augmented Generation (RAG)",
+      "Chroma / ChromaDB",
+      "Grounded retrieval / source-backed responses",
+      "Python",
+      "FastAPI",
+      "REST APIs / middleware integrations"
+    ],
+    "qualifiers": [
+      "Do not describe as production-wide deployment."
+    ],
+    "recordId": "system-romguide"
+  },
+  {
+    "id": "system-romguide--3",
+    "category": "system",
+    "title": "Retrieval-Augmented Internal Support Copilot",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "prototype_built",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Documented capability: Chroma / ChromaDB (hands-on).",
+      "Documented capability: Grounded retrieval / source-backed responses (hands-on).",
+      "Documented capability: Python (hands-on professional/personal).",
+      "Documented capability: FastAPI (hands-on professional/personal).",
+      "Documented capability: REST APIs / middleware integrations (hands-on professional)."
+    ],
+    "keywords": [
+      "ROMGuide",
+      "Internal AI Support Copilot",
+      "ROMTech",
+      "LLM/API integration",
+      "Retrieval-Augmented Generation (RAG)",
+      "Chroma / ChromaDB",
+      "Grounded retrieval / source-backed responses",
+      "Python",
+      "FastAPI",
+      "REST APIs / middleware integrations"
+    ],
+    "qualifiers": [
+      "Do not describe as production-wide deployment."
+    ],
+    "recordId": "system-romguide"
+  },
+  {
+    "id": "system-agentic-operating-model--1",
+    "category": "system",
+    "title": "Agentic AI Engineering Ecosystem / AIOps Operating Model",
+    "organization": "ROM Technologies",
+    "timeframe": "2026",
+    "status": "designed_not_deployed",
+    "evidenceLevel": "designed_not_deployed",
+    "facts": [
+      "Designed a broader operating model spanning DevOps, QA, compliance, support, PR risk, test generation, deployment readiness, and SRE log/code triage, with reusable policies, prompt libraries, validation artifacts, escalation notes, runbooks, and approval boundaries."
+    ],
+    "keywords": [
+      "ROMTech"
+    ],
+    "qualifiers": [
+      "This record represents architecture/roadmap work. Do not present all proposed agents or integrations as deployed."
+    ],
+    "recordId": "system-agentic-operating-model"
+  },
+  {
+    "id": "project-ladimus-review--1",
+    "category": "project",
+    "title": "Ladimus Review",
+    "organization": "Ladimus Engineering",
+    "timeframe": "2026",
+    "status": "public_open_source",
+    "evidenceLevel": "corroborated",
+    "facts": [
+      "Evaluation-first AI code review and repair platform focused on whether generated engineering changes are safe to trust.",
+      "provider-agnostic review/remediation architecture",
+      "finding-aware risk scoring",
+      "immutable recommendations",
+      "SHA-256 evidence",
+      "reviewed-HEAD/config binding",
+      "exact-byte patch application"
+    ],
+    "keywords": [
+      "AI output evaluation and safety controls",
+      "Evidence provenance",
+      "Human-in-the-loop approval",
+      "Fail-closed safeguards",
+      "Python"
+    ],
+    "qualifiers": [],
+    "recordId": "project-ladimus-review"
+  },
+  {
+    "id": "project-ladimus-review--2",
+    "category": "project",
+    "title": "Ladimus Review",
+    "organization": "Ladimus Engineering",
+    "timeframe": "2026",
+    "status": "public_open_source",
+    "evidenceLevel": "corroborated",
+    "facts": [
+      "human approval",
+      "deterministic validation",
+      "transactional Git application",
+      "automatic rollback",
+      "audit artifacts",
+      "path/dirty-worktree policy",
+      "Windows CRLF/BOM/exact-byte portability"
+    ],
+    "keywords": [
+      "AI output evaluation and safety controls",
+      "Evidence provenance",
+      "Human-in-the-loop approval",
+      "Fail-closed safeguards",
+      "Python"
+    ],
+    "qualifiers": [],
+    "recordId": "project-ladimus-review"
+  },
+  {
+    "id": "project-ladimus-review--3",
+    "category": "project",
+    "title": "Ladimus Review",
+    "organization": "Ladimus Engineering",
+    "timeframe": "2026",
+    "status": "public_open_source",
+    "evidenceLevel": "corroborated",
+    "facts": [
+      "v0.1.0 tagged publicly",
+      "19 adversarial/regression tests passed in the documented release run",
+      "Ruff passed in the documented release run",
+      "Trust boundaries around AI-generated code: evidence, validation, approval, rollback, and failure handling.",
+      "Documented capability: AI output evaluation and safety controls (hands-on professional and open-source).",
+      "Documented capability: Evidence provenance (hands-on).",
+      "Documented capability: Human-in-the-loop approval (hands-on)."
+    ],
+    "keywords": [
+      "AI output evaluation and safety controls",
+      "Evidence provenance",
+      "Human-in-the-loop approval",
+      "Fail-closed safeguards",
+      "Python"
+    ],
+    "qualifiers": [],
+    "recordId": "project-ladimus-review"
+  },
+  {
+    "id": "project-ladimus-review--4",
+    "category": "project",
+    "title": "Ladimus Review",
+    "organization": "Ladimus Engineering",
+    "timeframe": "2026",
+    "status": "public_open_source",
+    "evidenceLevel": "corroborated",
+    "facts": [
+      "Documented capability: Fail-closed safeguards (hands-on).",
+      "Documented capability: Python (hands-on professional/personal)."
+    ],
+    "keywords": [
+      "AI output evaluation and safety controls",
+      "Evidence provenance",
+      "Human-in-the-loop approval",
+      "Fail-closed safeguards",
+      "Python"
+    ],
+    "qualifiers": [],
+    "recordId": "project-ladimus-review"
+  },
+  {
+    "id": "project-ladimus-agent--1",
+    "category": "project",
+    "title": "Ladimus Agent",
+    "organization": "Ladimus Engineering",
+    "timeframe": "2026",
+    "status": "public_open_source",
+    "evidenceLevel": "corroborated",
+    "facts": [
+      "Local-first retrieval-grounded assistant over a controlled knowledge base that displays evidence/citations and refuses unsupported answers.",
+      "FastAPI",
+      "ChromaDB",
+      "Ollama/local models",
+      "Qwen3 in documented local setup",
+      "source/evidence display",
+      "retrieval-grounded answering"
+    ],
+    "keywords": [
+      "Retrieval-Augmented Generation (RAG)",
+      "Chroma / ChromaDB",
+      "Grounded retrieval / source-backed responses",
+      "Python",
+      "FastAPI"
+    ],
+    "qualifiers": [],
+    "recordId": "project-ladimus-agent"
+  },
+  {
+    "id": "project-ladimus-agent--2",
+    "category": "project",
+    "title": "Ladimus Agent",
+    "organization": "Ladimus Engineering",
+    "timeframe": "2026",
+    "status": "public_open_source",
+    "evidenceLevel": "corroborated",
+    "facts": [
+      "refusal when evidence is absent",
+      "security/hygiene boundaries excluding private/employer material",
+      "17/17 tests passed in the documented public-readiness run",
+      "compile/frontend/whitespace/employer-hygiene checks passed",
+      "repository included CI, architecture, API, roadmap, changelog, contributing, license, and security documentation",
+      "Documented capability: Retrieval-Augmented Generation (RAG) (hands-on professional prototype and public project).",
+      "Documented capability: Chroma / ChromaDB (hands-on)."
+    ],
+    "keywords": [
+      "Retrieval-Augmented Generation (RAG)",
+      "Chroma / ChromaDB",
+      "Grounded retrieval / source-backed responses",
+      "Python",
+      "FastAPI"
+    ],
+    "qualifiers": [],
+    "recordId": "project-ladimus-agent"
+  },
+  {
+    "id": "project-ladimus-agent--3",
+    "category": "project",
+    "title": "Ladimus Agent",
+    "organization": "Ladimus Engineering",
+    "timeframe": "2026",
+    "status": "public_open_source",
+    "evidenceLevel": "corroborated",
+    "facts": [
+      "Documented capability: Grounded retrieval / source-backed responses (hands-on).",
+      "Documented capability: Python (hands-on professional/personal).",
+      "Documented capability: FastAPI (hands-on professional/personal)."
+    ],
+    "keywords": [
+      "Retrieval-Augmented Generation (RAG)",
+      "Chroma / ChromaDB",
+      "Grounded retrieval / source-backed responses",
+      "Python",
+      "FastAPI"
+    ],
+    "qualifiers": [],
+    "recordId": "project-ladimus-agent"
+  },
+  {
+    "id": "project-ladimus-portfolio--1",
+    "category": "project",
+    "title": "Ladimus Engineering Portfolio",
+    "organization": "Ladimus Engineering",
+    "timeframe": "2026",
+    "status": "public_deployed",
+    "evidenceLevel": "project_log_supported",
+    "facts": [
+      "Next.js/TypeScript engineering portfolio evolved into a production Vercel site with an interactive Canvas 2D Living Interface, route/section visual identities, shared animation scheduling, pointer/tap signal behavior, responsive/mobile budgets, and accessibility fallbacks.",
+      "Next.js App Router",
+      "TypeScript",
+      "Vercel",
+      "Canvas 2D progressive enhancement",
+      "deterministic topology",
+      "shared requestAnimationFrame scheduler"
+    ],
+    "keywords": [
+      "JavaScript / TypeScript"
+    ],
+    "qualifiers": [
+      "Ask Ladimus v0.6 is not part of this record until actually implemented and released."
+    ],
+    "recordId": "project-ladimus-portfolio"
+  },
+  {
+    "id": "project-ladimus-portfolio--2",
+    "category": "project",
+    "title": "Ladimus Engineering Portfolio",
+    "organization": "Ladimus Engineering",
+    "timeframe": "2026",
+    "status": "public_deployed",
+    "evidenceLevel": "project_log_supported",
+    "facts": [
+      "pointer/touch interaction",
+      "reduced-motion support",
+      "forced-colors/print/no-JS fallbacks",
+      "browser regression testing",
+      "responsive performance budgets",
+      "Documented capability: JavaScript / TypeScript (hands-on personal/project)."
+    ],
+    "keywords": [
+      "JavaScript / TypeScript"
+    ],
+    "qualifiers": [
+      "Ask Ladimus v0.6 is not part of this record until actually implemented and released."
+    ],
+    "recordId": "project-ladimus-portfolio"
+  },
+  {
+    "id": "education-snhu-bs-cs--1",
+    "category": "education",
+    "title": "B.S. Computer Science",
+    "organization": "Southern New Hampshire University",
+    "timeframe": "",
+    "status": "In progress",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "B.S. Computer Science at Southern New Hampshire University, in progress. No definitive graduation date is asserted.",
+      "CS 300 Data Structures & Algorithms completed"
+    ],
+    "keywords": [],
+    "qualifiers": [],
+    "recordId": "education-snhu-bs-cs"
+  },
+  {
+    "id": "certification-1--1",
+    "category": "certification",
+    "title": "Microsoft Certified: Azure Fundamentals",
+    "organization": "Ladimus Engineering",
+    "timeframe": "",
+    "status": "confirmed",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Microsoft Certified: Azure Fundamentals — confirmed."
+    ],
+    "keywords": [],
+    "qualifiers": [],
+    "recordId": "certification-1"
+  },
+  {
+    "id": "certification-2--1",
+    "category": "certification",
+    "title": "Microsoft Azure Developer Badge",
+    "organization": "Ladimus Engineering",
+    "timeframe": "",
+    "status": "confirmed",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Microsoft Azure Developer Badge — confirmed."
+    ],
+    "keywords": [],
+    "qualifiers": [],
+    "recordId": "certification-2"
+  },
+  {
+    "id": "certification-3--1",
+    "category": "certification",
+    "title": "Microsoft Office Specialist",
+    "organization": "Ladimus Engineering",
+    "timeframe": "",
+    "status": "confirmed",
+    "evidenceLevel": "primary_verified",
+    "facts": [
+      "Microsoft Office Specialist — confirmed."
+    ],
+    "keywords": [],
+    "qualifiers": [],
+    "recordId": "certification-3"
+  },
+  {
+    "id": "profile-luis--1",
+    "category": "profile",
+    "title": "Luis Tomassini",
+    "organization": "Ladimus Engineering",
+    "timeframe": "",
+    "status": "documented_experience",
+    "evidenceLevel": "corroborated",
+    "facts": [
+      "Applied AI, automation, DevOps, and software engineer with hands-on ownership across production operations automation, Azure-hosted services, backend APIs and middleware, GitHub-native agentic developer tooling, retrieval-augmented support systems, Android test-generation agents, CI/CD safety controls, observability, and public trust-oriented AI projects. A recurring engineering theme is building the reliability layer around AI output: routing, retrieval, provenance, deterministic validation, bounded correction, human approval, rollback, diagnostics, and fail-closed behavior."
+    ],
+    "keywords": [],
+    "qualifiers": [],
+    "recordId": "profile-luis"
+  }
+]

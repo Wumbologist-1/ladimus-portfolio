@@ -3,6 +3,7 @@ import { createTopology, damp } from "./topology";
 import { renderingBudget } from "./performance";
 import { presets, type VisualIdentity } from "./presets";
 import { requestFrame, cancelFrame } from "./runtime";
+import { subscribeIntelligence, evidenceCluster } from "./event-bridge";
 
 export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boolean, identity: VisualIdentity = "possibility") {
   const hero = canvas.closest<HTMLElement>("[data-living-surface], section");
@@ -30,6 +31,7 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
   let reactive = -1;
   let reactiveEnergy = 0;
   let halo: CanvasGradient;
+  let pointerField: CanvasGradient;
   let order: number = preset.order;
   let frame = 0;
   let last = 0;
@@ -51,6 +53,11 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
   let metal = "#c6d0d5";
   let green = "#b4ef63";
   let cyan = "#80dbe8";
+  let arrivalEnergy = 0;
+  let intelligenceEnergy = 0;
+  let intelligenceTarget = 0;
+  let evidenceClusters = new Set<number>();
+  let offsets = graph.nodes.map(() => ({ x: 0, y: 0 }));
 
   function measure() {
     const bounds = hero!.getBoundingClientRect();
@@ -67,6 +74,7 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
       points = graph.nodes.map(() => ({ x: 0, y: 0, energy: 0, pulse: 0 }));
       signals = createSignals(graph, budget.compact);
       reactive = -1;
+      offsets = graph.nodes.map(() => ({ x: 0, y: 0 }));
     }
     canvas.width = Math.max(1, Math.floor(width * budget.ratio));
     canvas.height = Math.max(1, Math.floor(height * budget.ratio));
@@ -79,6 +87,8 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
     halo.addColorStop(0, cyan);
     halo.addColorStop(0.15, `${cyan}99`);
     halo.addColorStop(1, `${cyan}00`);
+    pointerField=ctx.createRadialGradient(0,0,0,0,0,120);
+    pointerField.addColorStop(0,`${cyan}66`);pointerField.addColorStop(1,`${cyan}00`);
     clips = [];
     exclusions = [];
     // Reserve complete reading/panel regions, not moving per-glyph masks.
@@ -95,6 +105,8 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
 
   function draw(dt: number) {
     signals.advance(dt);
+    arrivalEnergy = damp(arrivalEnergy, 0, dt, 1.1);
+    intelligenceEnergy = damp(intelligenceEnergy, intelligenceTarget, dt, 0.4);
     reactiveEnergy = damp(reactiveEnergy, reactive >= 0 ? 1 : 0, dt, 0.25);
     pointerX = damp(pointerX, targetX, dt);
     pointerY = damp(pointerY, targetY, dt);
@@ -107,23 +119,34 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
     // Intersect each exclusion separately: overlapping reading masks must not
     // cancel one another as they would in a single even-odd compound path.
     for (const clip of clips) ctx.clip(clip, "evenodd");
+    if (energy>0.01 && !budget.compact) {
+      ctx.save();ctx.translate((pointerX+1)*width/2,(pointerY+1)*height/2);
+      ctx.fillStyle=pointerField;ctx.globalAlpha=energy*0.12;ctx.fillRect(-120,-120,240,240);ctx.restore();
+    }
     for (let i = 0; i < graph.nodes.length; i++) {
       const node = graph.nodes[i]!;
       const point = points[i]!;
       const influence = Math.max(0, 1 - Math.hypot(node.x - (pointerX + 1) / 2, node.y - (pointerY + 1) / 2) / 0.36) * energy;
-      point.x = node.x * width + Math.sin(time * 0.12 + node.phase) * budget.amplitude * preset.motion + pointerX * node.depth * 5 * influence;
-      point.y = (node.y + (node.settledY - node.y) * order) * height + Math.cos(time * 0.1 + node.phase) * budget.amplitude * preset.motion + pointerY * node.depth * 4 * influence - scrollOffset * node.depth;
-      point.energy = Math.max(influence, node.cluster === reactive ? reactiveEnergy * 0.65 : 0);
+      const offset = offsets[i]!;
+      offset.x = damp(offset.x, pointerX * node.depth * 10 * influence, dt, 0.12 + (1-node.depth)*0.25);
+      offset.y = damp(offset.y, pointerY * node.depth * 8 * influence, dt, 0.12 + (1-node.depth)*0.25);
+      point.x = node.x * width + Math.sin(time * 0.12 + node.phase) * budget.amplitude * preset.motion + offset.x;
+      point.y = (node.y + (node.settledY - node.y) * order) * height + Math.cos(time * 0.1 + node.phase) * budget.amplitude * preset.motion + offset.y - scrollOffset * node.depth;
+      point.energy = Math.max(influence, node.cluster === reactive ? reactiveEnergy * 0.8 : 0, node.primary ? arrivalEnergy : 0,
+        evidenceClusters.has(node.cluster) || identity === "core" ? intelligenceEnergy * 0.7 : 0);
       point.pulse = 0;
     }
     ctx.lineWidth = 0.75;
+    // Secondary energy propagates only through authored graph neighbors.
+    const localEnergy = points.map(point => point.energy);
+    for (let i=0;i<points.length;i++) for (const neighbor of graph.adjacency[i]!) points[i]!.energy=Math.max(points[i]!.energy,localEnergy[neighbor]! * 0.35);
     ctx.strokeStyle = metal;
     for (const [a, b] of graph.edges) {
       const start = points[a]!;
       const end = points[b]!;
       const depth = (graph.nodes[a]!.depth + graph.nodes[b]!.depth) / 2;
       const crossRail = graph.nodes[a]!.cluster !== graph.nodes[b]!.cluster;
-      ctx.globalAlpha = preset.line * (0.5 + depth * 0.5) * (crossRail ? 0.42 : 1) + Math.max(start.energy, end.energy) * 0.13;
+      ctx.globalAlpha = preset.line * (0.5 + depth * 0.5) * (crossRail ? 0.18 : 1) + Math.max(start.energy, end.energy) * (crossRail ? 0.04 : 0.18);
       ctx.beginPath();
       ctx.moveTo(start.x, start.y);
       ctx.lineTo(end.x, end.y);
@@ -169,6 +192,12 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
     const phase = age / SIGNAL_SECONDS;
     const head = phase * (route.length - 1);
     const fade = Math.min(1, (1 - phase) * 5) * strength;
+    if (phase>0.7) {
+      const destination=points[route[route.length-1]!]!;
+      ctx.strokeStyle=green;ctx.globalAlpha=fade*(phase-0.7)*1.5;ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(destination.x-12,destination.y-4);ctx.lineTo(destination.x-12,destination.y-12);ctx.lineTo(destination.x-4,destination.y-12);
+      ctx.moveTo(destination.x+12,destination.y+4);ctx.lineTo(destination.x+12,destination.y+12);ctx.lineTo(destination.x+4,destination.y+12);ctx.stroke();
+    }
     for (let i = 0; i < route.length; i++) {
       const point = points[route[i]!]!;
       point.pulse = Math.max(point.pulse, Math.max(0, 1 - Math.abs(head - i) / 1.2) * fade);
@@ -190,7 +219,7 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
     for (let i = 0; i < points.length; i++) {
       const p = points[i]!;
       if (exclusions.some(r => p.x >= r.x && p.x <= r.x + r.w && p.y >= r.y && p.y <= r.y + r.h)) continue;
-      const d = Math.hypot(p.x - x, p.y - y);
+      const d = Math.hypot(p.x - x, p.y - y) * (graph.nodes[i]!.primary ? 0.68 : 1);
       if (d < distance) { best = i; distance = d; }
     }
     return best;
@@ -231,6 +260,23 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
   hero.addEventListener("focusin", react, options);
   hero.addEventListener("pointerout", () => { reactive = -1; }, options);
   hero.addEventListener("focusout", () => { reactive = -1; }, options);
+  const unsubscribeIntelligence = subscribeIntelligence(event => {
+    if (!enabled() || (identity !== "core" && identity !== "intelligence" && identity !== "possibility")) return;
+    if (event.type === "response:error" || (event.type === "response:complete" && !event.success)) {
+      intelligenceTarget = 0; evidenceClusters.clear(); signals.clear(); return;
+    }
+    if (event.type === "query:start") { signals.clear(); evidenceClusters.clear(); intelligenceTarget=0.3; }
+    if (event.type === "retrieval:start") { signals.dispatch(0,0.6);intelligenceTarget=0.45; }
+    if (event.type === "retrieval:complete") {
+      evidenceClusters=new Set((event.evidenceIds ?? []).map(id=>evidenceCluster(id,budget.compact?2:3)));
+      for (const cluster of evidenceClusters) {
+        const index=graph.nodes.findIndex(node=>node.cluster===cluster&&node.primary);signals.dispatch(index,0.8);
+      }
+      intelligenceTarget=evidenceClusters.size ? 0.65 : 0;
+    }
+    if (event.type === "generation:start") {intelligenceTarget=1;signals.dispatch(0,0.9);}
+    if (event.type === "response:complete") intelligenceTarget=0.3;
+  });
 
   function tick(now: number) {
     frame = 0;
@@ -298,7 +344,8 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
   resize.observe(hero);
   for (const region of hero.querySelectorAll("[data-topology-clear]")) resize.observe(region);
   const intersection = new IntersectionObserver(([entry]) => {
-    visible = entry?.isIntersecting ?? false;
+    const wasVisible=visible;visible = entry?.isIntersecting ?? false;
+    if (visible && !wasVisible && !paused) arrivalEnergy=0.45;
     if (visible) dirty = true;
     schedule();
   });
@@ -306,13 +353,14 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
   measure();
   if (paused) draw(0);
   return {
-    pause(value: boolean) { paused = value; gesture = null; if (paused) { signals.clear(); reactive = -1; } schedule(); },
-    inspect() { return { activeSignals: signals.active, dispatched: signals.dispatched, compact: budget.compact }; },
+    pause(value: boolean) { paused = value; gesture = null; if (paused) { signals.clear(); reactive = -1; intelligenceTarget=0; intelligenceEnergy=0; evidenceClusters.clear(); } schedule(); },
+    inspect() { return { activeSignals: signals.active, dispatched: signals.dispatched, compact: budget.compact, intelligenceTarget, evidenceClusters: [...evidenceClusters] }; },
     dispose() {
       disposed = true;
       signals.clear(); gesture = null;
       cancelFrame(frame);
       abort.abort();
+      unsubscribeIntelligence();
       resize.disconnect();
       intersection.disconnect();
       ctx.clearRect(0, 0, width, height);

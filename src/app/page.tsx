@@ -24,8 +24,9 @@ export default function Home() {
             <p className={styles.identity}>{site.hero.identity}</p>
             <div className={styles.actions}>
               <ActionLink href="/work" variant="primary">Explore My Work</ActionLink>
+              <ActionLink href="/ask">Ask Ladimus</ActionLink>
               <ActionLink href={profile.githubUrl}>GitHub</ActionLink>
-              <a className={styles.profileLink} href={profile.linkedinUrl}>LinkedIn <span aria-hidden="true">↗</span></a>
+              <a data-field-reactive className={styles.profileLink} href={profile.linkedinUrl}>LinkedIn <span aria-hidden="true">↗</span></a>
             </div>
           </div>
           <aside className={styles.heroFeature} aria-label="Featured engineering work">

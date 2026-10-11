@@ -1,4 +1,4 @@
-﻿# dependencies
+# dependencies
 node_modules/
 
 # Next.js
@@ -34,3 +34,7 @@ Thumbs.db
 # local AI / scratch
 .codex-local/
 scratch/
+
+# private ingestion sources and generated private drafts
+private/
+work/

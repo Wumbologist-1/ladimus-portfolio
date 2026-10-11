@@ -1,0 +1,80 @@
+{
+  "do_not_claim": [
+    {
+      "claim": "Senior Engineer / Senior AI Engineer title",
+      "reason": "Scope may demonstrate high ownership, but no authoritative source establishes a senior title."
+    },
+    {
+      "claim": "Company-wide production adoption of the PR Assistant",
+      "reason": "Latest evidence supports production onboarding and merged components; broad adoption/ROI is not established."
+    },
+    {
+      "claim": "ROMGuide was a production-wide deployed service",
+      "reason": "It is documented as a working internal prototype."
+    },
+    {
+      "claim": "The SRE assistant scaffold materially reduced incident resolution time",
+      "reason": "The merged scaffold did not yet have production usage metrics."
+    },
+    {
+      "claim": "Illustrative automation savings were audited financial savings",
+      "reason": "The impact dossier explicitly treats them as illustrative capacity models only."
+    },
+    {
+      "claim": "All proposed multi-agent/AIOps agents were deployed",
+      "reason": "Some ecosystem work was architecture/roadmap design."
+    },
+    {
+      "claim": "Professional AWS, EKS, Bedrock, pgvector, Celery/Redis, Pyannote, or production Kubernetes experience",
+      "reason": "These were previously identified as gaps or are not established by the evidence corpus."
+    },
+    {
+      "claim": "Professional deployment of LangGraph, AutoGen, CrewAI, or LangChain",
+      "reason": "Framework familiarity may exist, but professional deployment is not established."
+    }
+  ],
+  "safe_qualification_examples": {
+    "seniority": "Luis's documented responsibilities extended beyond routine junior DevOps support into production automation, cloud/platform ownership, AI developer tooling, and end-to-end engineering ownership; the corpus does not assign him an unsupported senior title.",
+    "kubernetes": "The corpus does not contain enough evidence to claim professional Kubernetes experience.",
+    "aws": "Luis's documented cloud experience is primarily Microsoft Azure; the corpus does not support a professional AWS claim.",
+    "machine_learning_training": "The documented AI experience centers on applied AI systems, LLM integration, RAG, agents, evaluation, automation, and reliability controls rather than training foundation models."
+  },
+  "conflicts": [
+    {
+      "topic": "ROMTech DevOps title",
+      "canonical": "DevOps Engineer",
+      "variants": [
+        "Junior DevOps Engineer",
+        "Junior DevOps Engineer / AI Automation Builder"
+      ],
+      "resolution": "Use DevOps Engineer for current public answers; mention junior-title history only when discussing progression."
+    },
+    {
+      "topic": "SNHU expected completion",
+      "canonical": "B.S. Computer Science in progress",
+      "variants": [
+        "Expected 2028",
+        "Expected May 2027"
+      ],
+      "resolution": "Do not expose a definitive graduation date until confirmed."
+    },
+    {
+      "topic": "Shift4 title",
+      "canonical": "POS Programming CMMT Rep I",
+      "variants": [
+        "POS Software Technician",
+        "CMMT Rep I"
+      ],
+      "resolution": "Use the canonical title and accept variants as aliases."
+    },
+    {
+      "topic": "PR Assistant production status",
+      "canonical": "Production-onboarded with adoption limits",
+      "variants": [
+        "Earlier dossier: onboarding pending",
+        "Later master resume: production-onboarded"
+      ],
+      "resolution": "Use the later source for onboarding status; do not infer company-wide adoption or ROI."
+    }
+  ]
+}
