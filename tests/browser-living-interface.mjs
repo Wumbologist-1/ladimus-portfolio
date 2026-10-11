@@ -76,9 +76,9 @@ await send('Page.bringToFront');
 await send('Page.addScriptToEvaluateOnNewDocument', { source: `
 window.__signalStrokes=0;window.__longTasks=[];window.__draws=0;window.__cost=[];window.__commits=0;window.__canvasStats=new Map();window.__pendingFrames=new Set();window.__shifts=0;
 const clear=CanvasRenderingContext2D.prototype.clearRect;
-CanvasRenderingContext2D.prototype.clearRect=function(...args){__draws++;const old=__canvasStats.get(this.canvas);__canvasStats.set(this.canvas,{draws:(old?.draws||0)+1,nodes:0,signalSegments:0,positions:[],light:0});return clear.apply(this,args)};
+CanvasRenderingContext2D.prototype.clearRect=function(...args){__draws++;const old=__canvasStats.get(this.canvas);__canvasStats.set(this.canvas,{draws:(old?.draws||0)+1,nodes:0,signalsTotal:old?.signalsTotal||0,signalSegments:0,positions:[],light:0});return clear.apply(this,args)};
 const stroke=CanvasRenderingContext2D.prototype.stroke;
-CanvasRenderingContext2D.prototype.stroke=function(...args){if(this.lineWidth===2){window.__signalStrokes++;const s=__canvasStats.get(this.canvas);if(s)s.signalSegments++}return stroke.apply(this,args)};
+CanvasRenderingContext2D.prototype.stroke=function(...args){if(this.lineWidth===2){window.__signalStrokes++;const s=__canvasStats.get(this.canvas);if(s){s.signalSegments++;s.signalsTotal++}}return stroke.apply(this,args)};
 const arc=CanvasRenderingContext2D.prototype.arc;
 CanvasRenderingContext2D.prototype.arc=function(...args){if(args[2]<=2.2){const s=__canvasStats.get(this.canvas);s.nodes++;s.positions.push([args[0],args[1]]);s.light+=this.globalAlpha;}return arc.apply(this,args)};
 const raf=window.requestAnimationFrame,cancel=window.cancelAnimationFrame;
@@ -99,9 +99,11 @@ try {
         controls:document.querySelectorAll('[data-motion-control]').length,
         covered:[...document.querySelectorAll('header a,main section:first-child a')].filter(a=>{const r=a.getBoundingClientRect();return r.top>=0&&r.bottom<innerHeight&&!a.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2))}).map(a=>a.textContent),
         proofCanvas:!!document.querySelector('#proof canvas'),
+        motionCoversCopy:(()=>{const c=document.querySelector('[data-motion-control]').getBoundingClientRect();return [...document.querySelectorAll('main section:first-child p, main section:first-child a')].some(e=>{const r=e.getBoundingClientRect();return r.top<innerHeight&&r.bottom>0&&c.left<r.right&&c.right>r.left&&c.top<r.bottom&&c.bottom>r.top})})(),
         title:document.querySelector('h1').textContent
       }))()`);
       assert.equal(state.overflow, false); assert.equal(state.controls, 1); assert.equal(state.proofCanvas, false); assert.deepEqual(state.covered, []);
+      assert.equal(state.motionCoversCopy, false, 'Motion control does not cover copy or links');
       for (const canvas of state.canvas) { assert.ok(canvas.ratio <= 1.501); assert.equal(canvas.hidden, 'true'); assert.equal(canvas.pointer, 'none'); }
       assert.ok(state.canvas[0].nodes === 18 || state.canvas[0].nodes === 39);
       if (width < 768) { assert.equal(state.canvas[0].nodes, 18); assert.ok(state.canvas[0].ratio <= 1.001); }
@@ -120,7 +122,7 @@ try {
   record('Stable React commits, layout, and one shared frame');
   record('Shared draw callback cost (ms)', await evaluate('({samples:__cost.length,mean:__cost.reduce((a,b)=>a+b,0)/__cost.length,max:Math.max(...__cost),p95:[...__cost].sort((a,b)=>a-b)[Math.floor(__cost.length*.95)]})'));
 
-  assert.ok(await evaluate('document.querySelector("[data-ladimus-core]")'));
+  assert.ok(await evaluate('Boolean(document.querySelector("[data-ladimus-core]"))'));
   assert.ok(await evaluate('document.body.textContent.includes("0.5")'));
   await screenshot('hero-before');
   const empty = await evaluate(`(()=>{const r=document.querySelector('main section').getBoundingClientRect();return {x:innerWidth*.17,y:r.top+14}})()`);
@@ -209,9 +211,14 @@ try {
   for (const capture of captures) {
     assert.equal(capture.target, '_blank');
     const response = await fetch(capture.href); assert.equal(response.status, 200); assert.ok(response.headers.get('content-type').startsWith('image/'));
-    await evaluate(`[...document.querySelectorAll('#proof a')].find(a=>a.href===${JSON.stringify(capture.href)}).click()`);
-    await wait(200);
-    const opened = (await (await fetch(`${endpoint}/json`)).json()).find(item => item.url === capture.href);
+    await evaluate(`[...document.querySelectorAll('#proof a')].find(a=>a.href===${JSON.stringify(capture.href)}).scrollIntoView({block:'center'})`);
+    const capturePoint = await evaluate(`(()=>{const r=[...document.querySelectorAll('#proof a')].find(a=>a.href===${JSON.stringify(capture.href)}).getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height/2}})()`);
+    await clickSpace(capturePoint);
+    let opened;
+    for (let attempt = 0; attempt < 30 && !opened; attempt++) {
+      await wait(100);
+      opened = (await (await fetch(`${endpoint}/json`)).json()).find(item => item.url === capture.href);
+    }
     assert.ok(opened, 'Full-size capture opened');
     await send('Target.closeTarget', { targetId: opened.id });
   }
@@ -235,6 +242,8 @@ try {
     const detached = await evaluate('[...__canvasStats].filter(([c])=>!c.isConnected).map(([,s])=>s.draws)');
     await wait(200); assert.deepEqual(await evaluate('[...__canvasStats].filter(([c])=>!c.isConnected).map(([,s])=>s.draws)'), detached);
     await evaluate(`document.querySelector('main a[href="/work"]').click()`); await until('location.pathname==="/work" && document.querySelectorAll("canvas").length===2');
+    await evaluate('document.querySelector("article a").click()');
+    await until('location.pathname==="/projects/ladimus-review" && document.querySelectorAll("canvas").length===2');
   }
   record('Three client navigation/remount cycles, detached canvas cleanup, single shared loop');
 
@@ -263,16 +272,16 @@ try {
     await wait(2200);
     const point = await evaluate(`(()=>{const r=document.querySelector('main section').getBoundingClientRect();return {x:innerWidth*.17,y:r.top+12}})()`);
     const touch = (type,x,y) => send('Input.dispatchTouchEvent',{type,touchPoints:type==='touchEnd'?[]:[{x,y,id:1}]});
-    const baseline = await evaluate('__signalStrokes');
+    const baseline = await evaluate('__canvasStats.get(document.querySelector("canvas")).signalsTotal');
     await touch('touchStart',point.x,point.y); await touch('touchEnd'); await wait(350);
-    assert.ok(await evaluate('__signalStrokes') > baseline, 'Touch dispatch '+width);
+    assert.ok(await evaluate('__canvasStats.get(document.querySelector("canvas")).signalsTotal') > baseline, 'Touch dispatch '+width);
     await wait(3000);
-    const start = await evaluate('__signalStrokes');
+    const start = await evaluate('__canvasStats.get(document.querySelector("canvas")).signalsTotal');
     await touch('touchStart',point.x,point.y+250);
     for(let step=1;step<=5;step++){await touch('touchMove',point.x,point.y+250-step*30);await wait(25);}
     await touch('touchEnd'); await wait(300);
     assert.ok(await evaluate('scrollY')>0, 'Native touch scroll');
-    assert.equal(await evaluate('__signalStrokes'),start,'Scroll does not dispatch');
+    assert.equal(await evaluate('__canvasStats.get(document.querySelector("canvas")).signalsTotal'),start,'Scroll does not dispatch');
     record('Touch '+width+'px: compact, tap dispatch, native scroll without accidental signal');
   }
   await send('Emulation.setTouchEmulationEnabled', { enabled: false });

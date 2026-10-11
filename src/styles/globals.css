@@ -12,6 +12,10 @@ html {
   scroll-padding-block-end: 5rem;
 }
 
+@media (max-width: 47.99rem) {
+  html { scroll-padding-block-start: 10rem; }
+}
+
 body {
   margin: 0;
   color: var(--color-text);

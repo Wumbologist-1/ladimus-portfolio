@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { site } from "@/config/site";
+import { MotionControl } from "@/features/living-interface/living-interface";
 import styles from "./site-header.module.css";
 
 export function SiteHeader() {
@@ -17,6 +18,7 @@ export function SiteHeader() {
             ))}
           </ul>
         </nav>
+        <div className={styles.motionSlot}><MotionControl /></div>
       </Container>
     </header>
   );

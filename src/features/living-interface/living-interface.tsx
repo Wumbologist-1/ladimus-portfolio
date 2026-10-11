@@ -56,6 +56,6 @@ export function MotionControl() {
   if (!available) return null;
   return <button type="button" className={styles.control} onClick={toggleMotion} aria-label={paused ? "Resume ambient motion" : "Pause ambient motion"} data-motion-control>
     <span aria-hidden="true" className={styles.indicator}>{paused ? "▷" : "Ⅱ"}</span>
-    {paused ? "Resume motion" : "Pause motion"}
+    <span className={styles.controlLabel}>{paused ? "Resume motion" : "Pause motion"}</span>
   </button>;
 }

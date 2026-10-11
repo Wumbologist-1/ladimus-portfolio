@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { site } from "@/config/site";
-import { MotionControl } from "@/features/living-interface/living-interface";
 import "@/styles/globals.css";
 import styles from "./layout.module.css";
 
@@ -29,7 +28,6 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <SiteHeader />
         <main id="main-content" tabIndex={-1} className={styles.main}>{children}</main>
         <SiteFooter />
-        <MotionControl />
       </body>
     </html>
   );

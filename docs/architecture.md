@@ -97,6 +97,8 @@ Pause blocks all input-driven animation as well as ambient motion. Runtime dispo
 clears signals, observers, and listeners. React never owns frame or signal state.
 
 A shared Pause / Resume motion control persists the preference in session storage.
+On narrow screens it occupies a reserved sticky-header slot, so the control cannot
+float over body copy. Its accessible name identifies the current action.
 Offscreen regions and hidden documents suspend animation. Compact/coarse-pointer
 budgets reduce nodes, pixel ratio, and movement; sustained expensive frames trigger
 a one-way performance downgrade. Backing-store area is capped.
