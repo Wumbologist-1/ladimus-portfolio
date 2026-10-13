@@ -35,7 +35,8 @@ function qualifiedTechnologyReference(clause:string,term:string,packet:EvidenceP
   if(!packet.technology_context.some(t=>t.name.toLowerCase()===term.toLowerCase()||has(t.requirements,term))) return false;
   const name=escape(term);
   const attributed=new RegExp(`(?:\\b(?:uses?|used|knows?|knew|built|builds?|adopted|integrated|implemented|deployed|managed|operated|mastered|configured|provisioned)\\s+(?:professional(?:ly)?\\s+)?${name}|\\b(?:experience|experienced|expertise|proficiency|skilled|proficient|built|builds?|configured|provisioned|work(?:s|ed|ing)?)\\s+(?:professionally\\s+)?(?:with|in|using|on)\\s+${name}|${name}[- ](?:experience|expertise|proficiency)|\\b(?:expert|proficient)\\b.{0,25}${name})`,"i");
-  const futureLearning=/\b(?:would|still|need).{0,40}(?:learn|demonstrate|establish)\b/i.test(clause);
+  const futureLearning=/\b(?:would|still|need).{0,40}(?:learn|demonstrate|establish|gain|acquire|develop)\b/i.test(clause)
+    || new RegExp(`\\b(?:would\\s+(?:still\\s+)?need|still\\s+needs?|needs?)\\b.{0,45}(?:experience|proficiency)\\s+(?:with|in|using)\\s+${name}`,"i").test(clause);
   const learning=futureLearning||/transfer|maps? to|relevant to/i.test(clause);
   if(new RegExp(`${name}[- ](?:experience|expertise|proficiency)`,"i").test(clause)&&!futureLearning) return false;
   // A future learning requirement does not assert current expertise. Explicit

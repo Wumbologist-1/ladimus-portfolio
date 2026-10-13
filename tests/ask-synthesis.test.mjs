@@ -126,6 +126,12 @@ test('a target role or learning gap is not a positive guarded-tool experience as
  for(const text of ['Luis used Pulumi in a role with adjacent Azure skills.','His Pulumi experience transfers to Azure.','Luis has professional experience with Pulumi and adjacent cloud background.','Luis is proficient in Pulumi for this role.','Luis built with Pulumi for an adjacent cloud role.','Luis built Pulumi infrastructure for an adjacent role.','Luis works with Pulumi in an adjacent cloud role.']) assert.throws(()=>groundAnswer(make(text,['system-azure-environments--1'],'transferable',p),p));
 });
 
+test('future guarded-tool experience requirements do not authorize existing experience',()=>{
+ const p=packet(acceptanceQuestions[0]);
+ for(const text of ['Luis would need hands-on experience with Pulumi.','Luis still needs to gain practical experience with Pulumi.','Luis would need to acquire Pulumi-specific proficiency.']) assert.equal(groundAnswer(make(text,['system-azure-environments--1'],'limitation',p),p).claims.length,1);
+ for(const text of ['Luis used Pulumi and would still need to gain deeper proficiency.','Luis has experience with Pulumi and needs more practice.']) assert.throws(()=>groundAnswer(make(text,['system-azure-environments--1'],'limitation',p),p));
+});
+
 test('deterministic correction gets only a bounded parsed draft, never a provider payload',async()=>{
  let correction,calls=0;const r=await answerQuery('Azure',options({generate:async(p,_s,c)=>{calls++;correction=c;return calls===1?make('Luis has 9 years of Azure experience.'):output(p);}}));
  assert.equal(r.outcome,'answered');assert.equal(calls,2);assert.equal(correction.code,'unsupported_number');assert.equal(correction.numeric_atom,'9');assert.equal(correction.rejected_answer.length,1);
