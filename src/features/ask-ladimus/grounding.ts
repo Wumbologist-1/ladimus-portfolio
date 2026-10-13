@@ -1,7 +1,7 @@
 import type { EvidencePacket, AnswerClaim, AnswerStyle, ClaimKind } from "./contracts.ts";
 import { mentionsEntity } from "./entities.ts";
 
-export type ValidationCode = "invalid_structure" | "uncited_person_claim" | "unsupported_date" | "unsupported_technology" | "unsupported_number" | "unsupported_duration" | "unsupported_title" | "guarded_technology" | "maturity_upgrade" | "forbidden_claim" | "known_skill_false_negative" | "packet_absence_contradiction" | "unsupported_autonomy" | "invalid_citations" | "answer_too_large" | "invalid_follow_up" | "invalid_verification" | "unsupported_semantics";
+export type ValidationCode = "invalid_structure" | "invalid_answer_envelope" | "invalid_answer_unit" | "invalid_follow_up_count" | "duplicate_answer_unit" | "uncited_person_claim" | "unsupported_date" | "unsupported_technology" | "unsupported_number" | "unsupported_duration" | "unsupported_title" | "guarded_technology" | "maturity_upgrade" | "forbidden_claim" | "known_skill_false_negative" | "packet_absence_contradiction" | "unsupported_autonomy" | "invalid_citations" | "answer_too_large" | "invalid_follow_up" | "invalid_verification" | "unsupported_semantics";
 export class SynthesisValidationError extends Error {
   code:ValidationCode; atom?:string; unit?:number; technology?:string;
   constructor(code:ValidationCode,atom?:string,unit?:number) {
@@ -54,6 +54,14 @@ function assessmentTargetRole(clause:string,title:string,kind:ClaimKind) {
     &&!/(?:\btitle\b|(?:was|is|became|served as|worked as|promoted to)\s+(?:a\s+|an\s+)?)$/i.test(before.trim());
 }
 function validateCriticalClaims(claim:AnswerClaim, packet:EvidencePacket) {
+  const rejectTechnology=(term:string):never=>{
+    const cause=new SynthesisValidationError("unsupported_technology");
+    // Only canonical packet terms may reach a correction/event, never an
+    // arbitrary rejected token that could carry model output or private text.
+    const canonical=packet.known_technologies.find(t=>has(t,term));
+    if(canonical) cause.technology=canonical;
+    throw cause;
+  };
   const presentIds=new Set(packet.items.map(i=>i.id));
   const names=[...(packet.entities??[]).filter(e=>e.evidence_ids.some(id=>presentIds.has(id))).flatMap(e=>e.aliases),
     ...packet.items.map(i=>i.title),...packet.direct_skills.filter(s=>s.evidence_ids.some(id=>presentIds.has(id))&&!/not established|unsupported|no evidence/i.test(s.level)).map(s=>s.skill)];
@@ -90,7 +98,7 @@ function validateCriticalClaims(claim:AnswerClaim, packet:EvidencePacket) {
       if(!has(source,date[0])&&!source.includes(`${date[2]}-${month}`)) reject("unsupported_date");
     }
     for(const token of clause.matchAll(/\b[A-Z][a-z]+(?:[A-Z][a-zA-Z0-9]+)+\b/g)) {
-      if(token[0]!=="DevOps"&&!has(source+" "+linkedSkills,token[0])&&!qualifiedTechnologyReference(clause,token[0],packet,claim.kind)) reject("unsupported_technology");
+      if(token[0]!=="DevOps"&&!has(source+" "+linkedSkills,token[0])&&!qualifiedTechnologyReference(clause,token[0],packet,claim.kind)) rejectTechnology(token[0]);
     }
     // Public citation identifiers carry digits but are not numeric career
     // claims. Ignore only exact IDs already cited by this unit, never unknown
@@ -116,7 +124,7 @@ function validateCriticalClaims(claim:AnswerClaim, packet:EvidencePacket) {
       }
     }
     for(const term of packet.known_technologies.flatMap(s=>s.split(/\s*\/\s*/)).filter(s=>s.length>1)) {
-      if((term!=="Go"||/\bGo\b/.test(clause))&&has(clause,term)&&!has(source+" "+linkedSkills,term)&&!qualifiedTechnologyReference(clause,term,packet,claim.kind)) reject("unsupported_technology");
+      if((term!=="Go"||/\bGo\b/.test(clause))&&has(clause,term)&&!has(source+" "+linkedSkills,term)&&!qualifiedTechnologyReference(clause,term,packet,claim.kind)) rejectTechnology(term);
     }
     if(/\b(?:deployed|productionized|production(?: service| platform| system| adoption| deployment)|(?:used|ran|runs|running|served|operat(?:es|ed|ing)).{0,55} in production)\b/i.test(clause)) {
       const allowed=cited.some(i=>["production_verified","production_onboarded_with_adoption_limits","documented_experience"].includes(i.maturity));
@@ -130,18 +138,22 @@ function validateCriticalClaims(claim:AnswerClaim, packet:EvidencePacket) {
       if(has(clause,term)&&!negative(clause,term)) reject("forbidden_claim");
     }
     for(const skill of packet.direct_skills.filter(s=>/hands-on professional/i.test(s.level))) {
-      if(has(clause,skill.skill)&&/(?:no|not|insufficient|lack).{0,65}(?:professional|experience|evidence)|(?:experience|evidence).{0,65}not (?:documented|established)/i.test(clause)) reject("known_skill_false_negative");
+      const n=escape(skill.skill),qualifiers="(?:(?:documented|professional|hands-on|direct|real)\\s+){0,4}";
+      const denial=new RegExp(`(?:\\b(?:no|without|lacks?|lacking|insufficient)\\s+${qualifiers}${n}\\s+(?:professional\\s+)?(?:experience|use|usage)\\b|\\b(?:no|insufficient)\\s+${qualifiers}(?:experience|evidence)\\s+(?:with|for|of)\\s+${qualifiers}${n}\\b|${n}\\s+${qualifiers}(?:experience|use|usage)\\s+(?:(?:is|was|has been)\\s+)?(?:not (?:documented|established|supported)|absent|missing|unestablished)\\b|${n}\\s+(?:is|was)\\s+not\\s+(?:a\\s+)?${qualifiers}(?:skill|capability|experience)\\b)`,"i");
+      if(denial.test(clause)) reject("known_skill_false_negative");
     }
   }
 }
 
 export function parseAnswer(output:unknown, packet:EvidencePacket):{claims:AnswerClaim[];followUps:string[];style:AnswerStyle} {
-  if(!object(output)||Object.keys(output).some(k=>!["style","answer","follow_ups"].includes(k))||!Array.isArray(output.answer)||!Array.isArray(output.follow_ups)||!["paragraphs","list"].includes(String(output.style))) return reject();
-  if(!output.answer.length||output.answer.length>(output.style==="list"?8:5)||output.follow_ups.length>3||output.follow_ups.length<Math.min(2,packet.follow_up_candidates.length)) return reject();
+  if(!object(output)||Object.keys(output).some(k=>!["style","answer","follow_ups"].includes(k))||!Array.isArray(output.answer)||!Array.isArray(output.follow_ups)||!["paragraphs","list"].includes(String(output.style))) return reject("invalid_answer_envelope");
+  if(!output.answer.length||output.answer.length>(output.style==="list"?8:5)) return reject("invalid_answer_envelope");
+  if(output.follow_ups.length>3||output.follow_ups.length<Math.min(2,packet.follow_up_candidates.length)) return reject("invalid_follow_up_count");
   const ids=new Set(packet.items.map(c=>c.id)), seen=new Set<string>();
-  const claims:AnswerClaim[]=output.answer.map(item=>{
-    if(!object(item)||Object.keys(item).some(k=>!["text","evidence_ids","kind"].includes(k))||typeof item.text!=="string"||!kinds.has(item.kind as ClaimKind)||!Array.isArray(item.evidence_ids)||item.evidence_ids.length>5) return reject();
-    if(!item.text.trim()||item.text.length>1800||/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(item.text)||seen.has(item.text)||(!item.evidence_ids.length&&item.kind!=="general_technology")) return reject();
+  const claims:AnswerClaim[]=output.answer.map((item,index)=>{
+    if(!object(item)||Object.keys(item).some(k=>!["text","evidence_ids","kind"].includes(k))||typeof item.text!=="string"||!kinds.has(item.kind as ClaimKind)||!Array.isArray(item.evidence_ids)||item.evidence_ids.length>5) return reject("invalid_answer_unit",undefined,index);
+    if(!item.text.trim()||item.text.length>1800||/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(item.text)||(!item.evidence_ids.length&&item.kind!=="general_technology")) return reject("invalid_answer_unit",undefined,index);
+    if(seen.has(item.text)) return reject("duplicate_answer_unit",undefined,index);
     if(item.evidence_ids.some(id=>typeof id!=="string"||!ids.has(id))||new Set(item.evidence_ids).size!==item.evidence_ids.length) return reject("invalid_citations");
     seen.add(item.text);
     const claim={text:item.text,evidence_ids:item.evidence_ids as string[],kind:item.kind as ClaimKind};
@@ -152,7 +164,7 @@ export function parseAnswer(output:unknown, packet:EvidencePacket):{claims:Answe
     if(typeof q!=="string"||!packet.follow_up_candidates.includes(q)) return reject("invalid_follow_up");
     return q;
   });
-  if(new Set(followUps).size!==followUps.length) return reject();
+  if(new Set(followUps).size!==followUps.length) return reject("invalid_follow_up");
   return {claims,followUps,style:output.style as AnswerStyle};
 }
 

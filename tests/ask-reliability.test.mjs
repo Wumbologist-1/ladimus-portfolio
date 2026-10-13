@@ -152,3 +152,16 @@ test('assessment of a target role is separate from claiming Luis held its title'
  assert.equal(groundAnswer(author(p,'The documented delivery work supports alignment with an AI Platform Engineer role, subject to its specific requirements.'),p).claims.length,1);
  for(const text of ['Luis was an AI Platform Engineer.','Luis is a Senior Platform Engineer.','Luis became a Senior Platform Engineer role specialist.']) assert.throws(()=>groundAnswer(author(p,text),p));
 });
+
+test('known skill protection distinguishes direct absence from analytical depth limitations',()=>{
+ const p=packet(acceptanceQuestions[1]),ids=['system-ai-code-gating--1','system-ai-code-gating--3'];
+ for(const text of ['GitHub Actions is not merely a listed skill: the documented workflows show professional experience in CI/CD.','GitHub Actions has documented professional experience, though experience with every feature is not documented.']) assert.equal(groundAnswer(author(p,text,'assessment',ids),p).claims.length,1);
+ for(const text of ['There is no professional GitHub Actions experience documented.','Luis has no professional experience with GitHub Actions.','GitHub Actions experience is not established.','Luis lacks professional GitHub Actions experience.']) assert.throws(()=>groundAnswer(author(p,text,'limitation',ids),p));
+});
+
+test('structural diagnosis and technology context remain finite without rejected text',()=>{
+ const p=packet('Azure'),good=output(p);
+ for(const [bad,code] of [[{},'invalid_answer_envelope'],[{...good,follow_ups:[]},'invalid_follow_up_count'],[{...good,answer:[{...good.answer[0],kind:'raw-secret-kind'}]},'invalid_answer_unit'],[{...good,answer:[good.answer[0],good.answer[0]]},'duplicate_answer_unit']]) assert.throws(()=>groundAnswer(bad,p),e=>e.code===code&&!JSON.stringify(e).includes('raw-secret'));
+ assert.throws(()=>groundAnswer(author(p,'Luis uses LangGraph professionally.','direct',['system-azure-environments--1']),p),e=>e.code==='unsupported_technology'&&e.technology==='LangGraph');
+ assert.throws(()=>groundAnswer(author(p,'Luis uses SecretModelPayload professionally.','direct',['system-azure-environments--1']),p),e=>e.code==='unsupported_technology'&&e.technology===undefined);
+});

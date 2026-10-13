@@ -59,3 +59,13 @@ test('provider distinguishes incomplete output and expressly verifies assessment
  assert.ok(requests[0].response_format.json_schema.schema.properties.answer.items.properties.kind.enum.includes('assessment'));
  assert.match(requests[0].messages[0].content,/bounded professional judgment/);assert.match(requests[1].messages[0].content,/need not occur verbatim/);assert.match(requests[1].messages[0].content,/every factual premise/);assert.match(requests[1].messages[0].content,/material limitations/);assert.match(requests[1].messages[0].content,/Do not rewrite or promote/);
 });
+
+test('strict author schema constrains follow-up count and approved candidates without prescribing answer prose',async()=>{
+ for(const candidates of [p.follow_up_candidates,[]]) {
+  let request;const provider=load(async(_url,init)=>{request=JSON.parse(init.body);return response(output(p));},{ASK_LADIMUS_MODEL:'gpt-6-luna',ASK_LADIMUS_API_KEY:'test-key'});
+  await provider.generateGroundedAnswer({...p,follow_up_candidates:candidates},new AbortController().signal);
+  const properties=request.response_format.json_schema.schema.properties,follow=properties.follow_ups;
+  assert.equal(follow.minItems,Math.min(2,candidates.length));assert.equal(follow.maxItems,Math.min(3,candidates.length));assert.deepEqual(follow.items.enum,candidates.length?candidates:undefined);
+  assert.equal(properties.answer.items.properties.text.enum,undefined);
+ }
+});

@@ -284,8 +284,8 @@ buckets; three active requests per instance; five evidence chunks; five explanat
 paragraphs or eight list units; 1,800 characters/unit and 5,000 answer characters;
 1,700 generation and 1,100 verification completion tokens per call; two generation
 and two verification calls maximum; 27-second service total including retrieval;
-14-second initial generation and 10-second initial verification limits; 6 seconds
-each for corrective generation/verification, attempted only with at least 12.5
+14-second initial generation and 10-second initial verification limits; 9-second
+corrective generation and 7-second corrective verification, only with at least 16.5
 seconds remaining (including 500ms response headroom); 29-second client timeout;
 30-second route budget. All stage timers also respect remaining total time.
 Stage completion or cancellation clears timers and releases abort listeners;
@@ -305,6 +305,10 @@ Internal telemetry adds an explicit finite `failure` classification:
 failures without logging prompts, responses, private evidence, credentials or
 reasoning. The existing redaction and metadata whitelist still apply; skipped
 corrections have their own stage and do not masquerade as started model calls.
+Structural rejection codes distinguish malformed envelopes, answer units,
+follow-up counts and duplicate units. Technology hints contain only canonical
+packet terms, never arbitrary rejected tokens. Known-skill absence guards bind
+the denial to the skill rather than treating nearby depth limitations as absence.
 
 Required server-only production configuration:
 
