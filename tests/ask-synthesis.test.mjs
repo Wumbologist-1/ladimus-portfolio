@@ -88,6 +88,15 @@ test('rendered paragraphs/lists preserve inspectable per-unit citations',()=>{
  }
 });
 
+test('assessment units are visibly distinguished from factual units while retaining citations',()=>{
+ const claim={text:'The documented safeguards support confidence in bounded workflow design.',kind:'assessment',evidence_ids:['system-azure-environments--1']};
+ for(const style of ['paragraphs','list']) {
+  const html=renderToStaticMarkup(React.createElement(compiled.exports.AnswerPassages,{claims:[claim],style,evidence:azure.items,id:'assessment'}));
+  assert.match(html,/Evidence-derived assessment:/);assert.match(html,/Evidence [1-5] for passage 1/);
+  const direct=renderToStaticMarkup(React.createElement(compiled.exports.AnswerPassages,{claims:[{...claim,kind:'direct'}],style,evidence:azure.items,id:'direct'}));assert.ok(!direct.includes('Evidence-derived assessment:'));
+ }
+});
+
 test('guard terms inside negative source qualifiers never authorize positive adoption or ROI',()=>{
  const p=packet('PR Assistant');
  for(const text of ['PR Assistant achieved company-wide adoption.','PR Assistant delivered ROI.']) assert.throws(()=>groundAnswer(make(text,['system-pr-assistant--1'],'direct',p),p));

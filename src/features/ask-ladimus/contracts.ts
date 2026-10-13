@@ -12,11 +12,14 @@ export type ClaimGuards = {
   conflicts: { topic: string; canonical: string; variants: string[]; resolution: string }[];
 };
 export type Evidence = { id: string; recordId: string; label: string; category: string; status: string; excerpt: string; qualifiers: string[] };
-export type ClaimKind = "direct" | "synthesis" | "transferable" | "limitation" | "general_technology";
+export type ClaimKind = "direct" | "synthesis" | "assessment" | "transferable" | "limitation" | "general_technology";
+export type EvidenceEntity = {record_id:string;title:string;aliases:string[];evidence_ids:string[]};
 export type AnswerClaim = { text: string; evidence_ids: string[]; kind: ClaimKind };
 export type SynthesisCorrection = {code:string; unit?:number; numeric_atom?:string; technology?:string; rejected_answer?:AnswerClaim[]};
 export type EvidencePacket = {
   question: string;
+  analysis_mode?: "synthesis" | "comparison" | "assessment";
+  entities?: EvidenceEntity[];
   items: {id:string; title:string; category:string; organization:string; timeframe:string; maturity:string; facts:string[]; qualifiers:string[]}[];
   direct_skills: Skill[]; transferable_skills: Skill[];
   unsupported_requirements: string[];

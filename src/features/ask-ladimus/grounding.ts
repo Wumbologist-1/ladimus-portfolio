@@ -1,6 +1,7 @@
 import type { EvidencePacket, AnswerClaim, AnswerStyle, ClaimKind } from "./contracts.ts";
+import { mentionsEntity } from "./entities.ts";
 
-export type ValidationCode = "invalid_structure" | "uncited_person_claim" | "unsupported_date" | "unsupported_technology" | "unsupported_number" | "unsupported_duration" | "unsupported_title" | "guarded_technology" | "maturity_upgrade" | "forbidden_claim" | "known_skill_false_negative" | "invalid_citations" | "answer_too_large" | "invalid_follow_up" | "invalid_verification" | "unsupported_semantics";
+export type ValidationCode = "invalid_structure" | "uncited_person_claim" | "unsupported_date" | "unsupported_technology" | "unsupported_number" | "unsupported_duration" | "unsupported_title" | "guarded_technology" | "maturity_upgrade" | "forbidden_claim" | "known_skill_false_negative" | "packet_absence_contradiction" | "unsupported_autonomy" | "invalid_citations" | "answer_too_large" | "invalid_follow_up" | "invalid_verification" | "unsupported_semantics";
 export class SynthesisValidationError extends Error {
   code:ValidationCode; atom?:string; unit?:number; technology?:string;
   constructor(code:ValidationCode,atom?:string,unit?:number) {
@@ -11,7 +12,7 @@ export class SynthesisValidationError extends Error {
 }
 const reject = (code:ValidationCode="invalid_structure",atom?:string,unit?:number): never => { throw new SynthesisValidationError(code,atom,unit); };
 const object = (value:unknown):value is Record<string,unknown> => Boolean(value&&typeof value==="object"&&!Array.isArray(value));
-const kinds=new Set<ClaimKind>(["direct","synthesis","transferable","limitation","general_technology"]);
+const kinds=new Set<ClaimKind>(["direct","synthesis","assessment","transferable","limitation","general_technology"]);
 const escape=(s:string)=>s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
 const has=(text:string,term:string)=>new RegExp(`(?<![a-z0-9])${escape(term)}(?![a-z0-9])`,"i").test(text);
 const numbers=(s:string)=>s.replace(/(?<=\d),(?=\d)/g,"").match(/(?<![a-z])\d+(?:\.\d+)?(?:%?)(?![a-z])/gi)?.map(n=>n.replace(/%$/,""))??[];
@@ -46,7 +47,22 @@ function qualifiedTechnologyReference(clause:string,term:string,packet:EvidenceP
   if(["transferable","limitation","general_technology"].includes(kind)) return true;
   return /transfer|adjacent|background|relevant|applicab|relat|align|competenc|learning|remaining gap|(?:would|still|need).{0,40}(?:learn|demonstrate|establish)|(?:based|specific) role/i.test(clause);
 }
+function assessmentTargetRole(clause:string,title:string,kind:ClaimKind) {
+  if(kind!=="assessment") return false;
+  const at=clause.indexOf(title),before=clause.slice(Math.max(0,at-100),at),after=clause.slice(at+title.length);
+  return /^\s+(?:role|position)\b/i.test(after)&&/\b(?:fit|align(?:ment|s)?|suitability|consider(?:ing|ed)?|ramp.up)\b/i.test(before)
+    &&!/(?:\btitle\b|(?:was|is|became|served as|worked as|promoted to)\s+(?:a\s+|an\s+)?)$/i.test(before.trim());
+}
 function validateCriticalClaims(claim:AnswerClaim, packet:EvidencePacket) {
+  const presentIds=new Set(packet.items.map(i=>i.id));
+  const names=[...(packet.entities??[]).filter(e=>e.evidence_ids.some(id=>presentIds.has(id))).flatMap(e=>e.aliases),
+    ...packet.items.map(i=>i.title),...packet.direct_skills.filter(s=>s.evidence_ids.some(id=>presentIds.has(id))&&!/not established|unsupported|no evidence/i.test(s.level)).map(s=>s.skill)];
+  for(const name of names.filter(n=>n.length>3&&mentionsEntity(claim.text,n))) {
+    const n=escape(name);
+    const absentAfter=new RegExp(`${n}\\s+(?:(?:is|was|are)\\s+)?(?:not\\s+(?:separately\\s+)?(?:described|included|present|represented|contained|in (?:the )?(?:supplied|provided|current) evidence)|(?:absent|missing)\\s+from (?:the )?(?:packet|evidence))`,"i");
+    const absentBefore=new RegExp(`(?:no evidence (?:for|of)|(?:packet|(?:supplied|provided|current) evidence)\\s+(?:does not|doesn't)\\s+(?:contain|include|describe))\\s+(?:the\\s+)?${n}`,"i");
+    if(absentAfter.test(claim.text)||absentBefore.test(claim.text)) reject("packet_absence_contradiction");
+  }
   const cited=packet.items.filter(i=>claim.evidence_ids.includes(i.id));
   const source=cited.map(i=>[i.title,i.organization.replace(/ROM Technologies(?:, Inc\.)?/i,"ROMTech"),i.timeframe,...i.facts].join(" ")).join(" ");
   for(const reference of claim.text.matchAll(/\b[a-z][a-z0-9-]*--\d{1,3}\b/g)) {
@@ -63,6 +79,11 @@ function validateCriticalClaims(claim:AnswerClaim, packet:EvidencePacket) {
   }
   const clauses=claim.text.split(/(?<=[.!?])\s+|;|\bbut\b|\bhowever\b/i);
   for(const clause of clauses) {
+    // An assessment label cannot grant authority absent from the cited record.
+    const autonomy=/\b(?:fully autonomous|unrestricted|unsupervised|without (?:human )?(?:approval|review|oversight))\b/i.exec(clause);
+    if(autonomy&&/\b(?:production|code|agents?)\b/i.test(clause)&&!negative(clause,autonomy[0])) {
+      if(!has(source,autonomy[0])||/\b(?:Luis|he|his)\b/i.test(clause)&&!cited.some(i=>i.facts.some(f=>has(f,autonomy[0])&&!negative(f,autonomy[0])))) reject("unsupported_autonomy");
+    }
     const months=["January","February","March","April","May","June","July","August","September","October","November","December"];
     for(const date of clause.matchAll(/\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+(20\d{2})\b/gi)) {
       const month=String(months.findIndex(m=>m.toLowerCase()===date[1]?.toLowerCase())+1).padStart(2,"0");
@@ -84,10 +105,10 @@ function validateCriticalClaims(claim:AnswerClaim, packet:EvidencePacket) {
     }
     // Seniority guards are case-insensitive: typography cannot authorize a title.
     for(const match of clause.matchAll(/\b(?:senior|principal|staff|lead|chief)\s+(?:[a-z]+\s+){0,3}(?:engineer|officer)\b/gi)) {
-      if(!negative(clause,match[0])&&!cited.some(i=>i.category==="employment"&&has(i.title,match[0]))) reject("unsupported_title");
+      if(!negative(clause,match[0])&&!assessmentTargetRole(clause,match[0],claim.kind)&&!cited.some(i=>i.category==="employment"&&has(i.title,match[0]))) reject("unsupported_title");
     }
     for(const match of clause.matchAll(/\b(?:(?:Senior|Principal|Staff|Lead|Chief)\s+(?:[A-Za-z]+\s+){0,3}(?:Engineer|Officer)|(?:Platform|Software|Machine Learning|AI|DevOps|Systems|Backend|QA|Data|Security|Cloud) Engineer|(?:[A-Z][A-Za-z]+\s+){0,3}(?:Analyst|Manager|Director|Architect|Officer))\b/g)) {
-      if(!negative(clause,match[0])&&!cited.some(i=>i.category==="employment"&&has(i.title,match[0]))) reject("unsupported_title");
+      if(!negative(clause,match[0])&&!assessmentTargetRole(clause,match[0],claim.kind)&&!cited.some(i=>i.category==="employment"&&has(i.title,match[0]))) reject("unsupported_title");
     }
     for(const term of packet.guarded_technologies) {
       if(has(clause,term)&&!qualifiedTechnologyReference(clause,term,packet,claim.kind)) {

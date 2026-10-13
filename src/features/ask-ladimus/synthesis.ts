@@ -1,4 +1,8 @@
 import type { EvidenceChunk } from "./contracts.ts";
+export function analysisMode(query:string):"synthesis"|"comparison"|"assessment" {
+  if(/\bcompare\b|across all|shared philosophy/i.test(query)) return "comparison";
+  return /\btrust\b|strong fit|considering|ramp.up|align|end.to.end|ownership/i.test(query)?"assessment":"synthesis";
+}
 export function synthesisIntent(query: string) {
   const q = query.normalize("NFKC").toLowerCase();
   if (/more than|beyond|traditional devops/.test(q)) return "broader_scope";

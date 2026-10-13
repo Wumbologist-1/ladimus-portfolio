@@ -1,4 +1,5 @@
 import type { EvidenceChunk, RetrievalHint, Skill } from "./contracts.ts";
+import { reserveNamedEvidence } from "./entities.ts";
 
 const stop = new Set("what who how has have does did do is are the a an of for to and in his he luis tomassini experience tell me about kind much real with built build work engineering explain projects best demonstrate".split(" "));
 export function tokens(value: string) {
@@ -33,5 +34,5 @@ export function retrieveEvidence(query: string, chunks: EvidenceChunk[], hints: 
     selected.push(row.chunk); counts.set(row.chunk.recordId,n+1);
     if (selected.length >= Math.max(1,Math.min(5,Math.floor(topK) || 5))) break;
   }
-  return selected;
+  return reserveNamedEvidence(query,chunks,selected,Math.max(1,Math.min(5,Math.floor(topK)||5)));
 }

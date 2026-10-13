@@ -4,11 +4,12 @@ import {readFileSync} from 'node:fs';
 import ts from 'typescript';
 import {prepareEvidence} from '../src/features/ask-ladimus/evidence-packet.ts';
 import {chunks,hints,skills,guards,guarded,output} from './ask-fixtures.mjs';
+import {AskProviderError} from '../src/features/ask-ladimus/provider-error.ts';
 const p=prepareEvidence('Azure',chunks,hints.intents,skills,guards,guarded).packet;
 // Load the real provider logic with isolated process/fetch dependencies. No live
 // environment or API key is read and no network call occurs in these tests.
 const source=ts.transpileModule(readFileSync('src/features/ask-ladimus/provider.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText;
-const load=(fetch,env={ASK_LADIMUS_API_KEY:'test-key',ASK_LADIMUS_MODEL:'test-model'})=>{const mod={exports:{}};new Function('require','module','exports','process','fetch',source)(()=>({}),mod,mod.exports,{env},fetch);return mod.exports;};
+const load=(fetch,env={ASK_LADIMUS_API_KEY:'test-key',ASK_LADIMUS_MODEL:'test-model'})=>{const mod={exports:{}};new Function('require','module','exports','process','fetch',source)(id=>id==='./provider-error'?{AskProviderError}:{},mod,mod.exports,{env},fetch);return mod.exports;};
 const response=value=>new Response(JSON.stringify({choices:[{finish_reason:'stop',message:{content:JSON.stringify(value)}}]}));
 test('real provider sends active authored synthesis and an independent verdict-only request',async()=>{
  const requests=[],provider=load(async(url,init)=>{requests.push({url,init,body:JSON.parse(init.body)});return response(requests.length===1?output(p):{claims:[]});}),signal=new AbortController().signal;
@@ -47,4 +48,14 @@ test('Luna constrains author and verdict shapes independently without constraini
  assert.deepEqual(verdict.properties.claims.items.properties.supported,{type:'boolean'});assert.equal(verdict.properties.claims.items.properties.evidence_ids.items.enum,undefined);
  // The API schema never approves support or repairs citations; actual parser,
  // critical guards and exact indexed verdict tests remain the authority.
+});
+
+test('provider distinguishes incomplete output and expressly verifies assessments over premises rather than verbatim conclusions',async()=>{
+ for(const reply of [new Response(JSON.stringify({choices:[{finish_reason:'length',message:{content:'{}'}}]})),new Response(JSON.stringify({choices:[{finish_reason:'stop',message:{content:'broken'}}]}))]) {
+  await assert.rejects(load(async()=>reply).generateGroundedAnswer(p,new AbortController().signal),e=>e instanceof AskProviderError&&e.code==='incomplete');
+ }
+ const requests=[],provider=load(async(_url,init)=>{requests.push(JSON.parse(init.body));return response(output(p));},{ASK_LADIMUS_MODEL:'gpt-6-luna',ASK_LADIMUS_API_KEY:'test-key'});
+ await provider.generateGroundedAnswer(p,new AbortController().signal);await provider.verifyGroundedAnswer(p,output(p).answer,new AbortController().signal);
+ assert.ok(requests[0].response_format.json_schema.schema.properties.answer.items.properties.kind.enum.includes('assessment'));
+ assert.match(requests[0].messages[0].content,/bounded professional judgment/);assert.match(requests[1].messages[0].content,/need not occur verbatim/);assert.match(requests[1].messages[0].content,/every factual premise/);assert.match(requests[1].messages[0].content,/material limitations/);assert.match(requests[1].messages[0].content,/Do not rewrite or promote/);
 });

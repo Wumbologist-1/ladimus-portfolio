@@ -1,4 +1,4 @@
-# Ladimus Portfolio architecture — v0.6.3
+# Ladimus Portfolio architecture — v0.6.3.1
 
 ## Application and trust boundaries
 
@@ -6,7 +6,7 @@ One Next.js App Router application, with TypeScript strict mode and no component
 AI SDK, animation, or database dependency added. `/`, `/work`,
 `/projects/ladimus-review`, and `/ask` are prerendered. `POST /api/ask` is a dynamic
 Node server endpoint. The portfolio content remains server-rendered and usable
-without JavaScript. The version label is Portfolio Build 0.6.3.
+without JavaScript. The version label is Portfolio Build 0.6.3.1.
 
 The existing v0.5 Living Interface remains the foundation. Ask Ladimus adds small
 client boundaries for the console and launcher; the root layout and route content
@@ -145,7 +145,11 @@ Retrieval → Evidence packet → Active synthesis → Claim grounding → Seman
 verification → Verified answer or fail-closed evidence response.
 
 `prepareEvidence()` combines deterministic lexical/metadata ranking, intent hints
-and evidence-linked skills. Named systems retain detail chunks; known professional
+and evidence-linked skills. Named comparisons reserve one representative overview
+per requested known system/project before allocating depth slots. Corpus titles
+and record-derived short aliases identify entities, including Android Test Agent.
+The top-K bound still applies when a request names more entities than fit.
+Named single systems retain detail chunks; known professional
 skills retain capability facts plus implementation context. Lifecycle questions
 retrieve complementary design, implementation, operation, recovery and observability
 records. Gap retrieval selects relevant cloud, delivery, observability or automation
@@ -156,12 +160,21 @@ The packet contains only approved public IDs, titles, categories, organizations,
 timeframes, maturity, facts (including Documented capability), and qualifiers.
 Linked direct/transferable skills, unsupported requirements, general technology
 competencies and claim guards are separate fields. Competencies are not career
-facts. Neither provider call receives private documents.
+facts. Packet entity aliases link to selected evidence IDs; analysis_mode marks
+synthesis, comparison or assessment. Neither provider call receives private documents.
 
 `generateGroundedAnswer()` authors new prose, choosing comparisons, priorities,
 relationships and significance. Its contract is
 `{style,answer:[{text,kind,evidence_ids}],follow_ups}`; kinds are direct, synthesis,
-transferable, limitation and general_technology. The model chooses paragraphs or
+assessment, transferable, limitation and general_technology. An assessment is a
+transparent professional judgment over cited premises, not a new career fact.
+It answers evaluative questions directly while preserving scope and uncertainty.
+Assessment units render a visible “Evidence-derived assessment” label with their
+citations, distinguishing recruiter judgments from career facts.
+Assessing alignment with a named target role is distinct from claiming an official
+title; only explicit assessment-of-fit/role contexts receive that distinction.
+Positive assertions that Luis held the title still require employment evidence.
+The model chooses paragraphs or
 an organized list. There is no passage whitelist or exact-prose equality. Follow-ups
 remain a small approved, evidence-related question set to avoid unsupported premises.
 Gap questions also invoke the generator, explaining absent direct experience,
@@ -176,6 +189,11 @@ name unsupported requirements. General knowledge cannot become uncited career
 evidence. Guarded tool references can describe a target role, transferability or learning
 requirements; that is distinct from claiming existing use/proficiency. Explicit
 positive tool-experience assertions remain forbidden even in transferable units.
+Packet-absence contradictions reject claims that a present entity/record/direct
+skill is missing or not separately described, independently of which source a
+unit cites. Valid unsupported-tool career absence remains allowed. Unsupported
+unrestricted/fully autonomous production-code authority is rejected, including
+inside an assessment; an analytical label bypasses no critical guard.
 Numeric/proper-token checks are conservative, not a complete entailment
 algorithm for arbitrary natural language.
 
@@ -185,14 +203,19 @@ completed units, exact packet and guards. Its only output is
 exactly once, true verdicts and unchanged citation sets. It cannot rewrite text,
 add evidence or partially approve an answer. Every material factual statement,
 scope, ownership, maturity and compound requirement must pass. This model gate
-supplements deterministic authority; it is not a formal proof of truth.
+supplements deterministic authority; it is not a formal proof of truth. Assessment
+conclusions need not appear verbatim in sources: every factual premise must be
+supported, the inference must reasonably follow, and material limitations must
+remain. The verifier cannot promote a judgment into an unsupported deployment fact.
 
 A deterministic or semantic rejection permits one fresh corrective synthesis,
 with a server-owned bounded failure code/unit and optional numeric atom, followed
 by a fresh verdict. Correction also receives the structurally validated
 prior draft, explicitly treated as rejected output rather than evidence. That draft
 is never logged or displayed unless a new synthesis and verdict both pass. At most
-two generation and two verification calls share one deadline. Provider errors and
+two generation and two verification calls share a bounded total, with independent
+stage timers. Correction is skipped unless both corrective stage budgets plus
+response headroom remain. Provider errors and
 cancellation fail closed. No rejected output or hidden reasoning is returned.
 Retrieved evidence stays inspectable if generation or verification is unavailable.
 
@@ -260,13 +283,28 @@ Budgets: eight requests/minute per platform IP per instance; 2,000 bounded rate
 buckets; three active requests per instance; five evidence chunks; five explanatory
 paragraphs or eight list units; 1,800 characters/unit and 5,000 answer characters;
 1,700 generation and 1,100 verification completion tokens per call; two generation
-and two verification calls maximum; one shared 18-second generation/verification
-deadline; 25-second client timeout; 30-second route budget. On Vercel, the platform's
+and two verification calls maximum; 27-second service total including retrieval;
+14-second initial generation and 10-second initial verification limits; 6 seconds
+each for corrective generation/verification, attempted only with at least 12.5
+seconds remaining (including 500ms response headroom); 29-second client timeout;
+30-second route budget. All stage timers also respect remaining total time.
+Stage completion or cancellation clears timers and releases abort listeners;
+client disconnect immediately aborts whichever stage is active. No retries occur
+after provider errors/timeouts. On Vercel, the platform's
 `x-vercel-forwarded-for` header identifies callers. Locally requests share a local
 bucket. These in-memory controls are per instance, not globally distributed;
 complement them with Vercel Firewall limits and provider account spend caps for
 larger traffic. Client cancellation aborts pending provider calls and settles the service even if
 a test provider ignores AbortSignal. Provider response reads are capped at 64KB.
+
+Internal telemetry adds an explicit finite `failure` classification:
+`generation_timeout`, `generation_provider_error`, `generation_incomplete`,
+`grounding_rejected`, `verification_timeout`, `verification_provider_error`,
+`verification_rejected`, `correction_timeout`, `correction_skipped`, and
+`request_cancelled`. Structured Vercel logs distinguish stage/provider/guard
+failures without logging prompts, responses, private evidence, credentials or
+reasoning. The existing redaction and metadata whitelist still apply; skipped
+corrections have their own stage and do not masquerade as started model calls.
 
 Required server-only production configuration:
 

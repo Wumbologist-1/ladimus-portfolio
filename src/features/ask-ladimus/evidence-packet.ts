@@ -2,7 +2,8 @@ import type { EvidenceChunk, EvidencePacket, Skill, RetrievalHint, ClaimGuards }
 import { retrieveEvidence } from "./retrieval.ts";
 import { capabilityTarget, retrieveTransferable } from "./capability-gap.ts";
 import { unsupportedAssertions } from "./policy.ts";
-import { followUpCandidates } from "./synthesis.ts";
+import { analysisMode, followUpCandidates } from "./synthesis.ts";
+import { evidenceEntities, reserveNamedEvidence } from "./entities.ts";
 
 const mentions=(q:string,name:string)=>new RegExp(`(?<![a-z0-9])${name.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?![a-z0-9])`,"i").test(q);
 // Known skill queries retain capability facts as first-class evidence. Overview
@@ -23,6 +24,12 @@ export function prepareEvidence(query:string, chunks:EvidenceChunk[], hints:Retr
     const lifecycle=["employment-romtech-devops-2026","system-genie-swopsbot","system-azure-environments","system-genie-observability","system-ai-code-gating"];
     selected=lifecycle.flatMap(id=>chunks.filter(c=>c.recordId===id&&c.id.endsWith("--1"))).slice(0,5);
   }
+  selected=reserveNamedEvidence(query,chunks,selected);
+  if(!gap&&analysisMode(query)==="assessment"&&/autonom|modify.*code|code.*modif/i.test(query)) {
+    const autonomy=["system-pr-assistant","system-android-test-agent","system-ai-code-gating","employment-romtech-devops-2026"];
+    selected=[...autonomy.flatMap(id=>chunks.filter(c=>c.recordId===id&&c.id.endsWith("--1"))),...selected].filter((c,i,a)=>a.findIndex(x=>x.id===c.id)===i).slice(0,5);
+    selected=reserveNamedEvidence(query,chunks,selected);
+  }
   const linked=skills.flatMap(s=>{
     const ids=selected.filter(c=>s.evidence_ids.includes(c.recordId)).map(c=>c.id);
     return ids.length?[{...s,evidence_ids:ids}]:[];
@@ -30,6 +37,8 @@ export function prepareEvidence(query:string, chunks:EvidenceChunk[], hints:Retr
   const assertions=unsupportedAssertions(query,guarded);
   const packet:EvidencePacket={
     question:query,
+    analysis_mode:analysisMode(query),
+    entities:evidenceEntities(selected),
     items:selected.map(c=>({id:c.id,title:c.title,category:c.category,organization:c.organization,timeframe:c.timeframe,maturity:c.status,facts:c.facts,qualifiers:c.qualifiers})),
     direct_skills:gap?[]:linked,transferable_skills:gap?linked:[],
     unsupported_requirements:[...(gap?.names.map(n=>`Professional ${n} experience is not established` )??[]),...(assertions?[assertions]:[])],

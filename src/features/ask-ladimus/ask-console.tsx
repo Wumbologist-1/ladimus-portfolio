@@ -7,6 +7,7 @@ import { emitIntelligence } from "@/features/living-interface/event-bridge";
 import { LivingInterface } from "@/features/living-interface/living-interface";
 import styles from "./ask.module.css";
 import { AnswerPassages } from "./answer-passages";
+import { askBudget } from "./budget";
 
 type Phase="idle"|"understanding"|"retrieving"|"grounding"|"synthesizing"|"verifying"|"complete"|"error";
 const labels:Record<Phase,string>={idle:"Ready for a question",understanding:"Understanding · validating your question",retrieving:"Retrieving public evidence",grounding:"Grounding · evidence retrieved",synthesizing:"Synthesizing",verifying:"Verifying claims",complete:"Response complete",error:"Request could not complete"};
@@ -24,7 +25,7 @@ export function AskConsole({compact=false}:{compact?:boolean}) {
     setQuery(value);setSubmitted(value);setError("");setResult(null);setEvidence([]);setPhase("understanding");
     emitIntelligence({type:"query:start"});
     const controller=new AbortController();pending.current=controller;
-    const timeout=setTimeout(()=>controller.abort(),25000);
+    const timeout=setTimeout(()=>controller.abort(),askBudget.clientMs);
     let complete=false;
     try {
       const response=await fetch("/api/ask",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query:value}),signal:controller.signal});

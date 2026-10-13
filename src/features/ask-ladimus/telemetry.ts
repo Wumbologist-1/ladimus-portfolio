@@ -1,9 +1,10 @@
 // Used only by the server Ask path. Providers receive an explicit sanitized
 // event, never a request, private corpus, prompt, or provider response object.
 export type AskTelemetryStatus = "success" | "no_evidence" | "generation_unavailable" | "provider_error" | "validation_rejected" | "rate_limited";
-export type AskTelemetryStage = "policy_refusal" | "retrieval_only" | "generation_started" | "generation_completed" | "verification_passed" | "verification_failed" | "corrective_generation" | "answer_completed";
-export type AskTelemetryInput = { query: string; intent: string; evidenceIds: string[]; status: AskTelemetryStatus; latencyMs: number; stage?: AskTelemetryStage };
-export type AskTelemetryEvent = { event: "ask_ladimus_query"; query: string; intent: string; evidence_ids: string[]; status: AskTelemetryStatus; latency_ms: number; stage?: AskTelemetryStage };
+export type AskTelemetryStage = "policy_refusal" | "retrieval_only" | "generation_started" | "generation_completed" | "grounding_failed" | "verification_passed" | "verification_failed" | "corrective_generation" | "correction_skipped" | "answer_completed";
+export type AskFailure = "generation_timeout" | "generation_provider_error" | "generation_incomplete" | "grounding_rejected" | "verification_timeout" | "verification_provider_error" | "verification_rejected" | "correction_timeout" | "correction_skipped" | "request_cancelled";
+export type AskTelemetryInput = { query: string; intent: string; evidenceIds: string[]; status: AskTelemetryStatus; latencyMs: number; stage?: AskTelemetryStage; failure?: AskFailure | undefined };
+export type AskTelemetryEvent = { event: "ask_ladimus_query"; query: string; intent: string; evidence_ids: string[]; status: AskTelemetryStatus; latency_ms: number; stage?: AskTelemetryStage; failure?: AskFailure };
 export type AskTelemetryProvider = { record: (event: AskTelemetryEvent) => void | Promise<void> };
 
 export function sanitizeQuery(query: string) {
@@ -22,12 +23,14 @@ export function sanitizeQuery(query: string) {
 const structuredLogs: AskTelemetryProvider = { record: event => { console.info(JSON.stringify(event)); } };
 const intents = new Set(["capability_gap", "broader_scope", "impact", "rag", "romtech", "ai_systems", "agentic_ai", "ai_safety", "production_ownership", "backend", "android_testing", "career", "private", "unsupported", "rate_limited"]);
 const statuses = new Set<AskTelemetryStatus>(["success", "no_evidence", "generation_unavailable", "provider_error", "validation_rejected", "rate_limited"]);
+const failures = new Set<AskFailure>(["generation_timeout","generation_provider_error","generation_incomplete","grounding_rejected","verification_timeout","verification_provider_error","verification_rejected","correction_timeout","correction_skipped","request_cancelled"]);
 
 export function recordAskTelemetry(input: AskTelemetryInput, provider: AskTelemetryProvider = structuredLogs): void {
   try {
     const event: AskTelemetryEvent = {
       event: "ask_ladimus_query",
-      ...(input.stage && ["policy_refusal","retrieval_only","generation_started","generation_completed","verification_passed","verification_failed","corrective_generation","answer_completed"].includes(input.stage) ? {stage:input.stage} : {}),
+      ...(input.failure&&failures.has(input.failure)?{failure:input.failure}:{}),
+      ...(input.stage && ["policy_refusal","retrieval_only","generation_started","generation_completed","grounding_failed","verification_passed","verification_failed","corrective_generation","correction_skipped","answer_completed"].includes(input.stage) ? {stage:input.stage} : {}),
       query: input.intent === "private" ? "[private request omitted]" : sanitizeQuery(input.query),
       intent: intents.has(input.intent) ? input.intent : "career",
       evidence_ids: [...new Set(input.evidenceIds.filter(id => /^[a-z0-9-]+--\d{1,3}$/.test(id)))].slice(0, 5),
