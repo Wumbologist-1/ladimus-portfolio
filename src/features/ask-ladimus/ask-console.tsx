@@ -8,15 +8,15 @@ import { LivingInterface } from "@/features/living-interface/living-interface";
 import styles from "./ask.module.css";
 import { AnswerPassages } from "./answer-passages";
 
-type Phase="idle"|"understanding"|"retrieving"|"grounding"|"composing"|"complete"|"error";
-const labels:Record<Phase,string>={idle:"Ready for a question",understanding:"Understanding · validating your question",retrieving:"Retrieving public evidence",grounding:"Grounding · evidence retrieved",composing:"Composing grounded synthesis",complete:"Response complete",error:"Request could not complete"};
+type Phase="idle"|"understanding"|"retrieving"|"grounding"|"synthesizing"|"verifying"|"complete"|"error";
+const labels:Record<Phase,string>={idle:"Ready for a question",understanding:"Understanding · validating your question",retrieving:"Retrieving public evidence",grounding:"Grounding · evidence retrieved",synthesizing:"Synthesizing",verifying:"Verifying claims",complete:"Response complete",error:"Request could not complete"};
 
 export function AskConsole({compact=false}:{compact?:boolean}) {
   const id=useId(); const [query,setQuery]=useState("");const [submitted,setSubmitted]=useState("");
   const [phase,setPhase]=useState<Phase>("idle");const [evidence,setEvidence]=useState<Evidence[]>([]);
   const [result,setResult]=useState<AskResult|null>(null);const [error,setError]=useState("");
   const pending=useRef<AbortController|null>(null);
-  const busy=["understanding","retrieving","grounding","composing"].includes(phase);
+  const busy=["understanding","retrieving","grounding","synthesizing","verifying"].includes(phase);
   useEffect(()=>()=>{pending.current?.abort();emitIntelligence({type:"response:error"});},[]);
   async function ask(question:string) {
     if(busy) return;
@@ -35,8 +35,11 @@ export function AskConsole({compact=false}:{compact?:boolean}) {
         switch(event.type){
           case "retrieval:start":setPhase("retrieving");emitIntelligence(event);break;
           case "retrieval:complete":setEvidence(event.evidence);setPhase("grounding");emitIntelligence({type:event.type,evidenceIds:event.evidence.map(e=>e.recordId)});break;
-          case "generation:start":setPhase("composing");emitIntelligence(event);break;
-          case "response:complete":complete=true;setResult(event.result);setEvidence(event.result.evidence);setPhase("complete");emitIntelligence({type:event.type,success:event.result.outcome==="answered",evidenceIds:event.result.evidence.map(e=>e.recordId)});break;
+          case "generation:start":setPhase("synthesizing");emitIntelligence(event);break;
+          case "generation:complete":setPhase("grounding");break;
+          case "verification:start":setPhase("verifying");emitIntelligence(event);break;
+          case "verification:complete":break;
+          case "response:complete":complete=true;setResult(event.result);setEvidence(event.result.evidence);setPhase("complete");emitIntelligence({type:event.type,success:event.result.outcome==="answered"||event.result.outcome==="partial",evidenceIds:event.result.evidence.map(e=>e.recordId)});break;
           case "response:error":throw Error(event.message);
         }
       };

@@ -12,11 +12,18 @@ export type ClaimGuards = {
   conflicts: { topic: string; canonical: string; variants: string[]; resolution: string }[];
 };
 export type Evidence = { id: string; recordId: string; label: string; category: string; status: string; excerpt: string; qualifiers: string[] };
-export type AnswerClaim = { text: string; evidence_ids: string[] };
-export type AnswerStyle = "paragraphs" | "list";
-export type SynthesisPlan = {
-  intent: string; style: AnswerStyle; answer: AnswerClaim[]; follow_ups: string[];
+export type ClaimKind = "direct" | "synthesis" | "transferable" | "limitation" | "general_technology";
+export type AnswerClaim = { text: string; evidence_ids: string[]; kind: ClaimKind };
+export type EvidencePacket = {
+  question: string;
+  items: {id:string; title:string; category:string; organization:string; timeframe:string; maturity:string; facts:string[]; qualifiers:string[]}[];
+  direct_skills: Skill[]; transferable_skills: Skill[];
+  unsupported_requirements: string[];
+  technology_context: {name:string; requirements:string}[];
+  guarded_technologies: string[]; known_technologies: string[];
+  claim_guards: ClaimGuards; follow_up_candidates: string[];
 };
+export type AnswerStyle = "paragraphs" | "list";
 export type AskResult = {
   outcome: "answered" | "partial" | "no-evidence" | "unavailable" | "refused";
   message: string; claims: AnswerClaim[]; style: AnswerStyle; evidence: Evidence[];
@@ -28,6 +35,9 @@ export type AskWireEvent =
   | { type: "retrieval:start" }
   | { type: "retrieval:complete"; evidence: Evidence[] }
   | { type: "generation:start" }
+  | { type: "generation:complete" }
+  | { type: "verification:start" }
+  | { type: "verification:complete"; supported: boolean }
   | { type: "response:complete"; result: AskResult }
   | { type: "response:error"; message: string };
 export const suggestedQuestions = [

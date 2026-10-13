@@ -5,93 +5,95 @@ import {createRequire} from 'node:module';
 import ts from 'typescript';
 import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
-import {createSynthesisPlan,editorialPassages} from '../src/features/ask-ladimus/synthesis.ts';
-import {groundAnswer,SynthesisValidationError} from '../src/features/ask-ladimus/grounding.ts';
-import {retrieveEvidence} from '../src/features/ask-ladimus/retrieval.ts';
+import {groundAnswer,verifyVerdict,SynthesisValidationError} from '../src/features/ask-ladimus/grounding.ts';
+import {prepareEvidence} from '../src/features/ask-ladimus/evidence-packet.ts';
 import {answerQuery} from '../src/features/ask-ladimus/service.ts';
-
-const read=n=>JSON.parse(readFileSync(`src/data/career/${n}.json`,'utf8'));
-const chunks=read('chunks'), hints=read('retrieval-hints'), skills=Object.values(read('skills')).flat();
-const retrieve=q=>retrieveEvidence(q,chunks,hints.intents,skills);
-const output=p=>({answer:p.answer.slice(0,p.style==='list'?5:3),follow_ups:p.follow_ups});
-const options=(overrides={})=>({chunks,hints:hints.intents,skills,guards:read('claim-guards'),guarded:hints.unsupported_or_guarded_terms,configured:true,
-  generate:async(q,c)=>output(createSynthesisPlan(q,c)),signal:new AbortController().signal,emit:()=>{},telemetry:{record:()=>{}},...overrides});
-// Exercise actual JSX output without adding a test framework or a browser mock.
+import {options,chunks,hints,skills,guards,guarded,output,verdict,analyticalOutput,acceptanceQuestions} from './ask-fixtures.mjs';
+const packet=q=>prepareEvidence(q,chunks,hints.intents,skills,guards,guarded).packet;
+const azure=packet('Azure experience');
+const make=(text,ids=['system-azure-environments--1'],kind='direct',p=azure)=>({...output(p),answer:[{text,kind,evidence_ids:ids}]});
 const require=createRequire(import.meta.url),compiled={exports:{}};
-const code=ts.transpileModule(readFileSync('src/features/ask-ladimus/answer-passages.tsx','utf8'),{compilerOptions:{jsx:ts.JsxEmit.ReactJSX,module:ts.ModuleKind.CommonJS}}).outputText;
-new Function('require','module','exports',code)(require,compiled,compiled.exports);
-const {AnswerPassages}=compiled.exports;
-const markup=r=>renderToStaticMarkup(React.createElement(AnswerPassages,{claims:r.claims,style:r.style,evidence:r.evidence,id:'answer'}));
+new Function('require','module','exports',ts.transpileModule(readFileSync('src/features/ask-ladimus/answer-passages.tsx','utf8'),{compilerOptions:{jsx:ts.JsxEmit.ReactJSX,module:ts.ModuleKind.CommonJS}}).outputText)(require,compiled,compiled.exports);
 
-test('every reviewed substantive passage has exact corpus facts and maturity support',()=>{
-  for(const p of editorialPassages)for(const s of p.support){const c=chunks.find(c=>c.id===s.id);assert.ok(c,s.id);assert.equal(c.status,s.status);assert.ok(s.facts.length);for(const fact of s.facts)assert.ok(c.facts.includes(fact),`${s.id}: missing support`);}
+test('new prose, interpretation and model-selected structure are accepted without passage equality',()=>{
+ for(const text of ['Release validation and rollback connect deployment to recovery, so the Azure work demonstrates operational responsibility beyond publishing an image.','Development/production separation and traffic control are complementary parts of Azure environment ownership.']) {
+  const result=groundAnswer(make(text,undefined,'synthesis'),azure);assert.equal(result.claims.length,1);assert.ok(!azure.items.some(i=>i.facts.includes(text)));
+ }
+ for(const style of ['paragraphs','list']) assert.equal(groundAnswer({...output(azure),style},azure).style,style);
 });
-test('synthesis schema is bounded, deterministic, and fails closed for unknown fields',()=>{
-  const c=retrieve('Azure'),p=createSynthesisPlan('Azure',c),valid=output(p);
-  assert.deepEqual(groundAnswer(valid,c,p).claims,valid.answer);
-  for(const bad of [null,[],{}, {answer:null,follow_ups:[]},{...valid,provider_payload:'secret'},{...valid,answer:[{...valid.answer[0],extra:'unchecked'}]},{...valid,answer:Array(7).fill(valid.answer[0])},{...valid,follow_ups:Array(4).fill('unknown')}])assert.throws(()=>groundAnswer(bad,c,p),SynthesisValidationError);
-  assert.deepEqual(createSynthesisPlan('Azure',c),p);
+test('schema and output bounds fail closed',()=>{
+ const good=output(azure);
+ for(const bad of [null,{},[],{...good,reasoning:'hidden'},{...good,style:'markdown'},{...good,answer:[]},{...good,answer:Array(6).fill(good.answer[0])},{...good,answer:[{...good.answer[0],extra:'unchecked'}]},make('x'.repeat(1801)),{...good,follow_ups:[]},{...good,follow_ups:['Invented question']}]) assert.throws(()=>groundAnswer(bad,azure),SynthesisValidationError);
 });
-test('real IDs outside retrieval and invented citations are rejected',()=>{
-  const c=retrieve('Azure'),p=createSynthesisPlan('Azure',c),valid=output(p);
-  const outside=chunks.find(x=>!c.some(y=>y.id===x.id));
-  for(const id of ['invented',outside.id])assert.throws(()=>groundAnswer({...valid,answer:[{...valid.answer[0],evidence_ids:[id]}]},c,p));
-  for(const ids of [[],[valid.answer[0].evidence_ids[0],valid.answer[0].evidence_ids[0]],[null]])assert.throws(()=>groundAnswer({...valid,answer:[{...valid.answer[0],evidence_ids:ids}]},c,p));
+test('citations must be unique members of the actual retrieved set',()=>{
+ const outside=chunks.find(c=>!azure.items.some(i=>i.id===c.id)).id;
+ for(const ids of [[],['invented'],[outside],['system-azure-environments--1','system-azure-environments--1'],[null]]) assert.throws(()=>groundAnswer(make('Azure environment ownership.',ids),azure));
 });
-test('valid citation cannot authorize unsupported prose or silently invent support',()=>{
-  const c=retrieve('Azure'),p=createSynthesisPlan('Azure',c),valid=output(p);
-  for(const text of ['Luis deployed Kubernetes across the company.',`${valid.answer[0].text} He saved $2 million.`,valid.answer[0].text.replace('production','company-wide production')])assert.throws(()=>groundAnswer({...valid,answer:[{text,evidence_ids:valid.answer[0].evidence_ids}]},c,p));
+test('critical claims cannot be authorized by valid IDs or positive verifier verdicts',async()=>{
+ for(const text of ['Luis has 4 years of Azure experience.','Luis was a Senior Platform Engineer.','Luis was a Cloud Engineer.','Luis deployed Kubernetes professionally.','Luis uses Terraform and Pulumi.','Luis uses NebulaOps.','Luis saved $2 million.','Luis managed 99.99% availability.','Luis owned the environments in January 2026.','Luis achieved audited financial savings.','Luis has no Kubernetes evidence but has professional AWS experience.','Kubernetes is not documented. Luis has Kubernetes experience.']) {
+  assert.throws(()=>groundAnswer(make(text),azure),text);
+  const r=await answerQuery('Azure',options({generate:async()=>make(text),verify:verdict}));assert.equal(r.outcome,'unavailable',text);assert.equal(r.claims.length,0);
+ }
 });
-test('multi-source passage requires all exact supporting citations',()=>{
-  const q='What RAG systems has Luis built?',c=retrieve(q),p=createSynthesisPlan(q,c),valid=output(p);
-  assert.equal(p.answer[0].evidence_ids.length,2);
-  assert.throws(()=>groundAnswer({...valid,answer:[{...valid.answer[0],evidence_ids:valid.answer[0].evidence_ids.slice(0,1)},...valid.answer.slice(1)]},c,p));
+test('numbers, dates and titles require the cited source, not merely some retrieved source',()=>{
+ const p=packet('What measurable production impact did his automation have?');
+ assert.ok(p.items.some(i=>i.id==='system-genie-swopsbot--3'));
+ const metric=make('The documented reboot success rate was 99.52%.',['system-genie-swopsbot--3'],'direct',p);assert.equal(groundAnswer(metric,p).claims.length,1);
+ assert.throws(()=>groundAnswer({...metric,answer:[{...metric.answer[0],evidence_ids:[p.items.find(i=>i.id!=='system-genie-swopsbot--3').id]}]},p));
+ const role=packet(acceptanceQuestions[2]);assert.equal(groundAnswer(make('His official title was DevOps Engineer.',['employment-romtech-devops-2026--1'],'direct',role),role).claims.length,1);
+ assert.throws(()=>groundAnswer(make('His official title was DevOps Engineer.',['system-azure-environments--1'],'direct',role),role));
+ assert.equal(groundAnswer(make('His DevOps Engineer role started in March 2026.',['employment-romtech-devops-2026--1'],'direct',role),role).claims.length,1);
 });
-test('corpus fact or maturity changes disable affected editorial prose',()=>{
-  const q='Tell me about ROMGuide.',c=retrieve(q),p=createSynthesisPlan(q,c);
-  for(const changed of [c.map(x=>({...x,status:'production_verified'})),c.map(x=>({...x,facts:['different source facts']}))]){
-    const next=createSynthesisPlan(q,changed);assert.ok(!next.answer.some(a=>a.text===p.answer[0].text));
-    assert.throws(()=>groundAnswer(output(p),changed,next));
-  }
+test('prototype and designed work cannot become production or implementation',()=>{
+ for(const [q,id,text] of [['ROMGuide','system-romguide--1','Luis deployed ROMGuide as a production service.'],['agentic operating model','system-agentic-operating-model--1','Luis deployed the agentic operating model.']]) {
+  const c=chunks.find(c=>c.id===id),p={...azure,question:q,items:[{...c,maturity:c.status}],direct_skills:[],transferable_skills:[]};assert.throws(()=>groundAnswer(make(text,[id],'direct',p),p));
+ }
 });
-test('substantive DevOps answer opens directly and renders 2–4 cohesive paragraphs',async()=>{
-  const q='What makes Luis more than a traditional DevOps engineer?',r=await answerQuery(q,options());
-  assert.equal(r.outcome,'answered');assert.equal(r.style,'paragraphs');assert.match(r.claims[0].text,/scope extends beyond traditional DevOps/);
-  assert.match(r.claims[0].text,/official ROMTech title was DevOps Engineer/);
-  assert.ok(r.claims.length>=2&&r.claims.length<=4);const words=r.claims.map(c=>c.text).join(' ').split(/\s+/).length;assert.ok(words>=180&&words<=350,words);
-  const html=markup(r);assert.equal((html.match(/<p>/g)||[]).length,r.claims.length);assert.ok(!html.includes('<ul>'));assert.ok(html.includes('Evidence 1 for passage 1'));
-  assert.deepEqual(r.followUps,['How did Luis make the PR Assistant safe?','What production systems has Luis operated?','How has Luis applied AI inside CI/CD?']);
+test('general technical knowledge is allowed without becoming undocumented career experience',()=>{
+ assert.equal(groundAnswer(make('Pulumi stacks organize infrastructure resources and state.',[],'general_technology'),azure).claims.length,1);
+ for(const ids of [[],['system-azure-environments--1']]) assert.throws(()=>groundAnswer(make('Luis manages Pulumi stacks.',ids,'general_technology'),azure));
 });
-test('AI system overview renders framing paragraph then organized list with maturity',async()=>{
-  const r=await answerQuery('What AI systems has Luis built?',options());assert.equal(r.outcome,'answered');assert.equal(r.style,'list');
-  const html=markup(r);assert.ok(html.startsWith('<p>'));assert.ok(html.includes('<ul>'));assert.equal((html.match(/<li>/g)||[]).length,r.claims.length-1);
-  const text=r.claims.map(c=>c.text).join(' ');assert.match(text,/production-onboarded.*adoption limits/);assert.match(text,/designed, not deployed/);assert.match(text,/public open-source/);
+test('known professional skill evidence cannot be denied as insufficient',()=>{
+ const p=packet(acceptanceQuestions[1]);assert.throws(()=>groundAnswer(make('There is no professional GitHub Actions experience documented.',['system-ai-code-gating--3'],'limitation',p),p));
 });
-test('Kubernetes answer remains brief, conservative, and bypasses provider',async()=>{
-  let called=false;const r=await answerQuery('Does Luis have professional Kubernetes experience?',options({generate:async()=>{called=true;throw Error('must not call');}}));
-  assert.equal(called,false);assert.equal(r.outcome,'partial');assert.equal(r.claims.length,0);assert.ok(r.message.split(/\s+/).length<60);assert.match(r.message,/enough evidence.*Kubernetes/);
+test('semantic verifier must cover every unit once, preserve citations and never rewrite',async()=>{
+ const claims=groundAnswer(output(azure),azure).claims,good=await verdict(azure,claims);verifyVerdict(good,claims);
+ for(const bad of [null,{}, {claims:[]},{...good,answer:'rewritten'}, {claims:[{...good.claims[0],supported:false}]},{claims:[{...good.claims[0],text:'rewrite'}]},{claims:[{...good.claims[0],index:1}]},{claims:[{...good.claims[0],evidence_ids:[]}]},{claims:[{...good.claims[0],evidence_ids:['invented']}]},{claims:[{...good.claims[0],supported:'true'}]}]) assert.throws(()=>verifyVerdict(bad,claims));
+ const two=[...claims,{...claims[0],text:'Second statement'}];assert.throws(()=>verifyVerdict({claims:[good.claims[0],good.claims[0]]},two));
 });
-test('impact answer retains every requested metric without projecting savings or resolutions',async()=>{
-  const r=await answerQuery('What measurable production impact did his automation have?',options());assert.equal(r.outcome,'answered');
-  const text=r.claims.map(c=>c.text).join(' ');for(const v of ['7,156','11,000','414','412','99.52%','98'])assert.ok(text.includes(v));assert.match(text,/do not establish audited financial savings/);assert.match(text,/should not be interpreted as successfully resolved/);
-  assert.ok(r.claims[0].evidence_ids.includes('system-genie-swopsbot--3'));
+test('semantic rejection gets only one correction and no unverified answer escapes',async()=>{
+ let generations=0,verifications=0;const corrections=[],events=[],logs=[];
+ const r=await answerQuery('Azure',options({generate:async(p,s,c)=>{generations++;corrections.push(c);return output(p);},verify:async(p,c)=>{verifications++;return {claims:c.map((x,index)=>({index,supported:false,evidence_ids:x.evidence_ids}))};},emit:e=>events.push(e.type),telemetry:{record:e=>logs.push(e)}}));
+ assert.equal(generations,2);assert.equal(verifications,2);assert.equal(corrections[0],undefined);assert.equal(corrections[1],'unsupported_semantics');assert.equal(r.outcome,'unavailable');assert.deepEqual(r.claims,[]);assert.ok(r.evidence.length);assert.equal(events.filter(e=>e==='verification:start').length,2);assert.equal(logs.filter(e=>e.stage==='verification_failed').length,2);
 });
-test('unrelated and named-system answers exclude unrelated metric and system passages',()=>{
-  for(const q of ['What is his Azure experience?','What backend work has he done?','What makes Luis more than a traditional DevOps engineer?'])assert.ok(!createSynthesisPlan(q,retrieve(q)).answer.some(a=>/7,156|11,000/.test(a.text)));
-  const p=createSynthesisPlan('How did Luis make the PR Assistant safe?',retrieve('How did Luis make the PR Assistant safe?'));assert.ok(p.answer.length>=2);assert.ok(p.answer.every(a=>a.evidence_ids.every(id=>id.startsWith('system-pr-assistant--'))));
+test('one corrective synthesis can pass but still requires a fresh verifier verdict',async()=>{
+ let calls=0;const r=await answerQuery('Azure',options({verify:async(p,c)=>++calls===1?{claims:c.map((x,index)=>({index,supported:false,evidence_ids:x.evidence_ids}))}:verdict(p,c)}));assert.equal(calls,2);assert.equal(r.outcome,'answered');
 });
-test('ROMTech response keeps built, validated, and designed work distinct',async()=>{
-  const q='What did Luis build at ROMTech?',r=await answerQuery(q,options({generate:async(q,c)=>{const p=createSynthesisPlan(q,c);return {answer:p.answer.slice(0,4),follow_ups:p.follow_ups};}}));
-  assert.equal(r.outcome,'answered');const text=r.claims.map(c=>c.text).join(' ');assert.match(text,/official title DevOps Engineer/);assert.match(text,/built and validated/);assert.match(text,/live validated with merged components/);assert.match(text,/designed, not deployed/);
+test('deterministic rejection corrects once before any verifier is invoked',async()=>{
+ let gens=0,vs=0;const r=await answerQuery('Azure',options({generate:async p=>++gens===1?make('Luis has Kubernetes experience.'):output(p),verify:async(p,c)=>{vs++;return verdict(p,c);}}));assert.equal(gens,2);assert.equal(vs,1);assert.equal(r.outcome,'answered');
 });
-test('follow-ups must come from evidence-supported topic choices',()=>{
-  const q='What RAG systems has Luis built?',c=retrieve(q),p=createSynthesisPlan(q,c),valid=output(p);
-  assert.ok(p.follow_ups.length>=2);assert.ok(p.follow_ups.every(q=>retrieve(q).length>0));
-  for(const follow_ups of [['How much did Luis save with Kubernetes?'],[p.follow_ups[0],p.follow_ups[0]],[]])assert.throws(()=>groundAnswer({...valid,follow_ups},c,p));
-  const comparison='What distinguishes ROMGuide\'s prototype from Ladimus Agent\'s public project?';const comparePlan=createSynthesisPlan(comparison,retrieve(comparison));
-  for(const prefix of ['system-romguide--','project-ladimus-agent--'])assert.ok(comparePlan.answer.some(a=>a.evidence_ids.some(id=>id.startsWith(prefix))));
+test('verification errors and stalls fail closed within the shared deadline',async()=>{
+ for(const verify of [async()=>{throw Error('private verifier payload');},()=>new Promise(()=>{})]){
+  let calls=0;const begin=performance.now(),r=await answerQuery('Azure',options({timeoutMs:15,verify,generate:async p=>{calls++;return output(p);}}));assert.equal(r.outcome,'unavailable');assert.equal(calls,1);assert.ok(performance.now()-begin<500);assert.ok(!JSON.stringify(r).includes('private verifier payload'));
+ }
 });
-test('invalid provider synthesis fails closed while evidence stays inspectable',async()=>{
-  const r=await answerQuery('Azure',options({generate:async(q,c)=>({answer:[{text:'Luis runs Kubernetes.',evidence_ids:[c[0].id]}],follow_ups:[]})}));
-  assert.equal(r.outcome,'unavailable');assert.equal(r.claims.length,0);assert.ok(r.evidence.length);assert.ok(!r.message.includes('Kubernetes'));
+test('cancellation settles even a provider which ignores abort',async()=>{
+ const controller=new AbortController();let seen;
+ const pending=answerQuery('Azure',options({signal:controller.signal,generate:async(_p,s)=>{seen=s;return new Promise(()=>{});}}));controller.abort();const r=await pending;assert.equal(r.outcome,'unavailable');assert.ok(seen.aborted);
+});
+test('rendered paragraphs/lists preserve inspectable per-unit citations',()=>{
+ for(const style of ['paragraphs','list']) {
+  const r={...groundAnswer(analyticalOutput(packet(acceptanceQuestions[3])),packet(acceptanceQuestions[3])),evidence:packet(acceptanceQuestions[3]).items};
+  const html=renderToStaticMarkup(React.createElement(compiled.exports.AnswerPassages,{claims:r.claims,style,evidence:r.evidence,id:'answer'}));assert.match(html,/Evidence [1-5] for passage 1/);assert.equal(html.includes('<ul>'),style==='list');
+ }
+});
+
+test('guard terms inside negative source qualifiers never authorize positive adoption or ROI',()=>{
+ const p=packet('PR Assistant');
+ for(const text of ['PR Assistant achieved company-wide adoption.','PR Assistant delivered ROI.']) assert.throws(()=>groundAnswer(make(text,['system-pr-assistant--1'],'direct',p),p));
+});
+
+test('a pre-aborted request invokes no provider and has no unhandled rejection',async()=>{
+ const controller=new AbortController();controller.abort();let calls=0;
+ const r=await answerQuery('Azure',options({signal:controller.signal,generate:async()=>{calls++;}}));assert.equal(calls,0);assert.equal(r.outcome,'unavailable');await new Promise(resolve=>setImmediate(resolve));
 });

@@ -1,4 +1,4 @@
-# Ladimus Portfolio architecture — v0.6.2
+# Ladimus Portfolio architecture — v0.6.3
 
 ## Application and trust boundaries
 
@@ -6,7 +6,7 @@ One Next.js App Router application, with TypeScript strict mode and no component
 AI SDK, animation, or database dependency added. `/`, `/work`,
 `/projects/ladimus-review`, and `/ask` are prerendered. `POST /api/ask` is a dynamic
 Node server endpoint. The portfolio content remains server-rendered and usable
-without JavaScript. The version label is Portfolio Build 0.6.2.
+without JavaScript. The version label is Portfolio Build 0.6.3.
 
 The existing v0.5 Living Interface remains the foundation. Ask Ladimus adds small
 client boundaries for the console and launcher; the root layout and route content
@@ -135,47 +135,68 @@ its historical label.
 AWS, EKS, Bedrock, professional Kubernetes, pgvector, Celery, Redis application
 architecture, Pyannote, and professional deployments of LangGraph, AutoGen, CrewAI,
 and LangChain are guarded. K8s and Amazon Web Services aliases are guarded too.
-Unsupported technology queries do not invoke a model to invent a positive answer;
-they explain the evidence limit and can show adjacent Azure/container evidence.
-Seniority, years, graduation dates, broad adoption, ROI, and training claims receive
-explicit qualification. Duration is not inferred by the runtime.
+Unsupported technologies and compound requirements prepare absence/qualification
+context for synthesis. Duration is never inferred from employment dates. Only
+private/security requests and requests without usable evidence bypass a configured model.
 
-## Retrieval and grounding
+## Retrieval, active synthesis and verification
 
-`retrieveEvidence()` combines deterministic lexical scoring, weighted title/alias
-metadata, intent hints, and evidence-linked skills. Named-system questions may
-retrieve several detail chunks, while overview queries diversify records. Top-K
-is capped at five. Empty or unmatched questions return no supporting evidence.
-There is no vector database or semantic embedding index in v0.6. This is lexical
-plus structured-metadata hybrid ranking, not a claim of vector search. It works
-without any provider credential. Only selected chunks, not the entire corpus, are
-sent to generation.
+Retrieval → Evidence packet → Active synthesis → Claim grounding → Semantic
+verification → Verified answer or fail-closed evidence response.
 
-`generateGroundedAnswer()` is the isolated provider boundary. In v0.6.1,
-`createSynthesisPlan()` makes reviewed editorial passages available only when all
-of their exact supporting facts and maturity statuses exist in retrieved chunks.
-The model selects and organizes these cohesive passages through
-`{answer:[{text,evidence_ids}],follow_ups:string[]}`. This changes the editorial
-layer without changing retrieval, top-K, the public corpus, or the visual runtime.
+`prepareEvidence()` combines deterministic lexical/metadata ranking, intent hints
+and evidence-linked skills. Named systems retain detail chunks; known professional
+skills retain capability facts plus implementation context. Lifecycle questions
+retrieve complementary design, implementation, operation, recovery and observability
+records. Gap retrieval selects relevant cloud, delivery, observability or automation
+context and excludes unrelated history. Top-K remains five. No vector database or
+embedding index is claimed. Unmatched requests return no evidence.
 
-`groundAnswer()` rejects unknown fields, invented or non-retrieved IDs, missing
-supporting IDs, altered prose, duplicate passages, unapproved follow-ups, excessive
-units, and answers over 5,000 characters. An existing citation does not authorize
-an arbitrary claim. Unsupported prose rejects the whole response; no fabricated
-support or silent factual repair is attempted. Updating corpus facts or maturity
-disables dependent editorial passages until they are reviewed. This deliberately
-uses a closed editorial vocabulary rather than claiming deterministic semantic
-entailment of unrestricted LLM prose. Narrow topics without a reviewed passage
-retain an exact-fact fallback with title and maturity labels.
+The packet contains only approved public IDs, titles, categories, organizations,
+timeframes, maturity, facts (including Documented capability), and qualifiers.
+Linked direct/transferable skills, unsupported requirements, general technology
+competencies and claim guards are separate fields. Competencies are not career
+facts. Neither provider call receives private documents.
 
-Explanatory answers render 2–4 paragraphs where enough evidence exists. Natural
-system/project-list questions render a framing paragraph and a concise list.
-Direct openings, related engineering themes, concrete ownership and significance,
-official titles, and maturity limits are part of the reviewed prose. Metrics are
-available only for relevant impact intent. The model selects 2–3 topic-specific,
-evidence-supported follow-ups when available. Unsupported technology questions
-remain brief and bypass generation. Evidence cards retain the actual source facts,
-maturity, and qualifiers; all prose is React text, never raw model HTML.
+`generateGroundedAnswer()` authors new prose, choosing comparisons, priorities,
+relationships and significance. Its contract is
+`{style,answer:[{text,kind,evidence_ids}],follow_ups}`; kinds are direct, synthesis,
+transferable, limitation and general_technology. The model chooses paragraphs or
+an organized list. There is no passage whitelist or exact-prose equality. Follow-ups
+remain a small approved, evidence-related question set to avoid unsupported premises.
+Gap questions also invoke the generator, explaining absent direct experience,
+adjacent evidence and remaining competencies without promoting transferability.
+
+`groundAnswer()` checks strict structure, retrieved citation membership, nonempty
+career citations, uniqueness, output bounds and high-risk claim atoms. Official
+titles require cited employment metadata; durations cannot be inferred;
+numbers, metrics and dates need cited support. Guarded/unestablished technology
+attribution and maturity upgrades reject the answer. Negative qualifications can
+name unsupported requirements. General knowledge cannot become uncited career
+evidence. Numeric/proper-token checks are conservative, not a complete entailment
+algorithm for arbitrary natural language.
+
+`verifyGroundedAnswer()` makes a separate bounded call with the original question,
+completed units, exact packet and guards. Its only output is
+`{claims:[{index,supported,evidence_ids}]}`. `verifyVerdict()` requires every unit
+exactly once, true verdicts and unchanged citation sets. It cannot rewrite text,
+add evidence or partially approve an answer. Every material factual statement,
+scope, ownership, maturity and compound requirement must pass. This model gate
+supplements deterministic authority; it is not a formal proof of truth.
+
+A deterministic or semantic rejection permits one fresh corrective synthesis,
+with only a server-owned bounded failure code, followed by a fresh verdict. At most
+two generation and two verification calls share one deadline. Provider errors and
+cancellation fail closed. No rejected output or hidden reasoning is returned.
+Retrieved evidence stays inspectable if generation or verification is unavailable.
+
+Authority is explicit: retrieval determines available career facts; the generator
+determines prose and supported analysis; deterministic guards constrain critical
+claims; the verifier assesses semantic support. Visitors see citations, source
+facts, maturity and qualifiers. Prose renders as React text, never model HTML.
+Real stream events drive Understanding, Retrieving, Grounding, Synthesizing,
+Verifying and Response states without artificial delays or reasoning text.
+Verification also uses the existing bounded Living Interface event bridge.
 
 ## API, privacy, and operations
 
@@ -189,12 +210,16 @@ configuration are not API response fields. No response cache is used for this re
 ### Ask usage telemetry
 
 `recordAskTelemetry()` is a small server-side abstraction. The Hobby deployment
-uses one structured `console.info(JSON.stringify(event))` record per completed Ask
-attempt, typed `ask_ladimus_query`. The only fields are sanitized `query`, finite
+uses structured `console.info(JSON.stringify(event))` records for actual bounded
+pipeline stages and one completion, typed `ask_ladimus_query`. Fields are sanitized `query`, finite
 category `intent`, at most five public `evidence_ids`, finite outcome `status`, and
-rounded `latency_ms` clamped to 0–60,000. Statuses are `success`, `no_evidence`,
+rounded `latency_ms` clamped to 0–60,000, and optional finite `stage`. Stages are
+`policy_refusal`, `retrieval_only`, `generation_started`, `generation_completed`,
+`verification_passed`, `verification_failed`, `corrective_generation`, and
+`answer_completed`. Stage records contain no model reasoning or failure payload. Statuses are `success`, `no_evidence`,
 `generation_unavailable`, `provider_error`, `validation_rejected`, and
-`rate_limited`. Unsupported experience and privacy refusals are `no_evidence`;
+`rate_limited`. Privacy refusals are `no_evidence`; verified gap answers are `success`, and
+unsupported generated claims finish as `validation_rejected`;
 privacy requests have a `private` intent and their text is omitted entirely.
 Rate-limited requests record an empty query without reading the rejected body.
 Malformed or origin-rejected requests are not logged.
@@ -226,13 +251,16 @@ must define retention and access boundaries separately; long-running work needs
 the hosting platform's background-work lifecycle rather than delaying answers.
 
 Budgets: eight requests/minute per platform IP per instance; 2,000 bounded rate
-buckets; three active requests per instance; five evidence chunks; four explanatory
-passages or six list units; 5,000 answer characters; 1,200 completion tokens; 18-second provider
-timeout; 25-second client timeout; 30-second route budget. On Vercel, the platform's
+buckets; three active requests per instance; five evidence chunks; five explanatory
+paragraphs or eight list units; 1,800 characters/unit and 5,000 answer characters;
+2,300 generation and 1,100 verification completion tokens per call; two generation
+and two verification calls maximum; one shared 18-second generation/verification
+deadline; 25-second client timeout; 30-second route budget. On Vercel, the platform's
 `x-vercel-forwarded-for` header identifies callers. Locally requests share a local
 bucket. These in-memory controls are per instance, not globally distributed;
 complement them with Vercel Firewall limits and provider account spend caps for
-larger traffic. Client cancellation aborts the model request.
+larger traffic. Client cancellation aborts pending provider calls and settles the service even if
+a test provider ignores AbortSignal. Provider response reads are capped at 64KB.
 
 Required server-only production configuration:
 
@@ -268,7 +296,7 @@ npm.cmd run lint
 npm.cmd run typecheck
 npm.cmd run build
 node --test tests/living-interface.test.mjs
-npm.cmd run test:rag
+node --experimental-strip-types --test tests/ask-ladimus.test.mjs tests/ask-synthesis.test.mjs tests/ask-capability-gap.test.mjs tests/ask-telemetry.test.mjs
 git diff --check
 ```
 

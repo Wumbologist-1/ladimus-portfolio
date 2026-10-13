@@ -1,8 +1,9 @@
 // Used only by the server Ask path. Providers receive an explicit sanitized
 // event, never a request, private corpus, prompt, or provider response object.
 export type AskTelemetryStatus = "success" | "no_evidence" | "generation_unavailable" | "provider_error" | "validation_rejected" | "rate_limited";
-export type AskTelemetryInput = { query: string; intent: string; evidenceIds: string[]; status: AskTelemetryStatus; latencyMs: number };
-export type AskTelemetryEvent = { event: "ask_ladimus_query"; query: string; intent: string; evidence_ids: string[]; status: AskTelemetryStatus; latency_ms: number };
+export type AskTelemetryStage = "policy_refusal" | "retrieval_only" | "generation_started" | "generation_completed" | "verification_passed" | "verification_failed" | "corrective_generation" | "answer_completed";
+export type AskTelemetryInput = { query: string; intent: string; evidenceIds: string[]; status: AskTelemetryStatus; latencyMs: number; stage?: AskTelemetryStage };
+export type AskTelemetryEvent = { event: "ask_ladimus_query"; query: string; intent: string; evidence_ids: string[]; status: AskTelemetryStatus; latency_ms: number; stage?: AskTelemetryStage };
 export type AskTelemetryProvider = { record: (event: AskTelemetryEvent) => void | Promise<void> };
 
 export function sanitizeQuery(query: string) {
@@ -26,6 +27,7 @@ export function recordAskTelemetry(input: AskTelemetryInput, provider: AskTeleme
   try {
     const event: AskTelemetryEvent = {
       event: "ask_ladimus_query",
+      ...(input.stage && ["policy_refusal","retrieval_only","generation_started","generation_completed","verification_passed","verification_failed","corrective_generation","answer_completed"].includes(input.stage) ? {stage:input.stage} : {}),
       query: input.intent === "private" ? "[private request omitted]" : sanitizeQuery(input.query),
       intent: intents.has(input.intent) ? input.intent : "career",
       evidence_ids: [...new Set(input.evidenceIds.filter(id => /^[a-z0-9-]+--\d{1,3}$/.test(id)))].slice(0, 5),

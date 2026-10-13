@@ -1,4 +1,4 @@
-import type { AskResult, EvidenceChunk, RetrievalHint, Skill } from "./contracts.ts";
+import type { EvidenceChunk, RetrievalHint, Skill } from "./contracts.ts";
 import { retrieveEvidence } from "./retrieval.ts";
 
 type Domain = "infrastructure" | "delivery" | "observability" | "automation";
@@ -40,9 +40,7 @@ export function capabilityTarget(query:string, chunks:EvidenceChunk[], skills:Sk
     return !chunks.some(c=>c.status!=="designed_not_deployed"&&(c.keywords.some(k=>mentions(k,name))||linkedHints.includes(c.recordId)||c.facts.some(f=>mentions(f,name)))&&c.facts.some(f=>mentions(f,name)&&!/(?:\b(?:no|not|never|without|unsupported)\b|(?:plan|intend|propos).{0,30}(?:use|learn|adopt))/i.test(f)));
   });
   if(!missing.length) return null; // Direct evidence retains the normal pipeline.
-  // Preserve the existing conservative guarded-tool answer unless the visitor
-  // explicitly asks about transferability. New/unfamiliar tools enter gap mode.
-  if(missing.every(n=>guardedNames.includes(n))&&!/\b(?:transfer\w*|ramp|learn|gap|role|could)\b/i.test(q)) return null;
+
   const unknownDomain:Domain=/observab|monitor|telemetry|dashboard/i.test(q)?"observability":/infrastructure|cloud|iac/i.test(q)?"infrastructure":/config|automati|provision/i.test(q)?"automation":"delivery";
   return {names:missing,profiles:missing.map(name=>profiles.find(p=>p.name===name)??{name,aliases:[name],domain:unknownDomain,requirements:`${name}-specific concepts, configuration, APIs, operational workflows, and hands-on validation`}),unknown:missing.some(n=>!profiles.some(p=>p.name===n)),truncated:requestedNames.length>4};
 }
@@ -55,20 +53,4 @@ export function retrieveTransferable(target:NonNullable<ReturnType<typeof capabi
   const professionalRoles=new Set(relevantHints.flatMap(h=>h.evidence_ids));
   const candidates=chunks.filter(c=>allowed.has(c.recordId)&&c.id.endsWith("--1")&&(c.category==="system"||(c.category==="employment"&&professionalRoles.has(c.recordId))));
   return retrieveEvidence(selectedDomains.map(d=>d.query).join(" "),candidates,relevantHints,relevantSkills);
-}
-
-export function gapAnswer(target:NonNullable<ReturnType<typeof capabilityTarget>>, chunks:EvidenceChunk[], unsupported:string):Pick<AskResult,"outcome"|"message"|"claims"|"style"|"coverage"|"followUps"|"limitations"|"mode"> {
-  const names=target.names.join(", ");
-  // Exact facts, never unconstrained model knowledge, supply all career claims.
-  const textEvidence=chunks.slice(0,3);
-  const role=chunks.find(c=>c.category==="employment");
-  if(role&&!textEvidence.includes(role)) textEvidence.splice(2,1,role);
-  const support=textEvidence.map(c=>({chunk:c,facts:c.category==="employment"?c.facts.filter(f=>/^(?:DevOps Engineer|Owned and troubleshot|Built CI\/CD)/.test(f)).slice(0,2):c.facts.filter(f=>f.length>55&&!f.startsWith("Documented capability:")).slice(0,1)})).filter(s=>s.facts.length);
-  const text=support.map(s=>`${s.chunk.title} (${s.chunk.status.replaceAll("_"," ")}): ${s.facts.join(" ")}`).join(" ");
-  return {
-    outcome:"partial",mode:"capability_gap",style:"paragraphs",message:`Direct experience: I don't have evidence that Luis has used ${names} professionally.${unsupported?` ${unsupported}`:""}${target.truncated?" Additional requested technologies remain unverified by this bounded check.":""}`,
-    claims:text?[{text:`Transferable evidence: these documented skills are adjacent background to assess against a ${names} role, not ${names} experience or a guarantee of readiness. ${text}`,evidence_ids:support.map(s=>s.chunk.id)}]:[],
-    limitations:`Remaining gap: the corpus does not establish ${target.profiles.map(p=>p.requirements).join("; ")}. ${target.unknown?"There is no reviewed competency mapping for this unfamiliar tool; assess the role's requirements before assuming tool-specific transferability. ":""}These tool-specific practices would still need to be learned and demonstrated; adjacent experience is not equivalent to using the tool.`,
-    coverage:"Capability gap; adjacent evidence only",followUps:chunks.length?(target.profiles.every(p=>p.domain==="observability")?["What did Luis measure with the Teams automation dashboard?","How does Luis approach operational troubleshooting?"]:["What production systems has Luis operated?","How has Luis applied AI inside CI/CD?"]):[],
-  };
 }

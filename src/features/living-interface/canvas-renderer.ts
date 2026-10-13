@@ -274,7 +274,7 @@ export function createRenderer(canvas: HTMLCanvasElement, initiallyPaused: boole
       }
       intelligenceTarget=evidenceClusters.size ? 0.65 : 0;
     }
-    if (event.type === "generation:start") {intelligenceTarget=1;signals.dispatch(0,0.9);}
+    if ((event.type === "generation:start" || event.type === "verification:start")) {intelligenceTarget=1;signals.dispatch(0,0.9);}
     if (event.type === "response:complete") intelligenceTarget=0.3;
   });
 

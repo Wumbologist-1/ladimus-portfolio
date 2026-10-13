@@ -1,5 +1,5 @@
 export type IntelligenceEvent = {
-  type: "query:start" | "retrieval:start" | "retrieval:complete" | "generation:start" | "response:complete" | "response:error";
+  type: "query:start" | "retrieval:start" | "retrieval:complete" | "generation:start" | "verification:start" | "response:complete" | "response:error";
   evidenceIds?: readonly string[]; success?: boolean;
 };
 const listeners = new Set<(event:IntelligenceEvent)=>void>();

@@ -1,4 +1,13 @@
-# Ask Ladimus v0.6.2: capability gaps and unsupported assertions
+# Ask Ladimus capability gaps and unsupported assertions
+
+Current behavior: **v0.6.3 Active Intelligence**. Gap detection and domain retrieval
+prepare the packet; the generator authors the answer and a separate verifier
+checks it. There is no deterministic gap-answer bypass. Missing provider configuration
+preserves evidence and reports unavailable. See [architecture](architecture.md) for
+the pipeline, authority boundaries, deadline and correction budget.
+
+The notes below describe the historical v0.6.2 design and its replaced behavior.
+
 
 This release adds a bounded policy/retrieval path without replacing the provider,
 career corpus, core ranker, or visual system. Privacy policy runs first and retains
