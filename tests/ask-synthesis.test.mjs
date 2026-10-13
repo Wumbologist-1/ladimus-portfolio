@@ -136,3 +136,8 @@ test('inline references cannot borrow a supported metric to disguise an invalid 
  const p=packet('What measurable production impact did his automation have?');
  for(const text of ['The documented workflows cite fake-evidence--414.','The documented workflows cite [98].']) assert.throws(()=>groundAnswer(make(text,['system-genie-swopsbot--3'],'direct',p),p));
 });
+
+test('verification failure events distinguish malformed verdicts from unsupported semantics without exposing prose',async()=>{
+ const events=[];await answerQuery('Azure',options({verify:async()=>({claims:[],private_reasoning:'hidden'}),emit:e=>events.push(e)}));
+ const failures=events.filter(e=>e.type==='verification:complete');assert.equal(failures.length,2);assert.ok(failures.every(e=>e.code==='invalid_verification'));assert.ok(!JSON.stringify(events).includes('private_reasoning'));assert.ok(!JSON.stringify(events).includes('hidden'));
+});

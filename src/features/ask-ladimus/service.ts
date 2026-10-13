@@ -57,7 +57,7 @@ export async function answerQuery(query:string,options:Options):Promise<AskResul
           return {...result,...answer,outcome:gap||packet.unsupported_requirements.length?"partial":"answered",message:"",coverage:"Verified synthesis; evidence shown",...(gap?{mode:"capability_gap" as const}:{})};
         } catch(cause) {
           if(!verifying && cause instanceof SynthesisValidationError) options.emit({type:"grounding:complete",supported:false,code:cause.code,...(cause.atom?{atom:cause.atom}:{}),...(cause.technology?{technology:cause.technology}:{}),...(cause.unit!==undefined?{unit:cause.unit}:{})});
-          if(verifying) {status=cause instanceof SynthesisValidationError?"validation_rejected":"provider_error";log("verification_failed");options.emit({type:"verification:complete",supported:false});}
+          if(verifying) {status=cause instanceof SynthesisValidationError?"validation_rejected":"provider_error";log("verification_failed");options.emit({type:"verification:complete",supported:false,code:cause instanceof SynthesisValidationError?cause.code:"provider_error",...(cause instanceof SynthesisValidationError&&cause.unit!==undefined?{unit:cause.unit}:{})});}
           verifying=false;
           if(!(cause instanceof SynthesisValidationError)) throw cause;
           status="validation_rejected";

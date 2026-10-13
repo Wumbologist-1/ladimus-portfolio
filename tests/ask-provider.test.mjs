@@ -18,7 +18,7 @@ test('real provider sends active authored synthesis and an independent verdict-o
  assert.equal(generation.max_completion_tokens,1700);assert.equal(verification.max_completion_tokens,1100);assert.equal(generation.response_format.type,'json_object');
  assert.deepEqual(JSON.parse(generation.messages[1].content),p);assert.ok(!generation.messages[1].content.includes('answer_candidates'));
  assert.match(generation.messages[0].content,/new prose/);assert.match(verification.messages[0].content,/independent factuality verifier/);
- assert.deepEqual(JSON.parse(verification.messages[1].content).evidence_packet,p);assert.deepEqual(JSON.parse(verification.messages[1].content).answer,output(p).answer);
+ assert.deepEqual(JSON.parse(verification.messages[1].content).evidence_packet,p);assert.deepEqual(JSON.parse(verification.messages[1].content).answer,output(p).answer.map((c,index)=>({index,...c})));
  assert.ok(!JSON.stringify(requests.map(r=>r.body)).includes('test-key'));
 });
 test('provider response bytes, completion status, JSON and HTTPS configuration are bounded',async()=>{

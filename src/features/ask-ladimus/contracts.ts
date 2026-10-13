@@ -39,7 +39,7 @@ export type AskWireEvent =
   | { type: "generation:complete" }
   | { type: "grounding:complete"; supported: boolean; code?: string; atom?: string; unit?: number; technology?: string }
   | { type: "verification:start" }
-  | { type: "verification:complete"; supported: boolean }
+  | { type: "verification:complete"; supported: boolean; code?: string; unit?: number }
   | { type: "response:complete"; result: AskResult }
   | { type: "response:error"; message: string };
 export const suggestedQuestions = [
