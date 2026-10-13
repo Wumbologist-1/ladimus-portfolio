@@ -23,9 +23,20 @@ function negative(clause:string,term:string) {
   return occurrences.length>0&&occurrences.every(match=>{
     const at=match.index;
     const before=clause.slice(Math.max(0,at-100),at), after=clause.slice(at+term.length,at+term.length+100);
-    return /(?:\bno\b|\bnot\b(?! only)|\bnever\b|\bwithout\b|doesn.t|cannot|can.t|lack(?:s|ing)?|insufficient|unestablished|unsupported)[^;.!?]*$/i.test(before)
-      || /^[^;.!?]*(?:not (?:(?:a|an|yet|currently|directly|professionally|been|explicitly)\s+){0,3}(?:established|documented|supported|demonstrated|verified|proven|evidenced|substantiated)|unestablished|unsupported|absent|unverified|not equivalent)/i.test(after);
+    return /(?:\bno\b|\bnot\b(?! only)|\bnever\b|\bwithout\b|(?:doesn|hasn|haven|isn|aren|wasn|weren).t|cannot|can.t|neither|lack(?:s|ing)?|insufficient|unestablished|unsupported)[^;.!?]*$/i.test(before)
+      || /^[^;.!?]*(?:not (?:(?:a|an|yet|currently|directly|professionally|been|explicitly)\s+){0,3}(?:established|documented|supported|demonstrated|verified|proven|evidenced|substantiated)|unestablished|unsupported|absent|unverified|unproven|missing|not equivalent)/i.test(after);
   });
+}
+// A guarded tool can be the target of a comparison or learning requirement.
+// Naming that target is not equivalent to claiming Luis has used it. Explicit
+// experience/proficiency/use assertions remain forbidden in every unit kind.
+function qualifiedTechnologyReference(clause:string,term:string,packet:EvidencePacket) {
+  if(negative(clause,term)) return true;
+  if(!packet.technology_context.some(t=>t.name.toLowerCase()===term.toLowerCase()||has(t.requirements,term))) return false;
+  const name=escape(term);
+  const attributed=new RegExp(`(?:\\b(?:uses?|used|knows?|knew|adopted|integrated|implemented|deployed|managed|operated|mastered|configured|provisioned)\\s+(?:professional(?:ly)?\\s+)?${name}|\\b(?:experience|experienced|expertise|proficiency|skilled|proficient|built|builds?|configured|provisioned|work(?:ed|ing)?)\\s+(?:professionally\\s+)?(?:with|in|using|on)\\s+${name}|${name}[- ](?:experience|expertise|proficiency)|\\b(?:expert|proficient)\\b.{0,25}${name})`,"i");
+  if(attributed.test(clause)) return false;
+  return /transfer|adjacent|background|competenc|learning|remaining gap|(?:would|still|need).{0,40}(?:learn|demonstrate|establish)|(?:based|specific) role/i.test(clause);
 }
 function validateCriticalClaims(claim:AnswerClaim, packet:EvidencePacket) {
   const cited=packet.items.filter(i=>claim.evidence_ids.includes(i.id));
@@ -44,7 +55,7 @@ function validateCriticalClaims(claim:AnswerClaim, packet:EvidencePacket) {
       if(!has(source,date[0])&&!source.includes(`${date[2]}-${month}`)) reject("unsupported_date");
     }
     for(const token of clause.matchAll(/\b[A-Z][a-z]+(?:[A-Z][a-zA-Z0-9]+)+\b/g)) {
-      if(token[0]!=="DevOps"&&!has(source+" "+linkedSkills,token[0])&&!negative(clause,token[0])) reject("unsupported_technology");
+      if(token[0]!=="DevOps"&&!has(source+" "+linkedSkills,token[0])&&!qualifiedTechnologyReference(clause,token[0],packet)) reject("unsupported_technology");
     }
     // Public citation identifiers carry digits but are not numeric career
     // claims. Ignore only exact IDs already cited by this unit, never unknown
@@ -65,10 +76,10 @@ function validateCriticalClaims(claim:AnswerClaim, packet:EvidencePacket) {
       if(!negative(clause,match[0])&&!cited.some(i=>i.category==="employment"&&has(i.title,match[0]))) reject("unsupported_title");
     }
     for(const term of packet.guarded_technologies) {
-      if(has(clause,term)&&!negative(clause,term)) reject("guarded_technology");
+      if(has(clause,term)&&!qualifiedTechnologyReference(clause,term,packet)) reject("guarded_technology");
     }
     for(const term of packet.known_technologies.flatMap(s=>s.split(/\s*\/\s*/)).filter(s=>s.length>1)) {
-      if((term!=="Go"||/\bGo\b/.test(clause))&&has(clause,term)&&!has(source+" "+linkedSkills,term)&&!negative(clause,term)) reject("unsupported_technology");
+      if((term!=="Go"||/\bGo\b/.test(clause))&&has(clause,term)&&!has(source+" "+linkedSkills,term)&&!qualifiedTechnologyReference(clause,term,packet)) reject("unsupported_technology");
     }
     if(/\b(?:deployed|productionized|production(?: service| platform| system| adoption| deployment)|(?:used|ran|runs|running|served|operat(?:es|ed|ing)).{0,55} in production)\b/i.test(clause)) {
       const allowed=cited.some(i=>["production_verified","production_onboarded_with_adoption_limits","documented_experience"].includes(i.maturity));

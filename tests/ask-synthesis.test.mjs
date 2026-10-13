@@ -119,3 +119,9 @@ test('a merged scaffold mentioning absent production metrics is not production e
  assert.ok(c);const p={...azure,items:[{...c,maturity:c.status}],direct_skills:[],transferable_skills:[]};
  assert.throws(()=>groundAnswer(make('Luis used this service in production.',[c.id],'direct',p),p));
 });
+
+test('a target role or learning gap is not a positive guarded-tool experience assertion',()=>{
+ const p=packet(acceptanceQuestions[0]);
+ for(const text of ['The Azure operational background is transferable to a Pulumi-based role.','Luis would still need to learn Pulumi programs and demonstrate hands-on tool proficiency.']) assert.equal(groundAnswer(make(text,['system-azure-environments--1'],'transferable',p),p).claims.length,1);
+ for(const text of ['Luis used Pulumi in a role with adjacent Azure skills.','His Pulumi experience transfers to Azure.','Luis has professional experience with Pulumi and adjacent cloud background.','Luis is proficient in Pulumi for this role.','Luis built with Pulumi for an adjacent cloud role.']) assert.throws(()=>groundAnswer(make(text,['system-azure-environments--1'],'transferable',p),p));
+});
