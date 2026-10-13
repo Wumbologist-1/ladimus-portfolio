@@ -44,6 +44,10 @@ function validateCriticalClaims(claim:AnswerClaim, packet:EvidencePacket) {
     for(const match of clause.matchAll(/\b(?:\d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten|several|many)\s+years?\b/gi)) {
       if(!negative(clause,match[0])&&!has(source,match[0])) reject("unsupported_duration");
     }
+    // Seniority guards are case-insensitive: typography cannot authorize a title.
+    for(const match of clause.matchAll(/\b(?:senior|principal|staff|lead|chief)\s+(?:[a-z]+\s+){0,3}(?:engineer|officer)\b/gi)) {
+      if(!negative(clause,match[0])&&!cited.some(i=>i.category==="employment"&&has(i.title,match[0]))) reject("unsupported_title");
+    }
     for(const match of clause.matchAll(/\b(?:(?:Senior|Principal|Staff|Lead|Chief)\s+(?:[A-Za-z]+\s+){0,3}(?:Engineer|Officer)|(?:Platform|Software|Machine Learning|AI|DevOps|Systems|Backend|QA|Data|Security|Cloud) Engineer|(?:[A-Z][A-Za-z]+\s+){0,3}(?:Analyst|Manager|Director|Architect|Officer))\b/g)) {
       if(!negative(clause,match[0])&&!cited.some(i=>i.category==="employment"&&has(i.title,match[0]))) reject("unsupported_title");
     }

@@ -30,7 +30,7 @@ test('citations must be unique members of the actual retrieved set',()=>{
  for(const ids of [[],['invented'],[outside],['system-azure-environments--1','system-azure-environments--1'],[null]]) assert.throws(()=>groundAnswer(make('Azure environment ownership.',ids),azure));
 });
 test('critical claims cannot be authorized by valid IDs or positive verifier verdicts',async()=>{
- for(const text of ['Luis has 4 years of Azure experience.','Luis was a Senior Platform Engineer.','Luis was a Cloud Engineer.','Luis deployed Kubernetes professionally.','Luis uses Terraform and Pulumi.','Luis uses NebulaOps.','Luis saved $2 million.','Luis managed 99.99% availability.','Luis owned the environments in January 2026.','Luis achieved audited financial savings.','Luis has no Kubernetes evidence but has professional AWS experience.','Kubernetes is not documented. Luis has Kubernetes experience.']) {
+ for(const text of ['Luis has 4 years of Azure experience.','Luis was a Senior Platform Engineer.','Luis was a senior platform engineer.','Luis was a Cloud Engineer.','Luis deployed Kubernetes professionally.','Luis uses Terraform and Pulumi.','Luis uses NebulaOps.','Luis saved $2 million.','Luis managed 99.99% availability.','Luis owned the environments in January 2026.','Luis achieved audited financial savings.','Luis has no Kubernetes evidence but has professional AWS experience.','Kubernetes is not documented. Luis has Kubernetes experience.']) {
   assert.throws(()=>groundAnswer(make(text),azure),text);
   const r=await answerQuery('Azure',options({generate:async()=>make(text),verify:verdict}));assert.equal(r.outcome,'unavailable',text);assert.equal(r.claims.length,0);
  }
