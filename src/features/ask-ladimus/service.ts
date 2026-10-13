@@ -1,6 +1,7 @@
 import type { AskResult, AskWireEvent, EvidenceChunk, RetrievalHint, Skill, ClaimGuards } from "./contracts.ts";
 import { retrieveEvidence } from "./retrieval.ts";
-import { insufficient, queryPolicy } from "./policy.ts";
+import { insufficient, queryPolicy, unsupportedAssertions } from "./policy.ts";
+import { capabilityTarget, retrieveTransferable, gapAnswer } from "./capability-gap.ts";
 import { groundAnswer, SynthesisValidationError } from "./grounding.ts";
 import { createSynthesisPlan, synthesisIntent } from "./synthesis.ts";
 import { recordAskTelemetry } from "./telemetry.ts";
@@ -22,10 +23,12 @@ export async function answerQuery(query: string, options: Options): Promise<AskR
     const base: AskResult = {outcome:"no-evidence",message:insufficient,claims:[],style:"paragraphs",evidence:[],coverage:"No supporting evidence",followUps:[]};
     if (policy.kind === "private") { intent = "private"; return {...base,outcome:"refused",message:policy.message}; }
     options.emit({type:"retrieval:start"});
-    const chunks = retrieveEvidence(policy.kind === "unsupported" ? "Azure containers production" : query,options.chunks,options.hints,options.skills);
+    const gap=capabilityTarget(query,options.chunks,options.skills,options.hints,options.guarded);
+    const chunks = gap?retrieveTransferable(gap,options.chunks,options.hints,options.skills):retrieveEvidence(policy.kind === "unsupported" ? "Azure containers production" : query,options.chunks,options.hints,options.skills);
     const evidence = chunks.map(c => ({id:c.id,recordId:c.recordId,label:c.title,category:c.category,status:c.status,excerpt:c.facts.join("\n"),qualifiers:c.qualifiers}));
     evidenceIds = evidence.map(e => e.id);
     options.emit({type:"retrieval:complete",evidence});
+    if(gap) { intent="capability_gap"; return {...base,evidence,...gapAnswer(gap,chunks,unsupportedAssertions(query,options.guarded))}; }
     const plan = createSynthesisPlan(query, chunks);
     const result = {...base,evidence,style:plan.style,followUps:plan.follow_ups};
     if (policy.kind === "unsupported") { intent = "unsupported"; return {...result,style:"paragraphs",outcome:"partial",message:policy.message,coverage:"Requested technology unsupported; adjacent evidence only"}; }

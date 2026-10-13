@@ -19,7 +19,7 @@ export function sanitizeQuery(query: string) {
 }
 
 const structuredLogs: AskTelemetryProvider = { record: event => { console.info(JSON.stringify(event)); } };
-const intents = new Set(["broader_scope", "impact", "rag", "romtech", "ai_systems", "agentic_ai", "ai_safety", "production_ownership", "backend", "android_testing", "career", "private", "unsupported", "rate_limited"]);
+const intents = new Set(["capability_gap", "broader_scope", "impact", "rag", "romtech", "ai_systems", "agentic_ai", "ai_safety", "production_ownership", "backend", "android_testing", "career", "private", "unsupported", "rate_limited"]);
 const statuses = new Set<AskTelemetryStatus>(["success", "no_evidence", "generation_unavailable", "provider_error", "validation_rejected", "rate_limited"]);
 
 export function recordAskTelemetry(input: AskTelemetryInput, provider: AskTelemetryProvider = structuredLogs): void {

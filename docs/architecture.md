@@ -1,4 +1,4 @@
-# Ladimus Portfolio architecture — v0.6.1
+# Ladimus Portfolio architecture — v0.6.2
 
 ## Application and trust boundaries
 
@@ -6,7 +6,7 @@ One Next.js App Router application, with TypeScript strict mode and no component
 AI SDK, animation, or database dependency added. `/`, `/work`,
 `/projects/ladimus-review`, and `/ask` are prerendered. `POST /api/ask` is a dynamic
 Node server endpoint. The portfolio content remains server-rendered and usable
-without JavaScript. The version label is Portfolio Build 0.6.1.
+without JavaScript. The version label is Portfolio Build 0.6.2.
 
 The existing v0.5 Living Interface remains the foundation. Ask Ladimus adds small
 client boundaries for the console and launcher; the root layout and route content

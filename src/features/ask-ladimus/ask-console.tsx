@@ -68,6 +68,7 @@ export function AskConsole({compact=false}:{compact?:boolean}) {
         {result && result.claims.length>0 && <><p className={styles.label}>Grounded synthesis</p><div className={styles.claims}>
           <AnswerPassages claims={result.claims} style={result.style} evidence={evidence} id={id} />
         </div></>}
+        {result?.limitations && <p className={styles.notice}>{result.limitations}</p>}
         {result && <div className={styles.followUps}>{result.followUps.map(question=><button type="button" key={question} disabled={busy} onClick={()=>void ask(question)}>{question} →</button>)}</div>}
       </section>
       <section className={styles.sources} aria-label="Retrieved evidence" data-topology-clear><p className={styles.label}>02 / Evidence · {evidence.length} sources</p>

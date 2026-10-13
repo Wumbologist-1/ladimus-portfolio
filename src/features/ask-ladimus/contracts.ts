@@ -21,6 +21,8 @@ export type AskResult = {
   outcome: "answered" | "partial" | "no-evidence" | "unavailable" | "refused";
   message: string; claims: AnswerClaim[]; style: AnswerStyle; evidence: Evidence[];
   coverage: string; followUps: string[];
+  limitations?: string;
+  mode?: "capability_gap";
 };
 export type AskWireEvent =
   | { type: "retrieval:start" }
