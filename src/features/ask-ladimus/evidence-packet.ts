@@ -16,6 +16,7 @@ export function prepareEvidence(query:string, chunks:EvidenceChunk[], hints:Retr
     const candidates=chunks.filter(c=>records.has(c.recordId));
     const capabilities=candidates.filter(c=>c.facts.some(f=>f.startsWith("Documented capability:")&&requested.some(s=>mentions(f,s.skill))));
     const overviews=candidates.filter(c=>c.id.endsWith("--1"));
+    if(requested.some(s=>s.skill==="GitHub Actions")) overviews.sort((a,b)=>Number(b.recordId==="system-pr-assistant")-Number(a.recordId==="system-pr-assistant"));
     selected=[...capabilities,...overviews].filter((c,i,a)=>a.findIndex(x=>x.id===c.id)===i).slice(0,5);
   }
   if(/end.to.end|engineering system.*(?:design|production|reliability)/i.test(query)&&!gap) {

@@ -173,7 +173,10 @@ titles require cited employment metadata; durations cannot be inferred;
 numbers, metrics and dates need cited support. Guarded/unestablished technology
 attribution and maturity upgrades reject the answer. Negative qualifications can
 name unsupported requirements. General knowledge cannot become uncited career
-evidence. Numeric/proper-token checks are conservative, not a complete entailment
+evidence. Guarded tool references can describe a target role, transferability or learning
+requirements; that is distinct from claiming existing use/proficiency. Explicit
+positive tool-experience assertions remain forbidden even in transferable units.
+Numeric/proper-token checks are conservative, not a complete entailment
 algorithm for arbitrary natural language.
 
 `verifyGroundedAnswer()` makes a separate bounded call with the original question,
@@ -185,7 +188,10 @@ scope, ownership, maturity and compound requirement must pass. This model gate
 supplements deterministic authority; it is not a formal proof of truth.
 
 A deterministic or semantic rejection permits one fresh corrective synthesis,
-with only a server-owned bounded failure code, followed by a fresh verdict. At most
+with a server-owned bounded failure code/unit and optional numeric atom, followed
+by a fresh verdict. Semantic correction also receives the structurally validated
+prior draft, explicitly treated as rejected output rather than evidence. That draft
+is never logged or displayed unless a new synthesis and verdict both pass. At most
 two generation and two verification calls share one deadline. Provider errors and
 cancellation fail closed. No rejected output or hidden reasoning is returned.
 Retrieved evidence stays inspectable if generation or verification is unavailable.

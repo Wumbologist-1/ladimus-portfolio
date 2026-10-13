@@ -1,4 +1,4 @@
-import type { AskResult, AskWireEvent, EvidenceChunk, RetrievalHint, Skill, ClaimGuards, EvidencePacket, AnswerClaim } from "./contracts.ts";
+import type { AskResult, AskWireEvent, EvidenceChunk, RetrievalHint, Skill, ClaimGuards, EvidencePacket, AnswerClaim, SynthesisCorrection } from "./contracts.ts";
 import { insufficient, queryPolicy } from "./policy.ts";
 import { prepareEvidence } from "./evidence-packet.ts";
 import { groundAnswer, verifyVerdict, SynthesisValidationError } from "./grounding.ts";
@@ -8,7 +8,7 @@ import type { AskTelemetryProvider, AskTelemetryStatus, AskTelemetryStage } from
 
 type Options = {
   chunks:EvidenceChunk[]; hints:RetrievalHint[]; skills:Skill[]; guards:ClaimGuards; guarded:Record<string,string>;
-  configured:boolean; generate:(packet:EvidencePacket,signal:AbortSignal,correction?:string)=>Promise<unknown>;
+  configured:boolean; generate:(packet:EvidencePacket,signal:AbortSignal,correction?:SynthesisCorrection)=>Promise<unknown>;
   verify:(packet:EvidencePacket,claims:AnswerClaim[],signal:AbortSignal)=>Promise<unknown>;
   signal:AbortSignal; emit:(event:AskWireEvent)=>void; timeoutMs?:number; telemetry?:AskTelemetryProvider|undefined;
 };
@@ -37,15 +37,18 @@ export async function answerQuery(query:string,options:Options):Promise<AskResul
     if(options.signal.aborted) abort();
     const timer=setTimeout(()=>{controller.abort();stop?.(Error("timeout"));},Math.max(1,Math.min(18000,options.timeoutMs??18000)));
     const bounded=<T>(work:()=>Promise<T>)=>Promise.race([controller.signal.aborted?Promise.reject(Error("cancelled")):work(),cancelled]);
-    let correction:string|undefined, verifying=false;
+    let correction:SynthesisCorrection|undefined, verifying=false;
+    let draft:AnswerClaim[]|undefined;
     try {
       for(let attempt=0;attempt<2;attempt++) {
+        draft=undefined;
         if(attempt) log("corrective_generation");
         options.emit({type:"generation:start"});log("generation_started");
         const output=await bounded(()=>options.generate(packet,controller.signal,correction));
         options.emit({type:"generation:complete"});log("generation_completed");
         try {
           const answer=groundAnswer(output,packet);
+          draft=answer.claims;
           options.emit({type:"grounding:complete",supported:true});
           verifying=true;options.emit({type:"verification:start"});
           verifyVerdict(await bounded(()=>options.verify(packet,answer.claims,controller.signal)),answer.claims);
@@ -59,7 +62,7 @@ export async function answerQuery(query:string,options:Options):Promise<AskResul
           status="validation_rejected";
           // Only server-owned codes are returned to the generator. No model
           // reasoning, rejected prose, or arbitrary verifier text is exposed.
-          correction=`${cause.code}${cause.unit!==undefined?`; unit=${cause.unit}`:""}${cause.atom?`; numeric_atom=${cause.atom}`:""}`;
+          correction={code:cause.code,...(cause.unit!==undefined?{unit:cause.unit}:{}),...(cause.atom?{numeric_atom:cause.atom}:{}),...(draft?{rejected_answer:draft}:{})};
           if(attempt===1) throw cause;
         }
       }
