@@ -205,7 +205,12 @@ algorithm for arbitrary natural language.
 
 `verifyGroundedAnswer()` makes a separate bounded call with the original question,
 completed units, exact packet and guards. Its only output is
-`{claims:[{index,supported,evidence_ids}]}`. `verifyVerdict()` requires every unit
+`{claims:[{index,supported,evidence_ids,reason_code}]}`. The strict provider schema
+requires a finite rejection category, or none for a supported verdict. Categories
+distinguish unsupported premise, unreasonable assessment, missing limitation,
+maturity upgrade and uncovered requirement without free-form reasoning. Local
+validation also accepts legacy verdicts with the field omitted; contradictory or
+unknown categories reject. `verifyVerdict()` requires every unit
 exactly once, true verdicts and unchanged citation sets. It cannot rewrite text,
 add evidence or partially approve an answer. Every material factual statement,
 scope, ownership, maturity and compound requirement must pass. This model gate
@@ -291,10 +296,12 @@ paragraphs or eight list units; 1,800 characters/unit and 5,000 answer character
 1,700 generation and 1,100 verification completion tokens per call; two generation
 and two verification calls maximum; 27-second service total including retrieval;
 14-second initial generation and 10-second initial verification limits; 9-second
-corrective generation and 7-second corrective verification, only with at least 16.5
+corrective generation and 7 seconds reserved for corrective verification, only with at least 16.5
 seconds remaining (including 500ms response headroom); 29-second client timeout;
 30-second route budget. All stage timers also respect remaining total time.
-Stage completion or cancellation clears timers and releases abort listeners;
+The corrective pair has a fixed 16-second window. Early generation can donate
+unused time to verification up to its 10-second hard cap, without extending that
+window or the total. Stage completion or cancellation clears timers and releases abort listeners;
 client disconnect immediately aborts whichever stage is active. No retries occur
 after provider errors/timeouts. On Vercel, the platform's
 `x-vercel-forwarded-for` header identifies callers. Locally requests share a local

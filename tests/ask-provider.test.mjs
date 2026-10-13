@@ -44,7 +44,7 @@ test('Luna constrains author and verdict shapes independently without constraini
  assert.deepEqual(answer.required,['style','answer','follow_ups']);assert.deepEqual(answer.properties.style.enum,['paragraphs','list']);
  assert.equal(answer.properties.answer.items.additionalProperties,false);assert.equal(answer.properties.answer.items.properties.text.enum,undefined);
  assert.ok(answer.properties.answer.items.properties.kind.enum.includes('transferable'));assert.ok(answer.properties.answer.items.properties.kind.enum.includes('general_technology'));
- assert.deepEqual(verdict.required,['claims']);assert.deepEqual(verdict.properties.claims.items.required,['index','supported','evidence_ids']);assert.equal(verdict.properties.claims.items.additionalProperties,false);
+ assert.deepEqual(verdict.required,['claims']);assert.deepEqual(verdict.properties.claims.items.required,['index','supported','evidence_ids','reason_code']);assert.equal(verdict.properties.claims.items.additionalProperties,false);
  assert.deepEqual(verdict.properties.claims.items.properties.supported,{type:'boolean'});assert.equal(verdict.properties.claims.items.properties.evidence_ids.items.enum,undefined);
  // The API schema never approves support or repairs citations; actual parser,
  // critical guards and exact indexed verdict tests remain the authority.

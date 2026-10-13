@@ -42,10 +42,11 @@ export async function answerQuery(query:string,options:Options):Promise<AskResul
     options.signal.addEventListener("abort",abort,{once:true});
     if(options.signal.aborted) abort();
     const timer=setTimeout(()=>controller.abort("total_timeout"),remaining());
+    let correctionEndsAt=0;
     const bounded=async<T>(stage:"generation"|"verification",attempt:number,work:(signal:AbortSignal)=>Promise<T>):Promise<T>=>{
       const stageController=new AbortController();
       const timeoutCode:AskFailure=attempt?"correction_timeout":stage==="generation"?"generation_timeout":"verification_timeout";
-      const limit=stageMs(attempt?(stage==="generation"?"correctionGenerationMs":"correctionVerificationMs"):(stage==="generation"?"generationMs":"verificationMs"));
+      const limit=attempt&&stage==="verification"?Math.min(stageMs("verificationMs"),Math.max(0,correctionEndsAt-performance.now())):stageMs(attempt?"correctionGenerationMs":stage==="generation"?"generationMs":"verificationMs");
       let stop:((error:StageFailure)=>void)|undefined;
       const cancelled=new Promise<never>((_,reject)=>{stop=reject;});
       const cancel=(code:AskFailure)=>{stageController.abort();stop?.(new StageFailure(code));};
@@ -54,7 +55,7 @@ export async function answerQuery(query:string,options:Options):Promise<AskResul
       const stageTimer=setTimeout(()=>cancel(timeoutCode),Math.min(limit,remaining()));
       try {
         if(controller.signal.aborted) parentAbort();
-        if(remaining()<=0) cancel(timeoutCode);
+        if(limit<=0||remaining()<=0) cancel(timeoutCode);
         if(stageController.signal.aborted) return await cancelled;
         return await Promise.race([work(stageController.signal),cancelled]);
       } catch(cause) {
@@ -67,7 +68,7 @@ export async function answerQuery(query:string,options:Options):Promise<AskResul
     try {
       for(let attempt=0;attempt<2;attempt++) {
         draft=undefined;
-        if(attempt) {failure=undefined;log("corrective_generation");}
+        if(attempt) {correctionEndsAt=performance.now()+stageMs("correctionGenerationMs")+stageMs("correctionVerificationMs");failure=undefined;log("corrective_generation");}
         options.emit({type:"generation:start"});log("generation_started");
         const output=await bounded("generation",attempt,signal=>options.generate(packet,signal,correction));
         options.emit({type:"generation:complete"});log("generation_completed");

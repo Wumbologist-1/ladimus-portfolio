@@ -182,3 +182,31 @@ test('recruiter assessment retains documented LLM integration and conditional sc
  assert.equal(groundAnswer(author(p,'Further ramp-up in operating LLM platforms at scale would be role-dependent.','assessment',ids),p).claims.length,1);
  for(const text of ['Luis operated LLM platforms at scale in a role-dependent setting.','Role-dependent ramp-up shows Luis has experience with LLM platforms at scale.','Ramp-up with LangGraph would be role-dependent.']) assert.throws(()=>groundAnswer(author(p,text,'assessment',ids),p));
 });
+
+test('early corrective generation donates time to verification without extending its reserved pair',async()=>{
+ for(const stall of [false,true]) {
+  let verified=0,seen;
+  const {logs,config}=logsOptions({timeoutMs:300,stageBudget:{generationMs:100,verificationMs:70,correctionGenerationMs:60,correctionVerificationMs:20,reserveMs:5},
+   generate:async p=>{await pause(5);return output(p);},verify:async(p,c,s)=>{verified++;seen=s;if(verified===1)return {claims:c.map((x,index)=>({index,supported:false,evidence_ids:x.evidence_ids}))};if(stall)return new Promise(()=>{});await pause(35);return verdict(p,c);}});
+  const start=performance.now(),result=await answerQuery('Azure',config);
+  assert.equal(verified,2);assert.ok(seen.aborted);assert.equal(result.outcome,stall?'unavailable':'answered');assert.equal(logs.at(-1).failure,stall?'correction_timeout':undefined);assert.ok(performance.now()-start<300);
+ }
+});
+
+test('finite semantic failure categories guide correction but never approve or rewrite an assessment',async()=>{
+ const p=packet('Azure'),claims=groundAnswer(author(p,'The documented safeguards support confidence in bounded workflow design.'),p).claims;
+ const positive={index:0,supported:true,evidence_ids:claims[0].evidence_ids,reason_code:'none'};verifyVerdict({claims:[positive]},claims);
+ for(const code of ['unsupported_premise','unreasonable_assessment','missing_limitation','maturity_upgrade','uncovered_requirement']) assert.throws(()=>verifyVerdict({claims:[{...positive,supported:false,reason_code:code}]},claims),e=>e.code===code);
+ for(const bad of [{...positive,reason_code:'missing_limitation'},{...positive,supported:false},{...positive,reason_code:'SECRET MODEL REASON'},{...positive,kind:'direct'}]) assert.throws(()=>verifyVerdict({claims:[bad]},claims),e=>e.code==='invalid_verification'&&!JSON.stringify(e).includes('SECRET'));
+ let verifies=0,correction;
+ const result=await answerQuery('Azure',options({generate:async(p,_s,c)=>{correction=c;return output(p);},verify:async(p,c)=>++verifies===1?{claims:c.map((x,index)=>({index,supported:false,evidence_ids:x.evidence_ids,reason_code:'missing_limitation'}))}:verdict(p,c)}));
+ assert.equal(result.outcome,'answered');assert.equal(verifies,2);assert.equal(correction.code,'missing_limitation');assert.equal(correction.unit,0);
+});
+
+test('cannot be inferred qualifies a limit but can be inferred does not authorize it',()=>{
+ const p=packet(acceptanceQuestions[1]);
+ assert.equal(groundAnswer(author(p,'Company-wide adoption cannot be inferred from onboarding.','limitation',['system-pr-assistant--1']),p).claims.length,1);
+ assert.throws(()=>groundAnswer(author(p,'Company-wide adoption can be inferred from onboarding.','assessment',['system-pr-assistant--1']),p));
+ const gap=packet(acceptanceQuestions[2]);assert.equal(groundAnswer(author(gap,'4 years of Kubernetes experience cannot be inferred.','limitation',['employment-romtech-devops-2026--1']),gap).claims.length,1);
+ assert.throws(()=>groundAnswer(author(gap,'4 years of Kubernetes experience can be inferred.','assessment',['employment-romtech-devops-2026--1']),gap));
+});

@@ -1,7 +1,8 @@
 import type { EvidencePacket, AnswerClaim, AnswerStyle, ClaimKind } from "./contracts.ts";
 import { mentionsEntity } from "./entities.ts";
 
-export type ValidationCode = "invalid_structure" | "invalid_answer_envelope" | "invalid_answer_unit" | "invalid_follow_up_count" | "duplicate_answer_unit" | "uncited_person_claim" | "unsupported_date" | "unsupported_technology" | "unsupported_number" | "unsupported_duration" | "unsupported_title" | "guarded_technology" | "maturity_upgrade" | "forbidden_claim" | "known_skill_false_negative" | "packet_absence_contradiction" | "unsupported_autonomy" | "invalid_citations" | "answer_too_large" | "invalid_follow_up" | "invalid_verification" | "unsupported_semantics";
+export type ValidationCode = "invalid_structure" | "invalid_answer_envelope" | "invalid_answer_unit" | "invalid_follow_up_count" | "duplicate_answer_unit" | "uncited_person_claim" | "unsupported_date" | "unsupported_technology" | "unsupported_number" | "unsupported_duration" | "unsupported_title" | "guarded_technology" | "maturity_upgrade" | "forbidden_claim" | "known_skill_false_negative" | "packet_absence_contradiction" | "unsupported_autonomy" | "invalid_citations" | "answer_too_large" | "invalid_follow_up" | "invalid_verification" | "unsupported_semantics" | "unsupported_premise" | "unreasonable_assessment" | "missing_limitation" | "uncovered_requirement";
+const semanticCodes=new Set<ValidationCode>(["unsupported_premise","unreasonable_assessment","missing_limitation","maturity_upgrade","uncovered_requirement"]);
 export class SynthesisValidationError extends Error {
   code:ValidationCode; atom?:string; unit?:number; technology?:string;
   constructor(code:ValidationCode,atom?:string,unit?:number) {
@@ -25,7 +26,7 @@ function negative(clause:string,term:string) {
     const at=match.index;
     const before=clause.slice(Math.max(0,at-100),at), after=clause.slice(at+term.length,at+term.length+100);
     return /(?:\bno\b|\bnot\b(?! only)|\bnever\b|\bwithout\b|(?:doesn|hasn|haven|isn|aren|wasn|weren).t|cannot|can.t|neither|lack(?:s|ing)?|insufficient|unestablished|unsupported)[^;.!?]*$/i.test(before)
-      || /^[^;.!?]*(?:not (?:(?:a|an|yet|currently|directly|professionally|been|explicitly)\s+){0,3}(?:established|documented|supported|demonstrated|verified|proven|evidenced|substantiated)|unestablished|unsupported|absent|unverified|unproven|missing|not equivalent)/i.test(after);
+      || /^[^;.!?]*(?:not (?:(?:a|an|yet|currently|directly|professionally|been|explicitly)\s+){0,3}(?:established|documented|supported|demonstrated|verified|proven|evidenced|substantiated)|(?:cannot|can.t)\s+(?:be\s+)?(?:inferred|established|supported|claimed|demonstrated)|unestablished|unsupported|absent|unverified|unproven|missing|not equivalent)/i.test(after);
   });
 }
 // A guarded tool can be the target of a comparison or learning requirement.
@@ -188,10 +189,11 @@ export function verifyVerdict(output:unknown, claims:AnswerClaim[]):void {
   if(!object(output)||Object.keys(output).some(k=>k!=="claims")||!Array.isArray(output.claims)||output.claims.length!==claims.length) return reject("invalid_verification");
   const seen=new Set<number>();
   for(const item of output.claims) {
-    if(!object(item)||Object.keys(item).some(k=>!["index","supported","evidence_ids"].includes(k))||!Number.isInteger(item.index)||typeof item.supported!=="boolean"||!Array.isArray(item.evidence_ids)) return reject("invalid_verification");
+    if(!object(item)||Object.keys(item).some(k=>!["index","supported","evidence_ids","reason_code"].includes(k))||!Number.isInteger(item.index)||typeof item.supported!=="boolean"||!Array.isArray(item.evidence_ids)) return reject("invalid_verification");
+    if(item.reason_code!==undefined&&(typeof item.reason_code!=="string"||item.reason_code!=="none"&&!semanticCodes.has(item.reason_code as ValidationCode)||item.supported&&item.reason_code!=="none"||!item.supported&&item.reason_code==="none")) return reject("invalid_verification");
     const index=item.index as number, claim=claims[index];
     if(!claim||seen.has(index)||new Set(item.evidence_ids).size!==item.evidence_ids.length||item.evidence_ids.length!==claim.evidence_ids.length||item.evidence_ids.some(id=>typeof id!=="string"||!claim.evidence_ids.includes(id))) return reject("invalid_verification");
     seen.add(index);
-    if(!item.supported) return reject("unsupported_semantics",undefined,index);
+    if(!item.supported) return reject(item.reason_code as ValidationCode??"unsupported_semantics",undefined,index);
   }
 }
