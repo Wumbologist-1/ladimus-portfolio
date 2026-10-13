@@ -148,6 +148,8 @@ verification → Verified answer or fail-closed evidence response.
 and evidence-linked skills. Named comparisons reserve one representative overview
 per requested known system/project before allocating depth slots. Corpus titles
 and record-derived short aliases identify entities, including Android Test Agent.
+Capability target extraction excludes pronouns and grammatical evidence references
+such as “using his documented work”; unfamiliar named tools remain detectable.
 The top-K bound still applies when a request names more entities than fit.
 Named single systems retain detail chunks; known professional
 skills retain capability facts plus implementation context. Lifecycle questions
@@ -162,6 +164,10 @@ Linked direct/transferable skills, unsupported requirements, general technology
 competencies and claim guards are separate fields. Competencies are not career
 facts. Packet entity aliases link to selected evidence IDs; analysis_mode marks
 synthesis, comparison or assessment. Neither provider call receives private documents.
+AI platform role assessments retain professional role, agent safety, AI/LLM
+integration, Azure operations and prototype RAG context rather than mistaking a
+limited retrieval slice for an absent skill. Conditional ramp-up about a documented
+skill may name its role context, but cannot assert uncited current use or expertise.
 
 `generateGroundedAnswer()` authors new prose, choosing comparisons, priorities,
 relationships and significance. Its contract is

@@ -33,9 +33,14 @@ function negative(clause:string,term:string) {
 // experience/proficiency/use assertions remain forbidden in every unit kind.
 function qualifiedTechnologyReference(clause:string,term:string,packet:EvidencePacket,kind:ClaimKind) {
   if(negative(clause,term)) return true;
-  if(!packet.technology_context.some(t=>t.name.toLowerCase()===term.toLowerCase()||has(t.requirements,term))) return false;
   const name=escape(term);
   const attributed=new RegExp(`(?:\\b(?:uses?|used|knows?|knew|built|builds?|adopted|integrated|implemented|deployed|managed|operated|mastered|configured|provisioned)\\s+(?:professional(?:ly)?\\s+)?${name}|\\b(?:experience|experienced|expertise|proficiency|skilled|proficient|built|builds?|configured|provisioned|work(?:s|ed|ing)?)\\s+(?:professionally\\s+)?(?:with|in|using|on)\\s+${name}|${name}[- ](?:experience|expertise|proficiency)|\\b(?:expert|proficient)\\b.{0,25}${name})`,"i");
+  if(!packet.technology_context.some(t=>t.name.toLowerCase()===term.toLowerCase()||has(t.requirements,term))) {
+    // Conditional ramp-up about an already documented skill is analysis of a
+    // target role, not an assertion of current use from this unit's citations.
+    const roleContext=kind==="assessment"&&packet.direct_skills.some(s=>has(s.skill,term))&&/\bramp.up\b|\brole.dependent\b|\b(?:if|depending).{0,40}\b(?:role|scope)\b/i.test(clause);
+    return roleContext&&!attributed.test(clause);
+  }
   const futureLearning=/\b(?:would|still|need).{0,40}(?:learn|demonstrate|establish|gain|acquire|develop)\b/i.test(clause)
     || new RegExp(`\\b(?:would\\s+(?:still\\s+)?need|still\\s+needs?|needs?)\\b.{0,45}(?:experience|proficiency)\\s+(?:with|in|using)\\s+${name}`,"i").test(clause);
   const learning=futureLearning||/transfer|maps? to|relevant to/i.test(clause);

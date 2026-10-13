@@ -8,6 +8,7 @@ import {prepareEvidence} from '../src/features/ask-ladimus/evidence-packet.ts';
 import {retrieveEvidence} from '../src/features/ask-ladimus/retrieval.ts';
 import {groundAnswer,verifyVerdict} from '../src/features/ask-ladimus/grounding.ts';
 import {recordAskTelemetry} from '../src/features/ask-ladimus/telemetry.ts';
+import {capabilityTarget} from '../src/features/ask-ladimus/capability-gap.ts';
 import {options,chunks,hints,skills,guards,guarded,output,verdict,acceptanceQuestions} from './ask-fixtures.mjs';
 
 export const reliabilityQuestions=[
@@ -164,4 +165,20 @@ test('structural diagnosis and technology context remain finite without rejected
  for(const [bad,code] of [[{},'invalid_answer_envelope'],[{...good,follow_ups:[]},'invalid_follow_up_count'],[{...good,answer:[{...good.answer[0],kind:'raw-secret-kind'}]},'invalid_answer_unit'],[{...good,answer:[good.answer[0],good.answer[0]]},'duplicate_answer_unit']]) assert.throws(()=>groundAnswer(bad,p),e=>e.code===code&&!JSON.stringify(e).includes('raw-secret'));
  assert.throws(()=>groundAnswer(author(p,'Luis uses LangGraph professionally.','direct',['system-azure-environments--1']),p),e=>e.code==='unsupported_technology'&&e.technology==='LangGraph');
  assert.throws(()=>groundAnswer(author(p,'Luis uses SecretModelPayload professionally.','direct',['system-azure-environments--1']),p),e=>e.code==='unsupported_technology'&&e.technology===undefined);
+});
+
+test('the exact autonomy request does not turn using his documented work into a tool gap',()=>{
+ for(const q of [reliabilityQuestions[0],'Evaluate his approach using the public evidence.','What do you know about his documented experience?','Explain the design using documented sources.']) assert.equal(capabilityTarget(q,chunks,skills,hints.intents,guarded),null);
+ const p=packet(reliabilityQuestions[0]);assert.equal(p.analysis_mode,'assessment');assert.deepEqual(p.technology_context,[]);assert.ok(!p.guarded_technologies.includes('his'));
+ for(const id of ['system-pr-assistant','system-android-test-agent','system-ai-code-gating']) assert.ok(p.items.some(i=>i.id===`${id}--1`));
+ assert.ok(capabilityTarget('Using his documented work, does Luis have experience with NebulaCloud?',chunks,skills,hints.intents,guarded).names.includes('NebulaCloud'));
+ assert.ok(capabilityTarget('Does Luis have experience with the NebulaCloud tool?',chunks,skills,hints.intents,guarded).names.includes('NebulaCloud'));
+});
+
+test('recruiter assessment retains documented LLM integration and conditional scale gaps without inventing tool use',()=>{
+ const p=packet(reliabilityQuestions[1]);assert.ok(p.direct_skills.some(s=>s.skill==='LLM/API integration'));
+ assert.ok(p.items.some(i=>i.id==='system-ai-code-gating--1'));assert.ok(p.items.some(i=>i.id==='system-romguide--1'&&i.maturity==='prototype_built'));
+ const ids=['employment-romtech-devops-2026--1'];
+ assert.equal(groundAnswer(author(p,'Further ramp-up in operating LLM platforms at scale would be role-dependent.','assessment',ids),p).claims.length,1);
+ for(const text of ['Luis operated LLM platforms at scale in a role-dependent setting.','Role-dependent ramp-up shows Luis has experience with LLM platforms at scale.','Ramp-up with LangGraph would be role-dependent.']) assert.throws(()=>groundAnswer(author(p,text,'assessment',ids),p));
 });
