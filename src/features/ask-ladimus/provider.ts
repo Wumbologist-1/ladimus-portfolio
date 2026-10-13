@@ -6,10 +6,14 @@ export function providerConfigured() { return Boolean(process.env.ASK_LADIMUS_AP
 async function requestJSON(instruction:string,payload:unknown,signal:AbortSignal,maxTokens:number):Promise<unknown> {
   const endpoint=process.env.ASK_LADIMUS_API_URL||"https://api.openai.com/v1/chat/completions";
   if(new URL(endpoint).protocol!=="https:") throw Error("Invalid provider configuration");
+  const model=process.env.ASK_LADIMUS_MODEL;
+  // GPT-6 Luna defaults to medium; low retains reasoning within this path's
+  // shared 18-second deadline. No model or endpoint is silently substituted.
+  const reasoning=model==="gpt-6-luna"?{reasoning_effort:"low"}:{};
   const response=await fetch(endpoint,{
     method:"POST",signal,cache:"no-store",
     headers:{"Content-Type":"application/json",Authorization:`Bearer ${process.env.ASK_LADIMUS_API_KEY}`},
-    body:JSON.stringify({model:process.env.ASK_LADIMUS_MODEL,max_completion_tokens:maxTokens,response_format:{type:"json_object"},messages:[
+    body:JSON.stringify({model,...reasoning,max_completion_tokens:maxTokens,response_format:{type:"json_object"},messages:[
       {role:"system",content:instruction},{role:"user",content:JSON.stringify(payload)},
     ]}),
   });

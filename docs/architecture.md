@@ -189,7 +189,7 @@ supplements deterministic authority; it is not a formal proof of truth.
 
 A deterministic or semantic rejection permits one fresh corrective synthesis,
 with a server-owned bounded failure code/unit and optional numeric atom, followed
-by a fresh verdict. Semantic correction also receives the structurally validated
+by a fresh verdict. Correction also receives the structurally validated
 prior draft, explicitly treated as rejected output rather than evidence. That draft
 is never logged or displayed unless a new synthesis and verdict both pass. At most
 two generation and two verification calls share one deadline. Provider errors and
@@ -277,7 +277,10 @@ ASK_LADIMUS_MODEL
 
 Optional `ASK_LADIMUS_API_URL` is a trusted HTTPS OpenAI-compatible Chat Completions
 endpoint; the default is `https://api.openai.com/v1/chat/completions`. A configured
-model must support JSON mode and `max_completion_tokens`. No model is silently
+model must support JSON mode and `max_completion_tokens`. GPT-6 Luna uses
+`reasoning_effort: low` on both bounded calls; other configured models keep the
+existing compatible request contract. This preserves the model and leaves time for
+verification/correction. [Official model support](https://developers.openai.com/api/docs/models/gpt-6-luna). No model is silently
 chosen. Provider request shape follows the official Chat Completions reference:
 https://developers.openai.com/api/reference/resources/chat/subresources/completions/methods/create
 

@@ -14,7 +14,7 @@ export type ClaimGuards = {
 export type Evidence = { id: string; recordId: string; label: string; category: string; status: string; excerpt: string; qualifiers: string[] };
 export type ClaimKind = "direct" | "synthesis" | "transferable" | "limitation" | "general_technology";
 export type AnswerClaim = { text: string; evidence_ids: string[]; kind: ClaimKind };
-export type SynthesisCorrection = {code:string; unit?:number; numeric_atom?:string; rejected_answer?:AnswerClaim[]};
+export type SynthesisCorrection = {code:string; unit?:number; numeric_atom?:string; technology?:string; rejected_answer?:AnswerClaim[]};
 export type EvidencePacket = {
   question: string;
   items: {id:string; title:string; category:string; organization:string; timeframe:string; maturity:string; facts:string[]; qualifiers:string[]}[];
@@ -37,7 +37,7 @@ export type AskWireEvent =
   | { type: "retrieval:complete"; evidence: Evidence[] }
   | { type: "generation:start" }
   | { type: "generation:complete" }
-  | { type: "grounding:complete"; supported: boolean; code?: string; atom?: string; unit?: number }
+  | { type: "grounding:complete"; supported: boolean; code?: string; atom?: string; unit?: number; technology?: string }
   | { type: "verification:start" }
   | { type: "verification:complete"; supported: boolean }
   | { type: "response:complete"; result: AskResult }

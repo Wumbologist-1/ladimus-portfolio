@@ -125,3 +125,14 @@ test('a target role or learning gap is not a positive guarded-tool experience as
  for(const text of ['The Azure operational background is transferable to a Pulumi-based role.','Luis would still need to learn Pulumi programs and demonstrate hands-on tool proficiency.','Azure release validation is relevant to a Pulumi-based infrastructure role.','That background maps to working with Pulumi, while direct tool experience remains unestablished.','Azure release ownership is transferable to working with Pulumi.']) assert.equal(groundAnswer(make(text,['system-azure-environments--1'],'transferable',p),p).claims.length,1);
  for(const text of ['Luis used Pulumi in a role with adjacent Azure skills.','His Pulumi experience transfers to Azure.','Luis has professional experience with Pulumi and adjacent cloud background.','Luis is proficient in Pulumi for this role.','Luis built with Pulumi for an adjacent cloud role.','Luis built Pulumi infrastructure for an adjacent role.','Luis works with Pulumi in an adjacent cloud role.']) assert.throws(()=>groundAnswer(make(text,['system-azure-environments--1'],'transferable',p),p));
 });
+
+test('deterministic correction gets only a bounded parsed draft, never a provider payload',async()=>{
+ let correction,calls=0;const r=await answerQuery('Azure',options({generate:async(p,_s,c)=>{calls++;correction=c;return calls===1?make('Luis has 9 years of Azure experience.'):output(p);}}));
+ assert.equal(r.outcome,'answered');assert.equal(calls,2);assert.equal(correction.code,'unsupported_number');assert.equal(correction.numeric_atom,'9');assert.equal(correction.rejected_answer.length,1);
+ const invalid=[];await answerQuery('Azure',options({generate:async(_p,_s,c)=>{invalid.push(c);return {provider_payload:'hidden private model reasoning'};}}));assert.equal(invalid[1].rejected_answer,undefined);assert.ok(!JSON.stringify(invalid).includes('private model reasoning'));
+});
+
+test('inline references cannot borrow a supported metric to disguise an invalid source',()=>{
+ const p=packet('What measurable production impact did his automation have?');
+ for(const text of ['The documented workflows cite fake-evidence--414.','The documented workflows cite [98].']) assert.throws(()=>groundAnswer(make(text,['system-genie-swopsbot--3'],'direct',p),p));
+});

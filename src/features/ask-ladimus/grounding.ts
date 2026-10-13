@@ -2,7 +2,7 @@ import type { EvidencePacket, AnswerClaim, AnswerStyle, ClaimKind } from "./cont
 
 export type ValidationCode = "invalid_structure" | "uncited_person_claim" | "unsupported_date" | "unsupported_technology" | "unsupported_number" | "unsupported_duration" | "unsupported_title" | "guarded_technology" | "maturity_upgrade" | "forbidden_claim" | "known_skill_false_negative" | "invalid_citations" | "answer_too_large" | "invalid_follow_up" | "invalid_verification" | "unsupported_semantics";
 export class SynthesisValidationError extends Error {
-  code:ValidationCode; atom?:string; unit?:number;
+  code:ValidationCode; atom?:string; unit?:number; technology?:string;
   constructor(code:ValidationCode,atom?:string,unit?:number) {
     super(code);this.code=code;
     if(atom&&/^\d{1,12}(?:\.\d{1,5})?$/.test(atom)) this.atom=atom;
@@ -48,6 +48,12 @@ function qualifiedTechnologyReference(clause:string,term:string,packet:EvidenceP
 function validateCriticalClaims(claim:AnswerClaim, packet:EvidencePacket) {
   const cited=packet.items.filter(i=>claim.evidence_ids.includes(i.id));
   const source=cited.map(i=>[i.title,i.organization.replace(/ROM Technologies(?:, Inc\.)?/i,"ROMTech"),i.timeframe,...i.facts].join(" ")).join(" ");
+  for(const reference of claim.text.matchAll(/\b[a-z][a-z0-9-]*--\d{1,3}\b/g)) {
+    if(!claim.evidence_ids.includes(reference[0])) reject("invalid_citations");
+  }
+  for(const reference of claim.text.matchAll(/\[(\d{1,2})\]/g)) {
+    if(!claim.evidence_ids.includes(packet.items[Number(reference[1])-1]?.id??"")) reject("invalid_citations");
+  }
   const sourceNumbers=new Set(numbers(source));
   const linkedSkills=[...packet.direct_skills,...packet.transferable_skills].filter(s=>s.evidence_ids.some(id=>claim.evidence_ids.includes(id))).map(s=>s.skill).join(" ");
   if(!cited.length) {
@@ -83,7 +89,9 @@ function validateCriticalClaims(claim:AnswerClaim, packet:EvidencePacket) {
       if(!negative(clause,match[0])&&!cited.some(i=>i.category==="employment"&&has(i.title,match[0]))) reject("unsupported_title");
     }
     for(const term of packet.guarded_technologies) {
-      if(has(clause,term)&&!qualifiedTechnologyReference(clause,term,packet,claim.kind)) reject("guarded_technology");
+      if(has(clause,term)&&!qualifiedTechnologyReference(clause,term,packet,claim.kind)) {
+        const cause=new SynthesisValidationError("guarded_technology");cause.technology=term;throw cause;
+      }
     }
     for(const term of packet.known_technologies.flatMap(s=>s.split(/\s*\/\s*/)).filter(s=>s.length>1)) {
       if((term!=="Go"||/\bGo\b/.test(clause))&&has(clause,term)&&!has(source+" "+linkedSkills,term)&&!qualifiedTechnologyReference(clause,term,packet,claim.kind)) reject("unsupported_technology");
@@ -105,17 +113,16 @@ function validateCriticalClaims(claim:AnswerClaim, packet:EvidencePacket) {
   }
 }
 
-export function groundAnswer(output:unknown, packet:EvidencePacket):{claims:AnswerClaim[];followUps:string[];style:AnswerStyle} {
+export function parseAnswer(output:unknown, packet:EvidencePacket):{claims:AnswerClaim[];followUps:string[];style:AnswerStyle} {
   if(!object(output)||Object.keys(output).some(k=>!["style","answer","follow_ups"].includes(k))||!Array.isArray(output.answer)||!Array.isArray(output.follow_ups)||!["paragraphs","list"].includes(String(output.style))) return reject();
   if(!output.answer.length||output.answer.length>(output.style==="list"?8:5)||output.follow_ups.length>3||output.follow_ups.length<Math.min(2,packet.follow_up_candidates.length)) return reject();
   const ids=new Set(packet.items.map(c=>c.id)), seen=new Set<string>();
-  const claims:AnswerClaim[]=output.answer.map((item,index)=>{
+  const claims:AnswerClaim[]=output.answer.map(item=>{
     if(!object(item)||Object.keys(item).some(k=>!["text","evidence_ids","kind"].includes(k))||typeof item.text!=="string"||!kinds.has(item.kind as ClaimKind)||!Array.isArray(item.evidence_ids)||item.evidence_ids.length>5) return reject();
     if(!item.text.trim()||item.text.length>1800||/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(item.text)||seen.has(item.text)||(!item.evidence_ids.length&&item.kind!=="general_technology")) return reject();
     if(item.evidence_ids.some(id=>typeof id!=="string"||!ids.has(id))||new Set(item.evidence_ids).size!==item.evidence_ids.length) return reject("invalid_citations");
     seen.add(item.text);
     const claim={text:item.text,evidence_ids:item.evidence_ids as string[],kind:item.kind as ClaimKind};
-    try {validateCriticalClaims(claim,packet);} catch(cause) {if(cause instanceof SynthesisValidationError) cause.unit=index;throw cause;}
     return claim;
   });
   if(claims.reduce((n,c)=>n+c.text.length,0)>5000) return reject("answer_too_large");
@@ -125,6 +132,15 @@ export function groundAnswer(output:unknown, packet:EvidencePacket):{claims:Answ
   });
   if(new Set(followUps).size!==followUps.length) return reject();
   return {claims,followUps,style:output.style as AnswerStyle};
+}
+
+export function validateGrounding(claims:AnswerClaim[],packet:EvidencePacket):void {
+  claims.forEach((claim,index)=>{
+    try {validateCriticalClaims(claim,packet);} catch(cause) {if(cause instanceof SynthesisValidationError) cause.unit=index;throw cause;}
+  });
+}
+export function groundAnswer(output:unknown,packet:EvidencePacket) {
+  const answer=parseAnswer(output,packet);validateGrounding(answer.claims,packet);return answer;
 }
 
 // The verifier is a verdict-only gate. It cannot alter prose, add sources, or

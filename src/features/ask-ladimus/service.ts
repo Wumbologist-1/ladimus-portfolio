@@ -1,7 +1,7 @@
 import type { AskResult, AskWireEvent, EvidenceChunk, RetrievalHint, Skill, ClaimGuards, EvidencePacket, AnswerClaim, SynthesisCorrection } from "./contracts.ts";
 import { insufficient, queryPolicy } from "./policy.ts";
 import { prepareEvidence } from "./evidence-packet.ts";
-import { groundAnswer, verifyVerdict, SynthesisValidationError } from "./grounding.ts";
+import { parseAnswer, validateGrounding, verifyVerdict, SynthesisValidationError } from "./grounding.ts";
 import { synthesisIntent } from "./synthesis.ts";
 import { recordAskTelemetry } from "./telemetry.ts";
 import type { AskTelemetryProvider, AskTelemetryStatus, AskTelemetryStage } from "./telemetry.ts";
@@ -47,22 +47,23 @@ export async function answerQuery(query:string,options:Options):Promise<AskResul
         const output=await bounded(()=>options.generate(packet,controller.signal,correction));
         options.emit({type:"generation:complete"});log("generation_completed");
         try {
-          const answer=groundAnswer(output,packet);
+          const answer=parseAnswer(output,packet);
           draft=answer.claims;
+          validateGrounding(answer.claims,packet);
           options.emit({type:"grounding:complete",supported:true});
           verifying=true;options.emit({type:"verification:start"});
           verifyVerdict(await bounded(()=>options.verify(packet,answer.claims,controller.signal)),answer.claims);
           status="success";log("verification_passed");options.emit({type:"verification:complete",supported:true});
           return {...result,...answer,outcome:gap||packet.unsupported_requirements.length?"partial":"answered",message:"",coverage:"Verified synthesis; evidence shown",...(gap?{mode:"capability_gap" as const}:{})};
         } catch(cause) {
-          if(!verifying && cause instanceof SynthesisValidationError) options.emit({type:"grounding:complete",supported:false,code:cause.code,...(cause.atom?{atom:cause.atom}:{}),...(cause.unit!==undefined?{unit:cause.unit}:{})});
+          if(!verifying && cause instanceof SynthesisValidationError) options.emit({type:"grounding:complete",supported:false,code:cause.code,...(cause.atom?{atom:cause.atom}:{}),...(cause.technology?{technology:cause.technology}:{}),...(cause.unit!==undefined?{unit:cause.unit}:{})});
           if(verifying) {status=cause instanceof SynthesisValidationError?"validation_rejected":"provider_error";log("verification_failed");options.emit({type:"verification:complete",supported:false});}
           verifying=false;
           if(!(cause instanceof SynthesisValidationError)) throw cause;
           status="validation_rejected";
-          // Only server-owned codes are returned to the generator. No model
-          // reasoning, rejected prose, or arbitrary verifier text is exposed.
-          correction={code:cause.code,...(cause.unit!==undefined?{unit:cause.unit}:{}),...(cause.atom?{numeric_atom:cause.atom}:{}),...(draft?{rejected_answer:draft}:{})};
+          // Corrections contain bounded server codes and structurally parsed
+          // units. Draft text never reaches telemetry or the visitor.
+          correction={code:cause.code,...(cause.unit!==undefined?{unit:cause.unit}:{}),...(cause.atom?{numeric_atom:cause.atom}:{}),...(cause.technology?{technology:cause.technology}:{}),...(draft?{rejected_answer:draft}:{})};
           if(attempt===1) throw cause;
         }
       }

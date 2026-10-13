@@ -25,3 +25,10 @@ test('provider response bytes, completion status, JSON and HTTPS configuration a
  for(const fetch of [async()=>new Response('unavailable',{status:500}),async()=>new Response('x'.repeat(64001)),async()=>new Response('not json'),async()=>new Response(JSON.stringify({choices:[{finish_reason:'length',message:{content:'{}'}}]}))]) await assert.rejects(load(fetch).generateGroundedAnswer(p,new AbortController().signal));
  let calls=0;await assert.rejects(load(async()=>{calls++;return response({});},{ASK_LADIMUS_API_URL:'http://insecure.test'}).generateGroundedAnswer(p,new AbortController().signal));assert.equal(calls,0);
 });
+
+test('GPT-6 Luna uses supported low effort while unrelated models keep their request contract',async()=>{
+ for(const model of ['gpt-6-luna','test-model']) {
+  let body;const provider=load(async(_url,init)=>{body=JSON.parse(init.body);return response(output(p));},{ASK_LADIMUS_MODEL:model,ASK_LADIMUS_API_KEY:'test-key'});
+  await provider.generateGroundedAnswer(p,new AbortController().signal);assert.equal(body.model,model);assert.equal(body.reasoning_effort,model==='gpt-6-luna'?'low':undefined);
+ }
+});
