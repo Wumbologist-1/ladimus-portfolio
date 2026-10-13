@@ -278,9 +278,15 @@ ASK_LADIMUS_MODEL
 Optional `ASK_LADIMUS_API_URL` is a trusted HTTPS OpenAI-compatible Chat Completions
 endpoint; the default is `https://api.openai.com/v1/chat/completions`. A configured
 model must support JSON mode and `max_completion_tokens`. GPT-6 Luna uses
-`reasoning_effort: low` on both bounded calls; other configured models keep the
-existing compatible request contract. This preserves the model and leaves time for
-verification/correction. [Official model support](https://developers.openai.com/api/docs/models/gpt-6-luna). No model is silently
+`reasoning_effort: low` and strict `json_schema` Structured Outputs on both bounded
+calls. Stable, separate answer/verdict schemas constrain field names, types,
+claim kinds and structural bounds without prescribing prose or positive support.
+Local parsing still enforces style limits, unique permitted citations, approved
+follow-ups and every indexed verdict; critical guards and semantic verification
+remain mandatory. Other configured models keep the existing JSON-mode request
+contract. The shared deadline can still exhaust during correction; schema adherence
+does not establish factual correctness. [Structured Outputs reference](https://developers.openai.com/api/docs/guides/structured-outputs).
+[Official model support](https://developers.openai.com/api/docs/models/gpt-6-luna). No model is silently
 chosen. Provider request shape follows the official Chat Completions reference:
 https://developers.openai.com/api/reference/resources/chat/subresources/completions/methods/create
 

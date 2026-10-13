@@ -32,3 +32,19 @@ test('GPT-6 Luna uses supported low effort while unrelated models keep their req
   await provider.generateGroundedAnswer(p,new AbortController().signal);assert.equal(body.model,model);assert.equal(body.reasoning_effort,model==='gpt-6-luna'?'low':undefined);
  }
 });
+
+test('Luna constrains author and verdict shapes independently without constraining prose or positive verdicts',async()=>{
+ const requests=[],provider=load(async(_url,init)=>{requests.push(JSON.parse(init.body));return response(output(p));},{ASK_LADIMUS_MODEL:'gpt-6-luna',ASK_LADIMUS_API_KEY:'test-key'});
+ const signal=new AbortController().signal;
+ await provider.generateGroundedAnswer(p,signal);await provider.verifyGroundedAnswer(p,output(p).answer,signal);
+ const [author,verifier]=requests.map(r=>r.response_format);
+ for(const format of [author,verifier]) {assert.equal(format.type,'json_schema');assert.equal(format.json_schema.strict,true);assert.equal(format.json_schema.schema.additionalProperties,false);}
+ const answer=author.json_schema.schema,verdict=verifier.json_schema.schema;
+ assert.deepEqual(answer.required,['style','answer','follow_ups']);assert.deepEqual(answer.properties.style.enum,['paragraphs','list']);
+ assert.equal(answer.properties.answer.items.additionalProperties,false);assert.equal(answer.properties.answer.items.properties.text.enum,undefined);
+ assert.ok(answer.properties.answer.items.properties.kind.enum.includes('transferable'));assert.ok(answer.properties.answer.items.properties.kind.enum.includes('general_technology'));
+ assert.deepEqual(verdict.required,['claims']);assert.deepEqual(verdict.properties.claims.items.required,['index','supported','evidence_ids']);assert.equal(verdict.properties.claims.items.additionalProperties,false);
+ assert.deepEqual(verdict.properties.claims.items.properties.supported,{type:'boolean'});assert.equal(verdict.properties.claims.items.properties.evidence_ids.items.enum,undefined);
+ // The API schema never approves support or repairs citations; actual parser,
+ // critical guards and exact indexed verdict tests remain the authority.
+});
