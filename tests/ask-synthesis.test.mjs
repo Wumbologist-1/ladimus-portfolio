@@ -64,7 +64,7 @@ test('semantic verifier must cover every unit once, preserve citations and never
 test('semantic rejection gets only one correction and no unverified answer escapes',async()=>{
  let generations=0,verifications=0;const corrections=[],events=[],logs=[];
  const r=await answerQuery('Azure',options({generate:async(p,s,c)=>{generations++;corrections.push(c);return output(p);},verify:async(p,c)=>{verifications++;return {claims:c.map((x,index)=>({index,supported:false,evidence_ids:x.evidence_ids}))};},emit:e=>events.push(e.type),telemetry:{record:e=>logs.push(e)}}));
- assert.equal(generations,2);assert.equal(verifications,2);assert.equal(corrections[0],undefined);assert.equal(corrections[1],'unsupported_semantics');assert.equal(r.outcome,'unavailable');assert.deepEqual(r.claims,[]);assert.ok(r.evidence.length);assert.equal(events.filter(e=>e==='verification:start').length,2);assert.equal(logs.filter(e=>e.stage==='verification_failed').length,2);
+ assert.equal(generations,2);assert.equal(verifications,2);assert.equal(corrections[0],undefined);assert.match(corrections[1],/^unsupported_semantics; unit=0$/);assert.equal(r.outcome,'unavailable');assert.deepEqual(r.claims,[]);assert.ok(r.evidence.length);assert.equal(events.filter(e=>e==='verification:start').length,2);assert.equal(logs.filter(e=>e.stage==='verification_failed').length,2);
 });
 test('one corrective synthesis can pass but still requires a fresh verifier verdict',async()=>{
  let calls=0;const r=await answerQuery('Azure',options({verify:async(p,c)=>++calls===1?{claims:c.map((x,index)=>({index,supported:false,evidence_ids:x.evidence_ids}))}:verdict(p,c)}));assert.equal(calls,2);assert.equal(r.outcome,'answered');
@@ -102,4 +102,20 @@ test('negative qualifications and discipline language remain usable without inve
  const p=packet('Pulumi experience transfer learn');
  for(const text of ['Pulumi is not a documented professional skill.','Luis does not have documented Pulumi experience.']) assert.equal(groundAnswer(make(text,['system-azure-environments--1'],'limitation',p),p).claims.length,1);
  assert.equal(groundAnswer(make('Release validation and rollback go beyond publishing an image, connecting the Azure work to DevOps responsibilities.',undefined,'synthesis'),azure).claims.length,1);
+});
+
+test('numeric validation distinguishes exact cited IDs from invented numeric career claims',()=>{
+ const text='Azure release validation and rollback connect deployment to recovery (system-azure-environments--1).';
+ assert.equal(groundAnswer(make(text,undefined,'synthesis'),azure).claims.length,1);
+ assert.throws(()=>groundAnswer(make(text+' Luis saved 1 million.'),azure));
+ const reference=azure.items.findIndex(i=>i.id==='system-azure-environments--1')+1;
+ assert.equal(groundAnswer(make('Azure release ownership ['+reference+'].',undefined,'synthesis'),azure).claims.length,1);
+ assert.throws(()=>groundAnswer(make('Azure release ownership [99].'),azure));
+ assert.throws(()=>groundAnswer(make('Azure work (non-retrieved-source--1).'),azure));
+ const p=packet(acceptanceQuestions[2]);assert.equal(groundAnswer(make('The evidence does not establish 4 years of Kubernetes experience.',['employment-romtech-devops-2026--1'],'direct',p),p).claims.length,1);
+});
+test('a merged scaffold mentioning absent production metrics is not production evidence',()=>{
+ const c=chunks.find(c=>c.id==='system-genie-sre-scaffold--1');
+ assert.ok(c);const p={...azure,items:[{...c,maturity:c.status}],direct_skills:[],transferable_skills:[]};
+ assert.throws(()=>groundAnswer(make('Luis used this service in production.',[c.id],'direct',p),p));
 });
