@@ -88,7 +88,7 @@ test('conflict, seniority and years questions are qualified',()=>{
 test('no evidence never invokes model',async()=>{const r=await answerQuery('underwater basket weaving',options({generate:()=>{throw Error('must not call')}}));assert.equal(r.outcome,'no-evidence');});
 test('authored answer maps every unit to retrieved evidence and exercises real stages',async()=>{
  const events=[];const r=await answerQuery('Azure',options({emit:e=>events.push(e.type)}));assert.equal(r.outcome,'answered');for(const c of r.claims)assert.ok(c.evidence_ids.every(id=>r.evidence.some(e=>e.id===id)));
- assert.deepEqual(events,['retrieval:start','retrieval:complete','generation:start','generation:complete','verification:start','verification:complete']);
+ assert.deepEqual(events,['retrieval:start','retrieval:complete','generation:start','generation:complete','grounding:complete','verification:start','verification:complete']);
 });
 test('provider unavailable preserves retrieved evidence without claiming generation',async()=>{const r=await answerQuery('Azure',options({configured:false,generate:()=>{throw Error('must not call')}}));assert.equal(r.outcome,'unavailable');assert.ok(r.evidence.length>0);assert.equal(r.claims.length,0);});
 test('provider failure, malformed output, fabricated evidence and timeout settle safely',async()=>{
@@ -109,7 +109,7 @@ test('POST /api/ask validates JSON, query limits, content type, origin and byte 
 });
 test('POST streams actual phases, bounded evidence and final answer',async()=>{
  const response=await createAskHandler(()=>options())(req({query:'Azure'}));assert.equal(response.status,200);assert.ok(response.headers.get('content-type').includes('ndjson'));
- const events=(await response.text()).trim().split('\n').map(JSON.parse);assert.deepEqual(events.map(e=>e.type),['retrieval:start','retrieval:complete','generation:start','generation:complete','verification:start','verification:complete','response:complete']);assert.equal(events.at(-1).result.outcome,'answered');
+ const events=(await response.text()).trim().split('\n').map(JSON.parse);assert.deepEqual(events.map(e=>e.type),['retrieval:start','retrieval:complete','generation:start','generation:complete','grounding:complete','verification:start','verification:complete','response:complete']);assert.equal(events.at(-1).result.outcome,'answered');
 });
 test('POST no-evidence and provider failure responses carry no stack traces',async()=>{
  for(const q of ['underwater basket weaving','Azure']){const response=await createAskHandler(()=>options({generate:async()=>{throw Error('secret')}}))(req({query:q}));const data=await response.text();assert.ok(!data.includes('secret'));assert.ok(!data.includes('"stack":'));}

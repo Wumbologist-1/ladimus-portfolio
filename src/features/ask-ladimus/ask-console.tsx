@@ -37,6 +37,7 @@ export function AskConsole({compact=false}:{compact?:boolean}) {
           case "retrieval:complete":setEvidence(event.evidence);setPhase("grounding");emitIntelligence({type:event.type,evidenceIds:event.evidence.map(e=>e.recordId)});break;
           case "generation:start":setPhase("synthesizing");emitIntelligence(event);break;
           case "generation:complete":setPhase("grounding");break;
+          case "grounding:complete":setPhase("grounding");break;
           case "verification:start":setPhase("verifying");emitIntelligence(event);break;
           case "verification:complete":break;
           case "response:complete":complete=true;setResult(event.result);setEvidence(event.result.evidence);setPhase("complete");emitIntelligence({type:event.type,success:event.result.outcome==="answered"||event.result.outcome==="partial",evidenceIds:event.result.evidence.map(e=>e.recordId)});break;

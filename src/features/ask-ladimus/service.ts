@@ -46,18 +46,20 @@ export async function answerQuery(query:string,options:Options):Promise<AskResul
         options.emit({type:"generation:complete"});log("generation_completed");
         try {
           const answer=groundAnswer(output,packet);
+          options.emit({type:"grounding:complete",supported:true});
           verifying=true;options.emit({type:"verification:start"});
           verifyVerdict(await bounded(()=>options.verify(packet,answer.claims,controller.signal)),answer.claims);
           status="success";log("verification_passed");options.emit({type:"verification:complete",supported:true});
           return {...result,...answer,outcome:gap||packet.unsupported_requirements.length?"partial":"answered",message:"",coverage:"Verified synthesis; evidence shown",...(gap?{mode:"capability_gap" as const}:{})};
         } catch(cause) {
+          if(!verifying && cause instanceof SynthesisValidationError) options.emit({type:"grounding:complete",supported:false,code:cause.code});
           if(verifying) {status=cause instanceof SynthesisValidationError?"validation_rejected":"provider_error";log("verification_failed");options.emit({type:"verification:complete",supported:false});}
           verifying=false;
           if(!(cause instanceof SynthesisValidationError)) throw cause;
           status="validation_rejected";
           // Only server-owned codes are returned to the generator. No model
           // reasoning, rejected prose, or arbitrary verifier text is exposed.
-          correction=cause.message;
+          correction=cause.code;
           if(attempt===1) throw cause;
         }
       }

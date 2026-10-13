@@ -15,7 +15,7 @@ test('real provider sends active authored synthesis and an independent verdict-o
  await provider.generateGroundedAnswer(p,signal);await provider.verifyGroundedAnswer(p,output(p).answer,signal);
  assert.equal(requests.length,2);assert.ok(requests.every(r=>r.init.signal===signal&&r.init.cache==='no-store'));
  const generation=requests[0].body,verification=requests[1].body;
- assert.equal(generation.max_completion_tokens,2300);assert.equal(verification.max_completion_tokens,1100);assert.equal(generation.response_format.type,'json_object');
+ assert.equal(generation.max_completion_tokens,1700);assert.equal(verification.max_completion_tokens,1100);assert.equal(generation.response_format.type,'json_object');
  assert.deepEqual(JSON.parse(generation.messages[1].content),p);assert.ok(!generation.messages[1].content.includes('answer_candidates'));
  assert.match(generation.messages[0].content,/new prose/);assert.match(verification.messages[0].content,/independent factuality verifier/);
  assert.deepEqual(JSON.parse(verification.messages[1].content).evidence_packet,p);assert.deepEqual(JSON.parse(verification.messages[1].content).answer,output(p).answer);

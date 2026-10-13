@@ -36,6 +36,7 @@ export type AskWireEvent =
   | { type: "retrieval:complete"; evidence: Evidence[] }
   | { type: "generation:start" }
   | { type: "generation:complete" }
+  | { type: "grounding:complete"; supported: boolean; code?: string }
   | { type: "verification:start" }
   | { type: "verification:complete"; supported: boolean }
   | { type: "response:complete"; result: AskResult }

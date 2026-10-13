@@ -194,7 +194,7 @@ Authority is explicit: retrieval determines available career facts; the generato
 determines prose and supported analysis; deterministic guards constrain critical
 claims; the verifier assesses semantic support. Visitors see citations, source
 facts, maturity and qualifiers. Prose renders as React text, never model HTML.
-Real stream events drive Understanding, Retrieving, Grounding, Synthesizing,
+Grounding verdict events contain only support status and server-owned bounded validation codes, never rejected prose or reasoning. Real stream events drive Understanding, Retrieving, Grounding, Synthesizing,
 Verifying and Response states without artificial delays or reasoning text.
 Verification also uses the existing bounded Living Interface event bridge.
 
@@ -253,7 +253,7 @@ the hosting platform's background-work lifecycle rather than delaying answers.
 Budgets: eight requests/minute per platform IP per instance; 2,000 bounded rate
 buckets; three active requests per instance; five evidence chunks; five explanatory
 paragraphs or eight list units; 1,800 characters/unit and 5,000 answer characters;
-2,300 generation and 1,100 verification completion tokens per call; two generation
+1,700 generation and 1,100 verification completion tokens per call; two generation
 and two verification calls maximum; one shared 18-second generation/verification
 deadline; 25-second client timeout; 30-second route budget. On Vercel, the platform's
 `x-vercel-forwarded-for` header identifies callers. Locally requests share a local

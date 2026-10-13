@@ -97,3 +97,9 @@ test('a pre-aborted request invokes no provider and has no unhandled rejection',
  const controller=new AbortController();controller.abort();let calls=0;
  const r=await answerQuery('Azure',options({signal:controller.signal,generate:async()=>{calls++;}}));assert.equal(calls,0);assert.equal(r.outcome,'unavailable');await new Promise(resolve=>setImmediate(resolve));
 });
+
+test('negative qualifications and discipline language remain usable without invented tools',()=>{
+ const p=packet('Pulumi experience transfer learn');
+ for(const text of ['Pulumi is not a documented professional skill.','Luis does not have documented Pulumi experience.']) assert.equal(groundAnswer(make(text,['system-azure-environments--1'],'limitation',p),p).claims.length,1);
+ assert.equal(groundAnswer(make('Release validation and rollback go beyond publishing an image, connecting the Azure work to DevOps responsibilities.',undefined,'synthesis'),azure).claims.length,1);
+});
