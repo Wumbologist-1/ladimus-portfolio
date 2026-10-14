@@ -1,3 +1,4 @@
+import { isTargetRoleContext, roleTitleMentions } from "./query-language.ts";
 import { presentationIssue } from "./presentation.ts";
 import type { EvidencePacket, AnswerClaim, AnswerStyle, ClaimKind } from "./contracts.ts";
 import { mentionsEntity } from "./entities.ts";
@@ -54,11 +55,9 @@ function qualifiedTechnologyReference(clause:string,term:string,packet:EvidenceP
   if(["transferable","limitation","general_technology"].includes(kind)) return true;
   return /transfer|adjacent|background|relevant|applicab|relat|align|competenc|learning|remaining gap|(?:would|still|need).{0,40}(?:learn|demonstrate|establish)|(?:based|specific) role/i.test(clause);
 }
-function assessmentTargetRole(clause:string,title:string,kind:ClaimKind) {
+function assessmentTargetRole(clause:string,title:string,kind:ClaimKind,cited:EvidencePacket["items"]) {
   if(kind!=="assessment") return false;
-  const at=clause.indexOf(title),before=clause.slice(Math.max(0,at-100),at),after=clause.slice(at+title.length);
-  return /^\s+(?:role|position)\b/i.test(after)&&/\b(?:fit|align(?:ment|s)?|suitability|consider(?:ing|ed)?|ramp.up)\b/i.test(before)
-    &&!/(?:\btitle\b|(?:was|is|became|served as|worked as|promoted to)\s+(?:a\s+|an\s+)?)$/i.test(before.trim());
+  return cited.some(item=>["system","project"].includes(item.category))&&isTargetRoleContext(clause,title);
 }
 function validateCriticalClaims(claim:AnswerClaim, packet:EvidencePacket) {
   const issue=presentationIssue(claim.text);if(issue) reject(issue);
@@ -109,12 +108,15 @@ function validateCriticalClaims(claim:AnswerClaim, packet:EvidencePacket) {
     for(const match of clause.matchAll(/\b(?:\d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten|several|many)\s+years?\b/gi)) {
       if(!negative(clause,match[0])&&!has(source,match[0])) reject("unsupported_duration");
     }
+    for(const title of roleTitleMentions(clause)) {
+      if(!negative(clause,title)&&!assessmentTargetRole(clause,title,claim.kind,cited)&&!cited.some(i=>i.category==="employment"&&has(i.title,title))) reject("unsupported_title");
+    }
     // Seniority guards are case-insensitive: typography cannot authorize a title.
     for(const match of clause.matchAll(/\b(?:senior|principal|staff|lead|chief)\s+(?:[a-z]+\s+){0,3}(?:engineer|officer)\b/gi)) {
-      if(!negative(clause,match[0])&&!assessmentTargetRole(clause,match[0],claim.kind)&&!cited.some(i=>i.category==="employment"&&has(i.title,match[0]))) reject("unsupported_title");
+      if(!negative(clause,match[0])&&!assessmentTargetRole(clause,match[0],claim.kind,cited)&&!cited.some(i=>i.category==="employment"&&has(i.title,match[0]))) reject("unsupported_title");
     }
     for(const match of clause.matchAll(/\b(?:(?:Senior|Principal|Staff|Lead|Chief)\s+(?:[A-Za-z]+\s+){0,3}(?:Engineer|Officer)|(?:Platform|Software|Machine Learning|AI|DevOps|Systems|Backend|QA|Data|Security|Cloud) Engineer|(?:[A-Z][A-Za-z]+\s+){0,3}(?:Analyst|Manager|Director|Architect|Officer))\b/g)) {
-      if(!negative(clause,match[0])&&!assessmentTargetRole(clause,match[0],claim.kind)&&!cited.some(i=>i.category==="employment"&&has(i.title,match[0]))) reject("unsupported_title");
+      if(!negative(clause,match[0])&&!assessmentTargetRole(clause,match[0],claim.kind,cited)&&!cited.some(i=>i.category==="employment"&&has(i.title,match[0]))) reject("unsupported_title");
     }
     for(const term of packet.guarded_technologies) {
       if(has(clause,term)&&!qualifiedTechnologyReference(clause,term,packet,claim.kind)) {

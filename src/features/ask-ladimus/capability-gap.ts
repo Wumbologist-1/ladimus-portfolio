@@ -1,3 +1,4 @@
+import { normalizeQuery, mentionsQueryTerm, requestedToolObjects, requestedTechnologyDomain } from "./query-language.ts";
 import type { EvidenceChunk, RetrievalHint, Skill } from "./contracts.ts";
 import { retrieveEvidence } from "./retrieval.ts";
 
@@ -18,18 +19,14 @@ const domains: Record<Domain,{skills:string[];intent:string[];query:string}> = {
   observability:{skills:["Grafana / operational observability","Monitoring and log analysis","Root-cause analysis"],intent:["production_ownership"],query:"Grafana dashboard operational observability monitoring log analysis health verification"},
   automation:{skills:["PowerShell / Bash","Microsoft Azure","Docker / containers","CI/CD","Git / YAML","Azure DevOps"],intent:["devops","azure"],query:"automation DevOps environment containers configuration validation production"},
 };
-const escape = (s:string) => s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
-const mentions = (query:string,name:string) => new RegExp(`(?<![a-z0-9])${escape(name)}(?![a-z0-9])`,"i").test(query);
-const normalize = (q:string) => q.normalize("NFKC").replace(/\bk8s\b/gi,"Kubernetes").replace(/Amazon Web Services/gi,"AWS");
-// A question can ask for reasoning "using his documented work". Grammatical
-// objects of using/know are not necessarily tool names or capability gaps.
-const nonTools=new Set("his her their its our your my him them it this that these those the a an to for from with in on by of as and or but through documented documentation evidence work experience knowledge sources source record records judgment judgement answer explanation conclusions conclusion what how whether about only available public approved production code system systems role roles engineering design validation safety review process workflow workflows model models platform platforms scale architecture skills operations".split(" "));
+const mentions = mentionsQueryTerm;
+const normalize = normalizeQuery;
 
 export function capabilityTarget(query:string, chunks:EvidenceChunk[], skills:Skill[], hints:RetrievalHint[], guarded:Record<string,string>) {
   const q=normalize(query);
   const profiles=technologies.filter(t=>t.aliases.some(a=>mentions(q,a)));
   const guardedNames=Object.keys(guarded).filter(t=>mentions(q,t));
-  const requested = [...q.matchAll(/\b(?:experience\s+(?:with|in|using)|(?:has\s+luis\s+)?used|know|using|uses|transfer\s+to|work(?:ed)?\s+with|familiar\s+with)\s+(?:(?:the|a|an)\s+)?([a-z][a-z0-9+#.-]{1,39})/gi)].map(m=>m[1]!).find(name=>!nonTools.has(name.toLowerCase()));
+  const requested=requestedToolObjects(query)[0];
   const requestedNames=[...new Set([...profiles.map(p=>p.name),...guardedNames,...(!profiles.length&&!guardedNames.length&&requested?[requested]:[])])];
   const names=requestedNames.slice(0,4);
   if(!names.length) return null;
@@ -44,7 +41,7 @@ export function capabilityTarget(query:string, chunks:EvidenceChunk[], skills:Sk
   });
   if(!missing.length) return null; // Direct evidence retains the normal pipeline.
 
-  const unknownDomain:Domain=/observab|monitor|telemetry|dashboard/i.test(q)?"observability":/infrastructure|cloud|iac/i.test(q)?"infrastructure":/config|automati|provision/i.test(q)?"automation":"delivery";
+  const unknownDomain=requestedTechnologyDomain(query);
   return {names:missing,profiles:missing.map(name=>profiles.find(p=>p.name===name)??{name,aliases:[name],domain:unknownDomain,requirements:`${name}-specific concepts, configuration, APIs, operational workflows, and hands-on validation`}),unknown:missing.some(n=>!profiles.some(p=>p.name===n)),truncated:requestedNames.length>4};
 }
 

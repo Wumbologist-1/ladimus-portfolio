@@ -1,8 +1,9 @@
+import { understandQuery } from "./query-language.ts";
 import type { EvidenceChunk, EvidencePacket, Skill, RetrievalHint, ClaimGuards } from "./contracts.ts";
 import { retrieveEvidence } from "./retrieval.ts";
 import { capabilityTarget, retrieveTransferable } from "./capability-gap.ts";
 import { unsupportedAssertions } from "./policy.ts";
-import { analysisMode, followUpCandidates } from "./synthesis.ts";
+import { followUpCandidates } from "./synthesis.ts";
 import { evidenceEntities, reserveNamedEvidence } from "./entities.ts";
 
 const mentions=(q:string,name:string)=>new RegExp(`(?<![a-z0-9])${name.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?![a-z0-9])`,"i").test(q);
@@ -10,30 +11,40 @@ const mentions=(q:string,name:string)=>new RegExp(`(?<![a-z0-9])${name.replace(/
 // chunks complement those facts with concrete implementation depth, still top-K 5.
 export function prepareEvidence(query:string, chunks:EvidenceChunk[], hints:RetrievalHint[], skills:Skill[], guards:ClaimGuards, guarded:Record<string,string>) {
   const gap=capabilityTarget(query,chunks,skills,hints,guarded);
-  const requested=skills.filter(s=>s.skill.split(/\s*\/\s*/).some(a=>a.length>2&&mentions(query,a)));
+  const language=understandQuery(query,{chunks,skills});
+  const requested=skills.filter(s=>language.requestedSkills.includes(s.skill));
   let selected=gap?retrieveTransferable(gap,chunks,hints,skills):retrieveEvidence(query,chunks,hints,skills);
-  if(!gap&&requested.length&&/experience|used|depth|deep|professional|evidence/i.test(query)) {
+  if(!gap&&requested.length&&language.skillEvidenceQuestion) {
     const records=new Set(requested.flatMap(s=>s.evidence_ids));
     const candidates=chunks.filter(c=>records.has(c.recordId));
     const capabilities=candidates.filter(c=>c.facts.some(f=>f.startsWith("Documented capability:")&&requested.some(s=>mentions(f,s.skill))));
     const overviews=candidates.filter(c=>c.id.endsWith("--1"));
     if(requested.some(s=>s.skill==="GitHub Actions")) overviews.sort((a,b)=>Number(b.recordId==="system-pr-assistant")-Number(a.recordId==="system-pr-assistant"));
-    selected=[...capabilities,...overviews].filter((c,i,a)=>a.findIndex(x=>x.id===c.id)===i).slice(0,5);
+    selected=[...capabilities.slice(0,requested.some(s=>s.skill==="GitHub Actions")?3:2),...overviews].filter((c,i,a)=>a.findIndex(x=>x.id===c.id)===i).slice(0,5);
   }
-  if(/end.to.end|engineering system.*(?:design|production|reliability)/i.test(query)&&!gap) {
+  if((language.signals.fullLifecycle||language.signals.ownership&&language.signals.maturity&&!language.topics.ai)&&!gap&&!language.namedEntities.length) {
     const lifecycle=["employment-romtech-devops-2026","system-genie-swopsbot","system-azure-environments","system-genie-observability","system-ai-code-gating"];
     selected=lifecycle.flatMap(id=>chunks.filter(c=>c.recordId===id&&c.id.endsWith("--1"))).slice(0,5);
   }
+  if(!gap&&language.primaryIntent==="rag") {
+    const ragRecords=new Set(hints.filter(h=>h.intent==="rag").flatMap(h=>h.evidence_ids));
+    const representatives=chunks.filter(c=>ragRecords.has(c.recordId)&&c.id.endsWith("--1"));
+    selected=[...representatives,...selected].filter((c,i,a)=>a.findIndex(x=>x.id===c.id)===i).slice(0,5);
+  }
   selected=reserveNamedEvidence(query,chunks,selected);
-  if(!gap&&analysisMode(query)==="assessment"&&/\bAI platform\b/i.test(query)) {
+  if(!gap&&(language.roleAssessment&&language.topics.ai||language.primaryIntent==="broader_scope")) {
     const alignment=["employment-romtech-devops-2026","system-pr-assistant","system-ai-code-gating","system-azure-environments","system-romguide"];
     selected=alignment.flatMap(id=>chunks.filter(c=>c.recordId===id&&c.id.endsWith("--1"))).slice(0,5);
     selected=reserveNamedEvidence(query,chunks,selected);
   }
-  if(!gap&&analysisMode(query)==="assessment"&&/autonom|modify.*code|code.*modif/i.test(query)) {
+  if(!gap&&language.analysisMode==="assessment"&&language.signals.autonomy) {
     const autonomy=["system-pr-assistant","system-android-test-agent","system-ai-code-gating","employment-romtech-devops-2026"];
     selected=[...autonomy.flatMap(id=>chunks.filter(c=>c.recordId===id&&c.id.endsWith("--1"))),...selected].filter((c,i,a)=>a.findIndex(x=>x.id===c.id)===i).slice(0,5);
     selected=reserveNamedEvidence(query,chunks,selected);
+  }
+  if(language.historicalTitle) {
+    const employment=chunks.filter(c=>c.category==="employment"&&c.organization.includes("ROM")&&c.id.endsWith("--1"));
+    selected=[...employment,...selected].filter((c,i,a)=>a.findIndex(x=>x.id===c.id)===i).slice(0,5);
   }
   const linked=skills.flatMap(s=>{
     const ids=selected.filter(c=>s.evidence_ids.includes(c.recordId)).map(c=>c.id);
@@ -42,7 +53,8 @@ export function prepareEvidence(query:string, chunks:EvidenceChunk[], hints:Retr
   const assertions=unsupportedAssertions(query,guarded);
   const packet:EvidencePacket={
     question:query,
-    analysis_mode:analysisMode(query),
+    analysis_mode:language.analysisMode,
+    query_interpretation:{requested_roles:language.requestedRoles,historical_title_question:language.historicalTitle,secondary_intents:language.secondaryIntents},
     entities:evidenceEntities(selected),
     items:selected.map(c=>({id:c.id,title:c.title,category:c.category,organization:c.organization,timeframe:c.timeframe,maturity:c.status,facts:c.facts,qualifiers:c.qualifiers})),
     direct_skills:gap?[]:linked,transferable_skills:gap?linked:[],

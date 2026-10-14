@@ -1,4 +1,4 @@
-# Ladimus Portfolio architecture — v0.6.3.2
+# Ladimus Portfolio architecture — v0.6.3.3
 
 ## Application and trust boundaries
 
@@ -6,7 +6,7 @@ One Next.js App Router application, with TypeScript strict mode and no component
 AI SDK, animation, or database dependency added. `/`, `/work`,
 `/projects/ladimus-review`, and `/ask` are prerendered. `POST /api/ask` is a dynamic
 Node server endpoint. The portfolio content remains server-rendered and usable
-without JavaScript. The version label is Portfolio Build 0.6.3.2.
+without JavaScript. The version label is Portfolio Build 0.6.3.3.
 
 The existing v0.5 Living Interface remains the foundation. Ask Ladimus adds small
 client boundaries for the console and launcher; the root layout and route content
@@ -429,3 +429,47 @@ provider-capacity/load evidence an increase in spend allowance is not justified.
 device ID, user-agent fingerprint or persistent visitor identifier enters logs.
 There is no existing client-reporting endpoint; client failures stay local UI
 classifications. No new client telemetry architecture was introduced.
+
+
+## Query Intelligence (v0.6.3.3)
+
+Natural question -> safe normalization -> phrase-family recognition -> independent
+intent signals -> entity / skill / target-role interpretation -> approved evidence
+retrieval -> active authored synthesis -> deterministic grounding -> independent
+semantic verification. There is no additional query-planner model call and no
+persistent conversational memory.
+
+query-language.ts centralizes case/Unicode apostrophes, whitespace, punctuation,
+hyphenation, common contractions, controlled aliases and context-bearing phrase
+families. It exposes primary and secondary intents, requested roles, corpus-linked
+skills, named systems, assessment/depth/maturity/ownership/impact/gap/skepticism,
+comparison/patterns, AI/backend/cloud/testing topics and ambiguity. These signals
+select search terms and evidence packets; they never alter the corpus or skill levels.
+Tool-object interpretation avoids grammatical objects such as "using his documented
+work" and "know when not to answer", while preserving unknown-tool gap handling.
+
+TARGET ROLE != HISTORICAL TITLE. Qualification, fit, candidacy, alignment,
+interview/hiring and preparedness language can request a bounded assessment.
+A cited assessment may evaluate AI Engineer or Backend Engineer roles without
+claiming that Luis held those titles. The target-role grounding exemption requires
+explicit future/evaluative context, a role/position suffix, assessment kind and
+cited technical system/project evidence. Historical employment assertions and
+unsupported seniority or duration remain rejected. Official title evidence still
+comes exclusively from employment records. Mixed historical assertions do not
+receive the target-role exemption.
+
+QUERY LANGUAGE IS NOT CAREER EVIDENCE. Negated questions do not establish their
+premises. Known GitHub Actions evidence remains authoritative; Terraform and
+Kubernetes remain unsupported where their evidence is absent. Query interpretation
+metadata describes the request, not a new fact. Maturity is preserved per record.
+Skeptical questions receive evidence-backed analysis, not promotional defense.
+
+Compact questions with an explicit subject are resolved through known skills,
+entities or topics. Truly contextless questions return "Which system, skill, or
+role would you like me to evaluate?" before retrieval or provider calls. Privacy
+policy runs before that clarification branch. Multi-intent requests retain every
+signal, rather than discarding everything after the first matching phrase.
+
+The v0.6.3.2 client parser, watchdogs, drawer, presentation guard, rate limiter,
+telemetry privacy and synthesis/verification architecture are preserved. The
+query release adds no client transport or browser-specific intelligence path.

@@ -1,8 +1,9 @@
+import { normalizeQuery } from "./query-language.ts";
 export const insufficient = "I don't have enough evidence in Luis's career data to make that claim.";
 export const privateRefusal = "Ask Ladimus answers career questions from approved public evidence. Private documents, contact details, credentials, and internal instructions are outside that boundary.";
 
 export function unsupportedAssertions(query:string, guarded:Record<string,string>) {
-  const q=query.normalize("NFKC").toLowerCase().replace(/amazon web services/g,"aws").replace(/\bk8s\b/g,"kubernetes");
+  const q=normalizeQuery(query);
   const tools=Object.keys(guarded).filter(t=>new RegExp(`\\b${t.toLowerCase()}\\b`).test(q));
   const claims:string[]=tools.map(t=>`professional ${t} experience`);
   const duration=/\b(\d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten)\s+years?\b/.exec(q)?.[1];
@@ -17,7 +18,7 @@ export function unsupportedAssertions(query:string, guarded:Record<string,string
 }
 
 export function queryPolicy(query: string, guarded: Record<string,string>) {
-  const normalized = query.normalize("NFKC").toLowerCase().replace(/amazon web services/g,"aws").replace(/\bk8s\b/g,"kubernetes");
+  const normalized = normalizeQuery(query);
   if (/(?:ignore|override|bypass|disregard).{0,60}(?:instruction|rules|policy)|(?:reveal|print|show|give|output|expose).{0,80}(?:raw resume|entire resume|hidden|system prompt|environment|secret|token|api key)|(?:home|street|phone|salary|compensation|severance|unemployment|social security)|(?:invent|fabricate|pretend|make up).{0,80}(?:luis|experience|engineer|claim)/i.test(normalized)) return { kind: "private" as const, message: privateRefusal };
   const terms = Object.keys(guarded).filter(term => new RegExp(`\\b${term.toLowerCase()}\\b`).test(normalized));
   if (terms.length) return { kind: "unsupported" as const, message: `I don't have enough evidence in Luis's career data to claim professional experience with ${terms.join(", ")}. ${unsupportedAssertions(query,guarded)} Documented adjacent cloud and container work is available below.` };

@@ -1,3 +1,4 @@
+import { understandQuery } from "./query-language.ts";
 import type { AskResult, AskWireEvent, EvidenceChunk, RetrievalHint, Skill, ClaimGuards, EvidencePacket, AnswerClaim, SynthesisCorrection } from "./contracts.ts";
 import { insufficient, queryPolicy } from "./policy.ts";
 import { prepareEvidence } from "./evidence-packet.ts";
@@ -25,6 +26,7 @@ export async function answerQuery(query:string,options:Options):Promise<AskResul
     const policy=queryPolicy(query,options.guarded);
     const base:AskResult={outcome:"no-evidence",message:insufficient,claims:[],style:"paragraphs",evidence:[],coverage:"No supporting evidence",followUps:[]};
     if(policy.kind==="private") {intent="private";log("policy_refusal");return {...base,outcome:"refused",message:policy.message};}
+    if(understandQuery(query,{chunks:options.chunks,skills:options.skills}).ambiguity){log("retrieval_only");return {...base,message:"Which system, skill, or role would you like me to evaluate?",coverage:"Clarification needed"};}
     options.emit({type:"retrieval:start"});
     const {chunks,packet,gap}=prepareEvidence(query,options.chunks,options.hints,options.skills,options.guards,options.guarded);
     if(gap) intent="capability_gap";

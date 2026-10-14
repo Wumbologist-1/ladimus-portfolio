@@ -1,22 +1,7 @@
 import type { EvidenceChunk } from "./contracts.ts";
-export function analysisMode(query:string):"synthesis"|"comparison"|"assessment" {
-  if(/\bcompare\b|across all|shared philosophy/i.test(query)) return "comparison";
-  return /\btrust\b|strong fit|considering|ramp.up|align|end.to.end|ownership/i.test(query)?"assessment":"synthesis";
-}
-export function synthesisIntent(query: string) {
-  const q = query.normalize("NFKC").toLowerCase();
-  if (/more than|beyond|traditional devops/.test(q)) return "broader_scope";
-  if (/measur|metrics|impact|requests|success rate/.test(q)) return "impact";
-  if (/rag|retrieval|romguide|ladimus agent|chroma|knowledge/.test(q)) return "rag";
-  if (/romtech|rom technologies/.test(q)) return "romtech";
-  if (/ai systems/.test(q)) return "ai_systems";
-  if (/agent|orchestrat|specialist/.test(q)) return "agentic_ai";
-  if (/safe|reliab|approval|validation|trust|ci\/cd|pr assistant|ladimus review/.test(q)) return "ai_safety";
-  if (/azure|cloud|deploy|rollback|production/.test(q)) return "production_ownership";
-  if (/backend|api|middleware/.test(q)) return "backend";
-  if (/android|test/.test(q)) return "android_testing";
-  return "career";
-}
+import { understandQuery } from "./query-language.ts";
+export const analysisMode=(query:string)=>understandQuery(query).analysisMode;
+export const synthesisIntent=(query:string)=>understandQuery(query).primaryIntent;
 
 const followUps = [
   { text: "How did Luis make the PR Assistant safe?", records: ["employment-romtech-devops-2026", "system-pr-assistant"], topics: ["broader_scope", "romtech", "agentic_ai", "ai_systems", "ai_safety"] },

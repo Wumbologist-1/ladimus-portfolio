@@ -20,6 +20,7 @@ export type EvidencePacket = {
   question: string;
   analysis_mode?: "synthesis" | "comparison" | "assessment";
   entities?: EvidenceEntity[];
+  query_interpretation?: {requested_roles:string[];historical_title_question:boolean;secondary_intents:string[]};
   items: {id:string; title:string; category:string; organization:string; timeframe:string; maturity:string; facts:string[]; qualifiers:string[]}[];
   direct_skills: Skill[]; transferable_skills: Skill[];
   unsupported_requirements: string[];
