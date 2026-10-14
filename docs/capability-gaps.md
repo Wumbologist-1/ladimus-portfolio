@@ -1,6 +1,6 @@
 # Ask Ladimus capability gaps and unsupported assertions
 
-Current behavior: **v0.6.3.1 Active Intelligence**. Gap detection and domain retrieval
+Current behavior: **v0.6.3.2 Active Intelligence**. Gap detection and domain retrieval
 prepare the packet; the generator authors the answer and a separate verifier
 checks it. There is no deterministic gap-answer bypass. Missing provider configuration
 preserves evidence and reports unavailable. See [architecture](architecture.md) for

@@ -1,4 +1,4 @@
-# Ladimus Portfolio architecture — v0.6.3.1
+# Ladimus Portfolio architecture — v0.6.3.2
 
 ## Application and trust boundaries
 
@@ -6,7 +6,7 @@ One Next.js App Router application, with TypeScript strict mode and no component
 AI SDK, animation, or database dependency added. `/`, `/work`,
 `/projects/ladimus-review`, and `/ask` are prerendered. `POST /api/ask` is a dynamic
 Node server endpoint. The portfolio content remains server-rendered and usable
-without JavaScript. The version label is Portfolio Build 0.6.3.1.
+without JavaScript. The version label is Portfolio Build 0.6.3.2.
 
 The existing v0.5 Living Interface remains the foundation. Ask Ladimus adds small
 client boundaries for the console and launcher; the root layout and route content
@@ -297,7 +297,7 @@ paragraphs or eight list units; 1,800 characters/unit and 5,000 answer character
 and two verification calls maximum; 27-second service total including retrieval;
 14-second initial generation and 10-second initial verification limits; 9-second
 corrective generation and 7 seconds reserved for corrective verification, only with at least 16.5
-seconds remaining (including 500ms response headroom); 29-second client timeout;
+seconds remaining (including 500ms response headroom); 45-second client ceiling with a 15-second valid-event inactivity watchdog;
 30-second route budget. All stage timers also respect remaining total time.
 The corrective pair has a fixed 16-second window. Early generation can donate
 unused time to verification up to its 10-second hard cap, without extending that
@@ -395,3 +395,37 @@ functionality before production configuration and tests. Record release SHA and
 roll back through `git revert <release-sha>` followed by a normal main push;
 never reset shared main. Public logo and verified profile/contact destinations
 are retained. Dedicated favicon and video walkthrough remain optional follow-ups.
+
+
+## Response polish and transport reliability (v0.6.3.2)
+
+Desktop, Android and iOS share /api/ask and the same approved corpus, retrieval,
+active synthesis, deterministic grounding, semantic verifier and bounded correction.
+Mobile reliability changes transport, not intelligence. Valid lifecycle events reset
+15-second inactivity; a separate 45-second absolute ceiling bounds the request.
+Bytes alone never reset inactivity. Server work remains bounded to 27 seconds under
+maxDuration 30, with 14/10/9/7-second stage budgets and 500ms reserve unchanged.
+
+The client incrementally decodes UTF-8 NDJSON, validates complete records, flushes
+at EOF, and accepts a valid final record without a newline. Malformed records,
+interrupted streams and size limits fail safely with finite client classifications.
+There are no automatic request retries. A manual retry respects Retry-After.
+A synchronous pending-request guard prevents duplicate submits. Backdrop taps
+cannot close a busy drawer; Close, Escape and navigation cancel intentionally.
+Visibility changes do not intentionally abort requests. Scrollable document flow
+and 16px textarea text keep mobile actions reachable.
+
+Prose must contain no internal evidence IDs, raw Markdown or redundant system labels.
+Presentation rejection enters existing bounded correction and re-verification.
+Citations render only from evidence_ids; unit kinds remain semantic metadata.
+Thematic ranking prefers direct system/project records with validation, approval,
+provenance and reliability mechanisms, retaining diversity and named coverage.
+
+The eight-request/60-second public-IP limiter remains per-instance best-effort
+application protection, not a globally distributed quota. NAT devices share a
+bucket. Ten and twelve requests were evaluated for threshold behavior; without
+provider-capacity/load evidence an increase in spend allowance is not justified.
+429 and 503 preserve Retry-After and get safe server log classifications. No IP,
+device ID, user-agent fingerprint or persistent visitor identifier enters logs.
+There is no existing client-reporting endpoint; client failures stay local UI
+classifications. No new client telemetry architecture was introduced.

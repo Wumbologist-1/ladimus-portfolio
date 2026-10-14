@@ -10,6 +10,7 @@ const contains = (value: string, token: string) => tokens(value).includes(token)
 
 export function retrieveEvidence(query: string, chunks: EvidenceChunk[], hints: RetrievalHint[], skills: Skill[], topK = 5) {
   const terms = tokens(query);
+  const thematic=/philosophy|themes?|principles?|approach|reliability|bounded AI|deterministic|approval|provenance|fail.closed/i.test(query);
   if (!terms.length) return [];
   const activeHints = hints.filter(h => h.keywords.some(k => tokens(k).some(t => terms.includes(t))));
   const mapped = new Set(skills.filter(s => tokens(s.skill).some(t => terms.includes(t))).flatMap(s => s.evidence_ids));
@@ -19,6 +20,8 @@ export function retrieveEvidence(query: string, chunks: EvidenceChunk[], hints: 
     let score = terms.reduce((sum, term) => sum + (contains(body,term) ? 1 : 0) + (contains(metadata,term) ? 3 : 0),0);
     score += activeHints.reduce((sum,h) => sum + (h.evidence_ids.includes(chunk.recordId) ? 4 : 0),0);
     if (mapped.has(chunk.recordId)) score += 3;
+    // Thematic analysis needs concrete mechanisms, diversified by record below.
+    if(thematic && ["system","project"].includes(chunk.category) && /validation|approval|provenance|fail.closed|deterministic|immutable|policy|safeguard/i.test(body+" "+metadata)) score += 6;
     // Impact questions must retain the documented measurements, not just a system overview.
     if (score > 0 && terms.some(t => ["measurable","measured","metrics","impact","requests"].includes(t)) && chunk.facts.some(f => /:\s*(?:exceeded\s+)?[\d,.]+%?\.$/.test(f))) score += 10;
     // Named system queries retain depth; overview queries diversify records.

@@ -17,10 +17,10 @@ export function createAskHandler(options: () => ServiceOptions, telemetry?: AskT
     const retry = limiter.take(key);
     if (retry) {
       // Do not parse an attacker-controlled body after the rate limit is hit.
-      recordAskTelemetry({query:"",intent:"rate_limited",evidenceIds:[],status:"rate_limited",latencyMs:0},telemetry);
+      recordAskTelemetry({query:"",intent:"rate_limited",evidenceIds:[],status:"rate_limited",failure:"http_429",latencyMs:0},telemetry);
       return error("Please wait before asking another question.",429,retry);
     }
-    if (active >= 3) return error("The answer service is busy. Please try again shortly.",503,10);
+    if (active >= 3) {recordAskTelemetry({query:"",intent:"career",evidenceIds:[],status:"service_busy",failure:"http_503",latencyMs:0},telemetry);return error("The answer service is busy. Please try again shortly.",503,10);}
     if (!request.headers.get("content-type")?.includes("application/json")) return error("Use a JSON question.",400);
     if (Number(request.headers.get("content-length")) > 4096) return error("Please shorten your question.",413);
     let query:string|null;
@@ -32,7 +32,7 @@ export function createAskHandler(options: () => ServiceOptions, telemetry?: AskT
       query=parseQuery(JSON.parse(new TextDecoder().decode(bytes)));
     } catch { return error("That question could not be read. Please try again.",400); }
     if (!query) return error("Enter a question between 3 and 600 characters.",400);
-    let config:ServiceOptions; try {config=options();} catch {return error("Public evidence is temporarily unavailable.",503);}
+    let config:ServiceOptions; try {config=options();} catch {recordAskTelemetry({query:"",intent:"career",evidenceIds:[],status:"service_busy",failure:"http_503",latencyMs:0},telemetry);return error("Public evidence is temporarily unavailable.",503);}
     active++;
     const abort=new AbortController(); const cancel=()=>abort.abort(); request.signal.addEventListener("abort",cancel,{once:true});
     const stream=new ReadableStream({
@@ -43,6 +43,6 @@ export function createAskHandler(options: () => ServiceOptions, telemetry?: AskT
         finally {active--;request.signal.removeEventListener("abort",cancel);if(!abort.signal.aborted) controller.close();}
       }, cancel(){abort.abort();},
     });
-    return new Response(stream,{headers:{"Content-Type":"application/x-ndjson","Cache-Control":"no-store","X-Content-Type-Options":"nosniff"}});
+    return new Response(stream,{headers:{"Content-Type":"application/x-ndjson","Cache-Control":"no-store, no-transform","X-Content-Type-Options":"nosniff"}});
   };
 }

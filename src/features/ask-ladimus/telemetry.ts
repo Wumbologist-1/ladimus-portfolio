@@ -1,8 +1,8 @@
 // Used only by the server Ask path. Providers receive an explicit sanitized
 // event, never a request, private corpus, prompt, or provider response object.
-export type AskTelemetryStatus = "success" | "no_evidence" | "generation_unavailable" | "provider_error" | "validation_rejected" | "rate_limited";
+export type AskTelemetryStatus = "success" | "no_evidence" | "generation_unavailable" | "provider_error" | "validation_rejected" | "rate_limited" | "service_busy";
 export type AskTelemetryStage = "policy_refusal" | "retrieval_only" | "generation_started" | "generation_completed" | "grounding_failed" | "verification_passed" | "verification_failed" | "corrective_generation" | "correction_skipped" | "answer_completed";
-export type AskFailure = "generation_timeout" | "generation_provider_error" | "generation_incomplete" | "grounding_rejected" | "verification_timeout" | "verification_provider_error" | "verification_rejected" | "correction_timeout" | "correction_skipped" | "request_cancelled";
+export type AskFailure = "generation_timeout" | "generation_provider_error" | "generation_incomplete" | "grounding_rejected" | "verification_timeout" | "verification_provider_error" | "verification_rejected" | "correction_timeout" | "correction_skipped" | "request_cancelled" | "http_429" | "http_503";
 export type AskTelemetryInput = { query: string; intent: string; evidenceIds: string[]; status: AskTelemetryStatus; latencyMs: number; stage?: AskTelemetryStage; failure?: AskFailure | undefined };
 export type AskTelemetryEvent = { event: "ask_ladimus_query"; query: string; intent: string; evidence_ids: string[]; status: AskTelemetryStatus; latency_ms: number; stage?: AskTelemetryStage; failure?: AskFailure };
 export type AskTelemetryProvider = { record: (event: AskTelemetryEvent) => void | Promise<void> };
@@ -22,8 +22,8 @@ export function sanitizeQuery(query: string) {
 
 const structuredLogs: AskTelemetryProvider = { record: event => { console.info(JSON.stringify(event)); } };
 const intents = new Set(["capability_gap", "broader_scope", "impact", "rag", "romtech", "ai_systems", "agentic_ai", "ai_safety", "production_ownership", "backend", "android_testing", "career", "private", "unsupported", "rate_limited"]);
-const statuses = new Set<AskTelemetryStatus>(["success", "no_evidence", "generation_unavailable", "provider_error", "validation_rejected", "rate_limited"]);
-const failures = new Set<AskFailure>(["generation_timeout","generation_provider_error","generation_incomplete","grounding_rejected","verification_timeout","verification_provider_error","verification_rejected","correction_timeout","correction_skipped","request_cancelled"]);
+const statuses = new Set<AskTelemetryStatus>(["success", "no_evidence", "generation_unavailable", "provider_error", "validation_rejected", "rate_limited", "service_busy"]);
+const failures = new Set<AskFailure>(["generation_timeout","generation_provider_error","generation_incomplete","grounding_rejected","verification_timeout","verification_provider_error","verification_rejected","correction_timeout","correction_skipped","request_cancelled","http_429","http_503"]);
 
 export function recordAskTelemetry(input: AskTelemetryInput, provider: AskTelemetryProvider = structuredLogs): void {
   try {

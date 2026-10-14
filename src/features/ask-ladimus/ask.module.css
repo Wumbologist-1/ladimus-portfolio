@@ -50,3 +50,9 @@
 .compact .sources {border-inline-start:0;border-block-start:1px solid var(--color-border);}
 @media(max-width:47.99rem) {.suggestions,.responseGrid {grid-template-columns:1fr;}.sources {border-inline-start:0;border-block-start:1px solid var(--color-border);}.consoleHead span:last-child {display:none;}.formFoot button {width:100%;}.drawerInner {padding-inline:1rem;}.launcher {font-size:.75rem;}}
 @media(forced-colors:active) {.console,.evidence,.form textarea,.suggestions button,.drawer,.launcher {background:Canvas;color:CanvasText;border:1px solid CanvasText;}.form button {background:ButtonFace;color:ButtonText;border-color:ButtonText;}.drawer::backdrop {background:Canvas;}}
+
+/* Scrollable document flow keeps actions reachable with the mobile keyboard. */
+.drawer {overflow-y:auto;scroll-padding-block:2rem;}
+.form,.form textarea,.suggestions button,.followUps button {min-inline-size:0;}
+.answer,.sources,.phase,.drawerHead,.fullLink {overflow-wrap:anywhere;}
+.requestAction {min-height:2.75rem;margin:.75rem 1.25rem;padding:.5rem .9rem;border:1px solid var(--color-border);border-radius:.4rem;background:var(--color-surface);color:var(--color-text);cursor:pointer;}

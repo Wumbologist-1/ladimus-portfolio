@@ -1,7 +1,8 @@
+import { presentationIssue } from "./presentation.ts";
 import type { EvidencePacket, AnswerClaim, AnswerStyle, ClaimKind } from "./contracts.ts";
 import { mentionsEntity } from "./entities.ts";
 
-export type ValidationCode = "invalid_structure" | "invalid_answer_envelope" | "invalid_answer_unit" | "invalid_follow_up_count" | "duplicate_answer_unit" | "uncited_person_claim" | "unsupported_date" | "unsupported_technology" | "unsupported_number" | "unsupported_duration" | "unsupported_title" | "guarded_technology" | "maturity_upgrade" | "forbidden_claim" | "known_skill_false_negative" | "packet_absence_contradiction" | "unsupported_autonomy" | "invalid_citations" | "answer_too_large" | "invalid_follow_up" | "invalid_verification" | "unsupported_semantics" | "unsupported_premise" | "unreasonable_assessment" | "missing_limitation" | "uncovered_requirement";
+export type ValidationCode = "internal_id_in_prose" | "unsupported_formatting" | "redundant_label" | "invalid_structure" | "invalid_answer_envelope" | "invalid_answer_unit" | "invalid_follow_up_count" | "duplicate_answer_unit" | "uncited_person_claim" | "unsupported_date" | "unsupported_technology" | "unsupported_number" | "unsupported_duration" | "unsupported_title" | "guarded_technology" | "maturity_upgrade" | "forbidden_claim" | "known_skill_false_negative" | "packet_absence_contradiction" | "unsupported_autonomy" | "invalid_citations" | "answer_too_large" | "invalid_follow_up" | "invalid_verification" | "unsupported_semantics" | "unsupported_premise" | "unreasonable_assessment" | "missing_limitation" | "uncovered_requirement";
 const semanticCodes=new Set<ValidationCode>(["unsupported_premise","unreasonable_assessment","missing_limitation","maturity_upgrade","uncovered_requirement"]);
 export class SynthesisValidationError extends Error {
   code:ValidationCode; atom?:string; unit?:number; technology?:string;
@@ -60,6 +61,7 @@ function assessmentTargetRole(clause:string,title:string,kind:ClaimKind) {
     &&!/(?:\btitle\b|(?:was|is|became|served as|worked as|promoted to)\s+(?:a\s+|an\s+)?)$/i.test(before.trim());
 }
 function validateCriticalClaims(claim:AnswerClaim, packet:EvidencePacket) {
+  const issue=presentationIssue(claim.text);if(issue) reject(issue);
   const rejectTechnology=(term:string):never=>{
     const cause=new SynthesisValidationError("unsupported_technology");
     // Only canonical packet terms may reach a correction/event, never an
@@ -79,12 +81,6 @@ function validateCriticalClaims(claim:AnswerClaim, packet:EvidencePacket) {
   }
   const cited=packet.items.filter(i=>claim.evidence_ids.includes(i.id));
   const source=cited.map(i=>[i.title,i.organization.replace(/ROM Technologies(?:, Inc\.)?/i,"ROMTech"),i.timeframe,...i.facts].join(" ")).join(" ");
-  for(const reference of claim.text.matchAll(/\b[a-z][a-z0-9-]*--\d{1,3}\b/g)) {
-    if(!claim.evidence_ids.includes(reference[0])) reject("invalid_citations");
-  }
-  for(const reference of claim.text.matchAll(/\[(\d{1,2})\]/g)) {
-    if(!claim.evidence_ids.includes(packet.items[Number(reference[1])-1]?.id??"")) reject("invalid_citations");
-  }
   const sourceNumbers=new Set(numbers(source));
   const linkedSkills=[...packet.direct_skills,...packet.transferable_skills].filter(s=>s.evidence_ids.some(id=>claim.evidence_ids.includes(id))).map(s=>s.skill).join(" ");
   if(!cited.length) {
@@ -106,11 +102,7 @@ function validateCriticalClaims(claim:AnswerClaim, packet:EvidencePacket) {
     for(const token of clause.matchAll(/\b[A-Z][a-z]+(?:[A-Z][a-zA-Z0-9]+)+\b/g)) {
       if(token[0]!=="DevOps"&&!has(source+" "+linkedSkills,token[0])&&!qualifiedTechnologyReference(clause,token[0],packet,claim.kind)) rejectTechnology(token[0]);
     }
-    // Public citation identifiers carry digits but are not numeric career
-    // claims. Ignore only exact IDs already cited by this unit, never unknown
-    // IDs or arbitrary numeric text (metrics/durations still require support).
-    const factualText=claim.evidence_ids.reduce((text,id)=>text.replaceAll(id," "),clause)
-      .replace(/\[(\d{1,2})\]/g,(reference,index)=>claim.evidence_ids.includes(packet.items[Number(index)-1]?.id??"")?" ":reference);
+    const factualText=clause; // All prose citations were rejected above.
     for(const n of numbers(factualText)) {
       if(!sourceNumbers.has(n)&&!(packet.unsupported_requirements.length>0&&numbers(packet.question).includes(n)&&negative(clause,n))) reject("unsupported_number",n);
     }

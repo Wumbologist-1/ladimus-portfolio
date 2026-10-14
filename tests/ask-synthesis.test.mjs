@@ -88,11 +88,11 @@ test('rendered paragraphs/lists preserve inspectable per-unit citations',()=>{
  }
 });
 
-test('assessment units are visibly distinguished from factual units while retaining citations',()=>{
+test('assessment semantics and citations survive without a redundant visible prose label',()=>{
  const claim={text:'The documented safeguards support confidence in bounded workflow design.',kind:'assessment',evidence_ids:['system-azure-environments--1']};
  for(const style of ['paragraphs','list']) {
   const html=renderToStaticMarkup(React.createElement(compiled.exports.AnswerPassages,{claims:[claim],style,evidence:azure.items,id:'assessment'}));
-  assert.match(html,/Evidence-derived assessment:/);assert.match(html,/Evidence [1-5] for passage 1/);
+  assert.match(html,/data-answer-kind="assessment"/);assert.ok(!html.includes("Evidence-derived assessment:"));assert.match(html,/Evidence [1-5] for passage 1/);
   const direct=renderToStaticMarkup(React.createElement(compiled.exports.AnswerPassages,{claims:[{...claim,kind:'direct'}],style,evidence:azure.items,id:'direct'}));assert.ok(!direct.includes('Evidence-derived assessment:'));
  }
 });
@@ -113,12 +113,13 @@ test('negative qualifications and discipline language remain usable without inve
  assert.equal(groundAnswer(make('Release validation and rollback go beyond publishing an image, connecting the Azure work to DevOps responsibilities.',undefined,'synthesis'),azure).claims.length,1);
 });
 
-test('numeric validation distinguishes exact cited IDs from invented numeric career claims',()=>{
+test('prose citations are rejected while numeric career claims still require cited support',()=>{
  const text='Azure release validation and rollback connect deployment to recovery (system-azure-environments--1).';
- assert.equal(groundAnswer(make(text,undefined,'synthesis'),azure).claims.length,1);
- assert.throws(()=>groundAnswer(make(text+' Luis saved 1 million.'),azure));
+ assert.throws(()=>groundAnswer(make(text,undefined,'synthesis'),azure),e=>e.code==='internal_id_in_prose');
+ assert.equal(groundAnswer(make('Azure release validation and rollback connect deployment to recovery.',undefined,'synthesis'),azure).claims.length,1);
+ assert.throws(()=>groundAnswer(make('Azure release validation connects delivery to recovery. Luis saved 1 million.'),azure),e=>e.code==='unsupported_number');
  const reference=azure.items.findIndex(i=>i.id==='system-azure-environments--1')+1;
- assert.equal(groundAnswer(make('Azure release ownership ['+reference+'].',undefined,'synthesis'),azure).claims.length,1);
+ assert.throws(()=>groundAnswer(make('Azure release ownership ['+reference+'].',undefined,'synthesis'),azure),e=>e.code==='unsupported_formatting');
  assert.throws(()=>groundAnswer(make('Azure release ownership [99].'),azure));
  assert.throws(()=>groundAnswer(make('Azure work (non-retrieved-source--1).'),azure));
  const p=packet(acceptanceQuestions[2]);assert.equal(groundAnswer(make('The evidence does not establish 4 years of Kubernetes experience.',['employment-romtech-devops-2026--1'],'direct',p),p).claims.length,1);

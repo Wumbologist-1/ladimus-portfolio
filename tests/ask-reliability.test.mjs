@@ -24,9 +24,9 @@ const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 test('production stage budgets retain route and client headroom and reserve the entire corrective pair',()=>{
  assert.ok(askBudget.generationMs+askBudget.verificationMs+askBudget.reserveMs<askBudget.totalMs);
  assert.ok(askBudget.correctionGenerationMs+askBudget.correctionVerificationMs+askBudget.reserveMs<askBudget.totalMs);
- assert.ok(askBudget.totalMs<askBudget.clientMs&&askBudget.clientMs<30000);
+ assert.ok(askBudget.totalMs<askBudget.clientMs&&askBudget.clientMs===45000&&askBudget.clientInactivityMs===15000);
  assert.match(readFileSync('src/app/api/ask/route.ts','utf8'),/maxDuration = 30/);
- assert.match(readFileSync('src/features/ask-ladimus/ask-console.tsx','utf8'),/askBudget.clientMs/);
+ assert.match(readFileSync('src/features/ask-ladimus/client-request.ts','utf8'),/askBudget.clientMs/);
 });
 
 test('generation and verification time out independently and abort even stalled providers',async()=>{
