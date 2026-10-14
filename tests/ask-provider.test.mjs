@@ -69,3 +69,13 @@ test('strict author schema constrains follow-up count and approved candidates wi
   assert.equal(properties.answer.items.properties.text.enum,undefined);
  }
 });
+test('plain thematic prose preserves per-system maturity and uncited external learning has the correct unit kind',async()=>{
+ let request;const provider=load(async(_url,init)=>{request=JSON.parse(init.body);return response(output(p));});
+ await provider.generateGroundedAnswer(p,new AbortController().signal);
+ const instruction=request.messages[0].content;
+ assert.match(instruction,/each concrete mechanism with its own system evidence and exact maturity/);
+ assert.match(instruction,/Do not describe designed, built-and-validated or live-tested records as production systems/);
+ assert.match(instruction,/empty evidence_ids array is allowed ONLY for general_technology/);
+ assert.match(instruction,/remaining learning requirement that refers to Luis is limitation and MUST cite/);
+ assert.match(instruction,/Do not add digits merely to enumerate themes/);
+});

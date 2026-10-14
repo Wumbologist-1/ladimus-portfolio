@@ -21,7 +21,10 @@ export function retrieveEvidence(query: string, chunks: EvidenceChunk[], hints: 
     score += activeHints.reduce((sum,h) => sum + (h.evidence_ids.includes(chunk.recordId) ? 4 : 0),0);
     if (mapped.has(chunk.recordId)) score += 3;
     // Thematic analysis needs concrete mechanisms, diversified by record below.
-    if(thematic && ["system","project"].includes(chunk.category) && /validation|approval|provenance|fail.closed|deterministic|immutable|policy|safeguard/i.test(body+" "+metadata)) score += 6;
+    if(thematic && ["system","project"].includes(chunk.category)) {
+      const mechanisms=[/validation|test execution|compil/i,/approval|human.review|human.oversight/i,/provenance|evidence.bound|sha-256|review.*head/i,/fail.closed|deterministic|policy/i,/immutable|patch|repository.state/i].filter(pattern=>pattern.test(body)).length;
+      if(mechanisms) score += 3+2*Math.min(4,mechanisms)+(chunk.id.endsWith("--1")?2:0)-(chunk.status==="designed_not_deployed"?3:0);
+    }
     // Impact questions must retain the documented measurements, not just a system overview.
     if (score > 0 && terms.some(t => ["measurable","measured","metrics","impact","requests"].includes(t)) && chunk.facts.some(f => /:\s*(?:exceeded\s+)?[\d,.]+%?\.$/.test(f))) score += 10;
     // Named system queries retain depth; overview queries diversify records.

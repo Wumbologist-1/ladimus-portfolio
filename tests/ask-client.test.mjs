@@ -124,3 +124,10 @@ test('varied thematic questions prefer multiple concrete system sources without 
   const records=retrieveEvidence(q,chunks,hints.intents,skills);assert.ok(records.filter(c=>['system','project'].includes(c.category)).length>=3,q);assert.ok(records.some(c=>/pr-assistant|ai-code-gating|android-test-agent|ladimus-review/.test(c.recordId)),q);assert.ok(new Set(records.map(c=>c.recordId)).size>=3);
  }
 });
+test('broad philosophy retrieval retains complementary concrete AI mechanisms instead of lexical tie winners',()=>{
+ for(const query of ['Explain his engineering philosophy through themes and concrete systems.', 'If you had to explain Luis’s engineering philosophy to a staff engineer in three themes, what would they be, and which systems best demonstrate each one?']){
+  const selected=retrieveEvidence(query,chunks,hints.intents,skills);
+  for(const record of ['system-pr-assistant','system-ai-code-gating','system-android-test-agent','project-ladimus-review'])assert.ok(selected.some(c=>c.recordId===record),record);
+  assert.ok(!selected.some(c=>c.category==='profile'||c.category==='employment'));
+ }
+});
