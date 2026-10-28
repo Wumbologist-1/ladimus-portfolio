@@ -19,7 +19,7 @@ export function RecallDownload() {
     </div>
     <p className={styles.qaNotice}>{presentation.notice}</p>
     <details className={styles.details}><summary>Package identity & verification</summary>
-      <p>Verified local package identity. This is not an independent security certification or approval for public distribution.</p>
+      <p>Package identity verified locally{release.assetVerification?.access === "public" ? " and against a complete anonymous public download" : ""}. Signed with a dedicated QA identity. This is not an independent security certification or production approval.</p>
       <dl className={styles.identity}><div><dt>Filename</dt><dd>{release.filename}</dd></div><div><dt>SHA-256</dt><dd><code>{release.sha256}</code></dd></div></dl>
       <p>After downloading an approved package, calculate its SHA-256 checksum with your operating system’s file-hashing tool and compare every character. A match identifies this package; it does not prove the software is safe.</p>
     </details>

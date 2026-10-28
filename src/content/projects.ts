@@ -25,6 +25,6 @@ export const recall = {
   summary: "A private second memory for Android. Save notes, links and PNG screenshots, then find them again with local AI and source-linked search. Actively developed; controlled internal QA only.",
   category: "Consumer Software / On-Device AI", technologies: ["Android", "React Native", "TypeScript", "SQLCipher"],
   themes: ["Android engineering", "Offline AI", "Encrypted local storage", "Screenshot OCR", "Semantic retrieval"],
-  status: "internal-qa", featured: true, detailUrl: "/projects/recall",
+  status: "public-qa", featured: true, detailUrl: "/projects/recall",
 } as const satisfies Project;
 export const projects = [ladimusReview, askLadimus, recall] as const satisfies readonly Project[];

@@ -5,12 +5,12 @@ import {ActionLink} from "@/components/ui/action-link";
 import {RecallVisual} from "@/features/recall/recall-visual";
 import {RecallDownload} from "@/features/recall/recall-download";
 import {recallRelease, recallReleasePresentation} from "@/features/recall/release";
-import {site} from "@/config/site";
+import {site, profile} from "@/config/site";
 import shared from "../../projects.module.css";
 import styles from "@/features/recall/recall.module.css";
 
 const title = "Recall — Private Offline AI Memory App";
-const description = "Meet Recall, by Ladimus: an Android memory application with local AI, encrypted storage, offline screenshot recognition, and evidence-linked search. Currently in controlled QA testing.";
+const description = "Meet Recall, by Ladimus: an Android memory application with local AI, encrypted storage, offline screenshot OCR, and evidence-linked search. Experimental public QA for synthetic data only.";
 export const metadata: Metadata = {
   title, description, metadataBase: new URL("https://ladimus-portfolio.vercel.app"),
   alternates: {canonical: "/projects/recall"},
@@ -70,9 +70,10 @@ export default function RecallPage() {
     </Section>
 
     <Section id="android" aria-labelledby="recall-android">
-      <div className={shared.sectionHead}><p className={styles.kicker}>05 / Controlled access</p><h2 id="recall-android">Recall for Android.</h2><p>{releasePresentation.access}</p></div>
+      <div className={shared.sectionHead}><p className={styles.kicker}>05 / Android testing</p><h2 id="recall-android">Recall for Android.</h2><p>{releasePresentation.access}</p></div>
       <RecallDownload />
-      <details className={styles.details}><summary>Installing an approved Android package</summary><ol className={styles.install}><li>When a verified release is made available to you, download the approved Android package.</li><li>Open the downloaded APK on a compatible Android phone.</li><li>Follow Android’s installation instructions, including permission for that download source when required.</li><li>Launch Recall. The current QA package includes its local models; no first-launch model download or account is required.</li><li>Test only with synthetic or disposable information in this QA release.</li></ol><p>Sideloaded applications may trigger Android security warnings. Keep Play Protect and other protections enabled. If Android blocks the package, stop and ask the distributor for guidance. Google Play availability is a future goal; this release is not available there.</p></details>
+      <details className={styles.details}><summary>Tester quick start & installation</summary><ol className={styles.install}><li>Download the QA APK. Compare its filename, size and SHA-256 with the package identity above.</li><li>Open the downloaded APK on a compatible Android phone and follow Android’s normal installation prompts.</li><li>Allow installation from that browser or file manager only if you understand and choose to proceed. Revoke that source permission after installation.</li><li>Launch Recall. Local models are bundled; no first-launch model download or account is required.</li><li>Create a fictional note: “Willow Creek Bistro has excellent chicken alfredo. We should try it next Saturday.”</li><li>Import a disposable PNG screenshot containing synthetic information.</li><li>Try semantic search: “Where were we thinking about eating?”</li><li>Try Ask Recall and inspect its original supporting evidence. Answers may be incomplete or conservative.</li><li>Reopen the application and confirm your saved test memory persists.</li><li>Delete the synthetic memories.</li></ol><p>Keep Play Protect and other protections enabled. If Android blocks the package, stop and ask the distributor for guidance. Google Play availability is a future goal; this release is not available there. Migration to a future production application is not guaranteed.</p></details>
+      <details className={styles.details}><summary>Share useful QA feedback</summary><p>Include phone manufacturer/model, Android version, installation success or failure, feature tested, steps to reproduce, expected and actual behavior, crashes or unresponsiveness, and general performance. Use synthetic examples and redacted reports only. Never send personal memories, private screenshots, encryption keys or unnecessary device identifiers. This is a testing release, not a guaranteed support service.</p><ActionLink href={`mailto:${profile.email}?subject=${encodeURIComponent("Recall QA feedback")}&body=${encodeURIComponent("Phone manufacturer/model:\nAndroid version:\nInstallation result:\nFeature tested:\nSteps to reproduce (synthetic data only):\nExpected behavior:\nActual behavior:\nCrash or unresponsive?:\nGeneral performance:\n")}`}>Report a QA issue</ActionLink></details>
     </Section>
 
     <Section id="engineering" aria-labelledby="recall-engineering" className={styles.band}>

@@ -17,7 +17,7 @@ export function ProjectCard({ project }: { project: Project }) {
         <p className={styles.category}>{project.category}</p>
         <h3 id={`project-${project.slug}`}>{project.title}</h3>
         <p className={styles.summary}>{project.summary}</p>
-        {project.status && <p className={styles.maturity}>{({"planned":"Planned", "in-progress":"In development", "released":"Released", "internal-qa":"Internal QA · Synthetic-data testing"})[project.status]}</p>}
+        {project.status && <p className={styles.maturity}>{({"planned":"Planned", "in-progress":"In development", "released":"Released", "internal-qa":"Internal QA · Synthetic-data testing", "public-qa":"Public QA · Experimental testing"})[project.status]}</p>}
         <ul className={styles.tags} aria-label={`${project.title} themes`}>
           {project.themes?.map(theme => <li key={theme}>{theme}</li>)}
         </ul>

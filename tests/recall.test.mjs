@@ -10,15 +10,15 @@ import {recallRelease,recallDownload,recallFileSize,recallReleasePresentation} f
 
 const asset='https://downloads.example.test/releases/'+recallRelease.filename;
 function verified(overrides={}){
- const release={...recallRelease,downloadUrl:asset,...overrides};
+ const release={...recallRelease,downloadUrl:asset,channel:"internal-qa",...overrides};
  return {...release,assetVerification:{url:release.downloadUrl,filename:release.filename,bytes:release.bytes,sha256:release.sha256,version:release.version,build:release.build,access:'restricted',checkedAt:'2026-10-28T12:00:00Z'}};
 }
-test('the current verified local identity does not accidentally publish its QA package',()=>{
+test('the current public QA identity preserves separate production approvals',()=>{
  assert.equal(recallRelease.version,'0.5.0-qa');assert.equal(recallRelease.build,5);assert.equal(recallRelease.bytes,564631164);
  assert.equal(recallRelease.sha256,'cda186cef81034e2d187dfffec82b507ffe2689aa740aa80a78da3253024be2b');
  assert.deepEqual(recallRelease.architectures,['arm64-v8a','x86_64']);assert.equal(recallRelease.minAndroid,'7.0');
- assert.equal(recallRelease.downloadUrl,null);assert.equal(recallRelease.publicDownloadApproved,false);assert.equal(recallRelease.assetVerification,null);
- assert.equal(recallDownload(recallRelease).href,null);assert.match(recallReleasePresentation(recallRelease).notice,/disposable test information/);
+ assert.ok(recallRelease.downloadUrl.startsWith('https://github.com/Wumbologist-1/recall-android-releases/releases/download/v0.5.0-qa.5/'));assert.equal(recallRelease.publicDownloadApproved,false);assert.equal(recallRelease.releaseGatesApproved,false);
+ assert.equal(recallDownload(recallRelease).href,recallRelease.downloadUrl);assert.match(recallReleasePresentation(recallRelease).notice,/disposable information/);
  assert.equal(recallFileSize(recallRelease.bytes),'564.6 MB (538.5 MiB)');
 });
 test('internal QA requires identity-bound restricted distribution even if a public URL is supplied',()=>{
@@ -57,13 +57,28 @@ test('all three project cards use their explicit visual; Recall cannot fall thro
  for(const project of data.projects){
   const html=renderToStaticMarkup(React.createElement(ProjectCard,{project}));
   assert.ok(html.includes(project.detailUrl));
-  if(project.slug==='recall'){assert.ok(html.includes('/images/recall/original-memory-qa.png'));assert.ok(!html.includes('Review-only diagram'));assert.ok(html.includes('Internal QA'));}
+  if(project.slug==='recall'){assert.ok(html.includes('/images/recall/original-memory-qa.png'));assert.ok(!html.includes('Review-only diagram'));assert.ok(html.includes('Public QA'));}
   if(project.slug==='ladimus-review'){assert.ok(html.includes('Review-only diagram'));assert.ok(!html.includes('original-memory-qa.png'));}
   if(project.slug==='ask-ladimus'){assert.ok(html.includes('Bounded retrieval'));assert.ok(!html.includes('original-memory-qa.png'));}
  }
 });
 test('the actual download UI renders verified metadata and a disabled control without any APK href',()=>{
- const {RecallDownload}=load('src/features/recall/recall-download.tsx',{'./release':{recallRelease,recallDownload,recallFileSize,recallReleasePresentation}});
+ const {RecallDownload}=load('src/features/recall/recall-download.tsx',{'./release':{recallRelease:{...recallRelease,downloadUrl:null},recallDownload,recallFileSize,recallReleasePresentation}});
  const html=renderToStaticMarkup(React.createElement(RecallDownload));
  assert.match(html,/<button[^>]+disabled=""/);assert.ok(html.includes(recallRelease.sha256));assert.ok(html.includes('564,631,164'));assert.ok(!/href="[^"]*\.apk/.test(html));assert.ok(!html.includes('C:\\'));assert.ok(!html.includes('file://'));
+});
+
+test('public QA requires identity-bound founder authorization, public proof and a verified signature',()=>{
+ const r=verified({channel:'public-qa'});r.assetVerification.access='public';
+ assert.equal(recallDownload(r).href,asset);
+ assert.equal(r.releaseGatesApproved,false);assert.equal(r.publicDownloadApproved,false);
+ assert.match(recallReleasePresentation(r).notice,/Do not store personal/);
+ for(const overrides of [{publicQaAuthorization:null},{signatureVerification:null},{publicQaAuthorization:{...r.publicQaAuthorization,build:6}},{signatureVerification:{...r.signatureVerification,sha256:'a'.repeat(64)}},{channel:'public-beta'},{channel:'production'},{sha256:'invalid'},{downloadUrl:null}]) assert.equal(recallDownload({...r,...overrides}).href,null);
+ assert.equal(recallDownload({...r,assetVerification:{...r.assetVerification,access:'restricted'}}).href,null);
+ const next=verified({channel:'public-qa',version:'0.6.0',build:6});next.assetVerification.access='public';assert.equal(recallDownload(next).href,null);
+});
+test('the actual public QA CTA renders the verified APK and explicit experimental notice',()=>{
+ const {RecallDownload}=load('src/features/recall/recall-download.tsx',{'./release':{recallRelease,recallDownload,recallFileSize,recallReleasePresentation}});
+ const html=renderToStaticMarkup(React.createElement(RecallDownload));
+ assert.ok(html.includes(recallRelease.downloadUrl));assert.ok(html.includes('Download Recall for Android'));assert.ok(html.includes('Do not store personal'));assert.ok(!html.includes('disabled=""'));
 });

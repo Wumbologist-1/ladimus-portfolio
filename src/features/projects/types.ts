@@ -11,7 +11,7 @@ export type Project = {
   summary: string;
   category: string;
   technologies: readonly string[];
-  status?: "planned" | "in-progress" | "released" | "internal-qa";
+  status?: "planned" | "in-progress" | "released" | "internal-qa" | "public-qa";
   themes?: readonly string[];
   featured: boolean;
   detailUrl?: `/projects/${string}` | "/ask";
