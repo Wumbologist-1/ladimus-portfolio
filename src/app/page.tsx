@@ -65,7 +65,7 @@ export default function Home() {
         </div>
         <div className={styles.actions} data-topology-clear><ActionLink href="/work">View all work</ActionLink></div>
         <ul className={styles.projects} aria-label="Featured projects" data-topology-clear>
-          {projects.map((project) => (
+          {projects.filter(project=>project.featured).map((project) => (
             <li key={project.slug}>
               <ProjectCard project={project} />
             </li>

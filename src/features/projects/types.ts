@@ -6,11 +6,12 @@ export type CaseStudy = {
 
 export type Project = {
   slug: string;
+  visual: "review" | "intelligence" | "recall";
   title: string;
   summary: string;
   category: string;
   technologies: readonly string[];
-  status?: "planned" | "in-progress" | "released";
+  status?: "planned" | "in-progress" | "released" | "internal-qa";
   themes?: readonly string[];
   featured: boolean;
   detailUrl?: `/projects/${string}` | "/ask";

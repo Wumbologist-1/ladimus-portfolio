@@ -7,7 +7,7 @@ import { profile, site } from "@/config/site";
 import styles from "../projects.module.css";
 
 const title = "Selected Work";
-const description = "Explore Luis Tomassini’s independent engineering work, led by Ladimus Review: validation-oriented AI engineering and developer tooling.";
+const description = "Explore Luis Tomassini’s independent engineering work, led by Ladimus Review: validation-oriented AI engineering, career intelligence and consumer Android software.";
 export const metadata: Metadata = {
   title, description,
   openGraph: { title: `${title} | ${site.name}`, description, type: "website", siteName: site.name },

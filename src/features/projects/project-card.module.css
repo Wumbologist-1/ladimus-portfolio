@@ -94,3 +94,5 @@
 .card {border-radius:1rem;box-shadow:0 20px 50px #0003,inset 0 1px #ffffff0a;}
 .tags li {background:#101719;border-color:#3a4b52;}
 @media(forced-colors:active){.intelligenceVisual{background:Canvas;border-color:CanvasText;box-shadow:none;}.intelligenceVisual strong{color:CanvasText;}}
+
+.maturity {margin-block-start:var(--space-4);font:var(--text-xs)/1.6 var(--font-mono);color:var(--color-accent);}
