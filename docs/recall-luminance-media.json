@@ -1,0 +1,37 @@
+[
+  {
+    "file": "final-home.png",
+    "bytes": 264540,
+    "sha256": "676340ec18fc01ed9fc2a24a51e1dd63ec3905724b7f36c859f1786d3d671a12"
+  },
+  {
+    "file": "final-save-methods.png",
+    "bytes": 261102,
+    "sha256": "b824343aed386d82fe91f597c03e30dcda7a94f0c9f1bef6a6addfe5b33a56a5"
+  },
+  {
+    "file": "final-find-library.png",
+    "bytes": 298663,
+    "sha256": "f63592373d8cc2b1b7b663ffca33177fe7bb751bedcdde5ee5f1f9075a3ab8f8"
+  },
+  {
+    "file": "final-follow-up.png",
+    "bytes": 272282,
+    "sha256": "b43cae312f2df0bab6b1e02f67cce02306bd5e8896f41fde00e5a58501ed066e"
+  },
+  {
+    "file": "final-png-original.png",
+    "bytes": 230915,
+    "sha256": "0cbf5fed28f1779ae63bef8234f672c34ce1466d4c4d15a82f474a6a17c8bb74"
+  },
+  {
+    "file": "final-settings-security.png",
+    "bytes": 329294,
+    "sha256": "70e1691e708121fba4dc06f19c833bfd9d6a24a63a8d05795f18a57c89a400b6"
+  },
+  {
+    "file": "final-locked.png",
+    "bytes": 213651,
+    "sha256": "d84ac1ab933e9d60f97c081bfda995846ca4c2a14dbdd985d7017b85680a084d"
+  }
+]

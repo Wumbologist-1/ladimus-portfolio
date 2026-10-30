@@ -66,3 +66,27 @@
 @media(min-width:64rem){.heroGrid {grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:var(--space-8);}.heroVisual {max-inline-size:29rem;justify-self:end;inline-size:100%;}}
 @media(max-width:30rem){.releaseFacts {grid-template-columns:1fr;}.downloadButton {inline-size:100%;}.visual {padding:var(--space-4);}}
 @media(forced-colors:active){.hero,.band,.visual,.download,.engineering article,.trust,.pipeline span {background:Canvas;color:CanvasText;border-color:CanvasText;}.downloadButton {background:ButtonFace;color:ButtonText;border-color:ButtonText;}}
+
+/* Luminance stays within the portfolio's existing type, spacing and color tokens. */
+.promise {margin-block:var(--space-6);padding-inline-start:var(--space-5);border-inline-start:2px solid var(--color-accent);font-size:var(--text-lg);line-height:1.55;color:var(--color-metal);}
+.heroVisual {background:radial-gradient(ellipse at 50% 45%,#2a795c55,transparent 70%),linear-gradient(155deg,#1c3027,#090f0c);border-color:#6b8978;box-shadow:0 20px 90px #07180d66;}
+.heroVisual .device {border-color:#83978a;box-shadow:0 0 0 1px #d8e4db44,0 28px 70px #0009;}
+.improvements {display:grid;gap:var(--space-6);margin-block-start:var(--space-8);}
+.improvements article {padding-block-start:var(--space-5);border-block-start:1px solid #526c5d;}
+.improvements h3 {font-size:var(--text-lg);font-weight:500;margin-block:var(--space-4);color:var(--color-metal);}
+.improvements p {color:var(--color-text-muted);max-inline-size:48ch;}
+.screenNav {display:flex;flex-wrap:wrap;gap:var(--space-3);margin-block:var(--space-6);}
+.screenNav a {display:inline-flex;align-items:center;min-block-size:44px;padding:.5rem 1rem;border:1px solid var(--color-border);border-radius:var(--radius-pill);color:var(--color-metal);text-decoration:none;font-size:var(--text-sm);}
+.screenNav a:hover {border-color:var(--color-accent);color:var(--color-accent);}
+.gallery {display:grid;gap:var(--space-6);align-items:start;}
+.screen {margin:0;padding:var(--space-5);min-inline-size:0;scroll-margin-block-start:7rem;border:1px solid #41584b;border-radius:var(--radius-md);background:radial-gradient(ellipse at 50% 25%,#164e3733,transparent 65%),var(--surface-technical);}
+.screenLink {display:block;border-radius:1.8rem;}
+.screen .device {inline-size:min(100%,300px);margin-block:0 var(--space-5);border-color:#657d6d;}
+.screen h3 {font-size:var(--text-lg);line-height:1.35;font-weight:500;color:var(--color-metal);margin-block-end:var(--space-3);}
+.screen figcaption p {font-size:var(--text-sm);line-height:1.7;color:var(--color-text-muted);}
+.screen figcaption>a {display:inline-flex;align-items:center;min-block-size:44px;color:var(--color-secondary);font-size:var(--text-sm);margin-block-start:var(--space-3);}
+.appLockNotice {margin-block-start:var(--space-5);padding:var(--space-5);border-inline-start:2px solid var(--color-accent);background:#1a2a2070;color:var(--color-metal);font-size:var(--text-sm);max-inline-size:80ch;}
+@media(min-width:48rem){.improvements,.gallery {grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(min-width:64rem){.improvements,.gallery {grid-template-columns:repeat(3,minmax(0,1fr));}}
+@media(max-width:47.99rem){.screen {max-inline-size:360px;inline-size:100%;justify-self:center;}.screen .device {inline-size:min(100%,280px);}}
+@media(forced-colors:active){.heroVisual,.screen,.appLockNotice {background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none;}.promise,.screenNav a,.heroVisual .device,.screen .device {border-color:CanvasText;}}

@@ -22,7 +22,7 @@ export const askLadimus = {
 } as const satisfies Project;
 export const recall = {
   slug: "recall", visual: "recall", title: "Recall",
-  summary: "A private second memory for Android. Save notes, links and PNG screenshots, then find them again with local AI and source-linked search. Actively developed; controlled internal QA only.",
+  summary: "Your private second memory for Android, redesigned in Project Luminance. Save notes, links and PNG screenshots, then rediscover them with local AI and source-linked search. Experimental public QA; synthetic data only.",
   category: "Consumer Software / On-Device AI", technologies: ["Android", "React Native", "TypeScript", "SQLCipher"],
   themes: ["Android engineering", "Offline AI", "Encrypted local storage", "Screenshot OCR", "Semantic retrieval"],
   status: "public-qa", featured: true, detailUrl: "/projects/recall",

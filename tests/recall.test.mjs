@@ -7,6 +7,7 @@ import ts from 'typescript';
 import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 import {recallRelease,recallDownload,recallFileSize,recallReleasePresentation} from '../src/features/recall/release.ts';
+import {recallScreens,recallScreenPath} from '../src/features/recall/screens.ts';
 
 const asset='https://downloads.example.test/releases/'+recallRelease.filename;
 function verified(overrides={}){
@@ -14,12 +15,12 @@ function verified(overrides={}){
  return {...release,assetVerification:{url:release.downloadUrl,filename:release.filename,bytes:release.bytes,sha256:release.sha256,version:release.version,build:release.build,access:'restricted',checkedAt:'2026-10-28T12:00:00Z'}};
 }
 test('the current public QA identity preserves separate production approvals',()=>{
- assert.equal(recallRelease.version,'0.5.0-qa');assert.equal(recallRelease.build,5);assert.equal(recallRelease.bytes,564631164);
- assert.equal(recallRelease.sha256,'cda186cef81034e2d187dfffec82b507ffe2689aa740aa80a78da3253024be2b');
+ assert.equal(recallRelease.version,'0.6.0-qa');assert.equal(recallRelease.build,6);assert.equal(recallRelease.bytes,564963288);
+ assert.equal(recallRelease.sha256,'6d806dc0825a9772ec0974668b6a5e656c9bd2ffd5dfa9ed1c8c3a0e32e8c665');
  assert.deepEqual(recallRelease.architectures,['arm64-v8a','x86_64']);assert.equal(recallRelease.minAndroid,'7.0');
- assert.ok(recallRelease.downloadUrl.startsWith('https://github.com/Wumbologist-1/recall-android-releases/releases/download/v0.5.0-qa.5/'));assert.equal(recallRelease.publicDownloadApproved,false);assert.equal(recallRelease.releaseGatesApproved,false);
+ assert.ok(recallRelease.downloadUrl.startsWith('https://github.com/Wumbologist-1/recall-android-releases/releases/download/v0.6.0-qa.6/'));assert.equal(recallRelease.publicDownloadApproved,false);assert.equal(recallRelease.releaseGatesApproved,false);
  assert.equal(recallDownload(recallRelease).href,recallRelease.downloadUrl);assert.match(recallReleasePresentation(recallRelease).notice,/disposable information/);
- assert.equal(recallFileSize(recallRelease.bytes),'564.6 MB (538.5 MiB)');
+ assert.equal(recallFileSize(recallRelease.bytes),'565.0 MB (538.8 MiB)');
 });
 test('internal QA requires identity-bound restricted distribution even if a public URL is supplied',()=>{
  assert.equal(recallDownload(verified()).href,asset);
@@ -35,7 +36,7 @@ test('public beta requires both explicit founder and release-gate approvals, plu
  assert.equal(recallDownload({...approved,assetVerification:{...r.assetVerification,access:'restricted'}}).href,null);
  assert.equal(recallDownload({...approved,channel:'unavailable'}).href,null);
 });
-for(const [field,value] of [['sha256','a'.repeat(64)],['bytes',42],['filename','another.apk'],['version','0.6.0'],['build',6],['downloadUrl','https://other.example.test/'+recallRelease.filename]])test(`changing ${field} invalidates old asset verification`,()=>assert.equal(recallDownload({...verified(),[field]:value}).href,null));
+for(const [field,value] of [['sha256','a'.repeat(64)],['bytes',42],['filename','another.apk'],['version','0.6.0'],['build',7],['downloadUrl','https://other.example.test/'+recallRelease.filename]])test(`changing ${field} invalidates old asset verification`,()=>assert.equal(recallDownload({...verified(),[field]:value}).href,null));
 for(const url of ['http://downloads.example.test/'+recallRelease.filename,'file:///C:/recall.apk','C:\\recall.apk','https://localhost/'+recallRelease.filename,'https://user:secret@example.test/'+recallRelease.filename,asset+'?token=secret',asset+'#fragment','https://downloads.example.test/archive/source.zip','https://downloads.example.test/archive/source.tar.gz'])test('unsafe or wrong asset destination stays disabled: '+url.split('?')[0],()=>assert.equal(recallDownload(verified({downloadUrl:url})).href,null));
 test('the published media is the small authentic synthetic QA capture',()=>{
  const path='public/images/recall/original-memory-qa.png';assert.ok(statSync(path).size<250000);
@@ -52,20 +53,20 @@ function load(path,stubs={}){
 const photo=({src,alt,width,height})=>React.createElement('img',{src,alt,width,height});
 test('all three project cards use their explicit visual; Recall cannot fall through to Review',()=>{
  const data=load('src/content/projects.ts');assert.deepEqual(data.projects.map(p=>p.slug),['ladimus-review','ask-ladimus','recall']);
- const {RecallVisual}=load('src/features/recall/recall-visual.tsx',{'next/image':{default:photo}});
+ const {RecallVisual}=load('src/features/recall/recall-visual.tsx',{'next/image':{default:photo},'./screens':{recallScreens,recallScreenPath}});
  const {ProjectCard}=load('src/features/projects/project-card.tsx',{'@/components/ui/action-link':{ActionLink:({href,children})=>React.createElement('a',{href},children)},'@/features/recall/recall-visual':{RecallVisual},'./review-visual':{ReviewVisual:()=>React.createElement('div',null,'Review-only diagram')}});
  for(const project of data.projects){
   const html=renderToStaticMarkup(React.createElement(ProjectCard,{project}));
   assert.ok(html.includes(project.detailUrl));
-  if(project.slug==='recall'){assert.ok(html.includes('/images/recall/original-memory-qa.png'));assert.ok(!html.includes('Review-only diagram'));assert.ok(html.includes('Public QA'));}
-  if(project.slug==='ladimus-review'){assert.ok(html.includes('Review-only diagram'));assert.ok(!html.includes('original-memory-qa.png'));}
-  if(project.slug==='ask-ladimus'){assert.ok(html.includes('Bounded retrieval'));assert.ok(!html.includes('original-memory-qa.png'));}
+  if(project.slug==='recall'){assert.ok(html.includes('/images/recall/luminance/final-home.png'));assert.ok(!html.includes('Review-only diagram'));assert.ok(html.includes('Public QA'));}
+  if(project.slug==='ladimus-review'){assert.ok(html.includes('Review-only diagram'));assert.ok(!html.includes('luminance/final-home.png'));}
+  if(project.slug==='ask-ladimus'){assert.ok(html.includes('Bounded retrieval'));assert.ok(!html.includes('luminance/final-home.png'));}
  }
 });
 test('the actual download UI renders verified metadata and a disabled control without any APK href',()=>{
  const {RecallDownload}=load('src/features/recall/recall-download.tsx',{'./release':{recallRelease:{...recallRelease,downloadUrl:null},recallDownload,recallFileSize,recallReleasePresentation}});
  const html=renderToStaticMarkup(React.createElement(RecallDownload));
- assert.match(html,/<button[^>]+disabled=""/);assert.ok(html.includes(recallRelease.sha256));assert.ok(html.includes('564,631,164'));assert.ok(!/href="[^"]*\.apk/.test(html));assert.ok(!html.includes('C:\\'));assert.ok(!html.includes('file://'));
+ assert.match(html,/<button[^>]+disabled=""/);assert.ok(html.includes(recallRelease.sha256));assert.ok(html.includes('564,963,288'));assert.ok(!/href="[^"]*\.apk/.test(html));assert.ok(!html.includes('C:\\'));assert.ok(!html.includes('file://'));
 });
 
 test('public QA requires identity-bound founder authorization, public proof and a verified signature',()=>{
@@ -73,12 +74,45 @@ test('public QA requires identity-bound founder authorization, public proof and 
  assert.equal(recallDownload(r).href,asset);
  assert.equal(r.releaseGatesApproved,false);assert.equal(r.publicDownloadApproved,false);
  assert.match(recallReleasePresentation(r).notice,/Do not store personal/);
- for(const overrides of [{publicQaAuthorization:null},{signatureVerification:null},{publicQaAuthorization:{...r.publicQaAuthorization,build:6}},{signatureVerification:{...r.signatureVerification,sha256:'a'.repeat(64)}},{channel:'public-beta'},{channel:'production'},{sha256:'invalid'},{downloadUrl:null}]) assert.equal(recallDownload({...r,...overrides}).href,null);
+ for(const overrides of [{publicQaAuthorization:null},{signatureVerification:null},{publicQaAuthorization:{...r.publicQaAuthorization,build:7}},{signatureVerification:{...r.signatureVerification,sha256:'a'.repeat(64)}},{channel:'public-beta'},{channel:'production'},{sha256:'invalid'},{downloadUrl:null}]) assert.equal(recallDownload({...r,...overrides}).href,null);
  assert.equal(recallDownload({...r,assetVerification:{...r.assetVerification,access:'restricted'}}).href,null);
- const next=verified({channel:'public-qa',version:'0.6.0',build:6});next.assetVerification.access='public';assert.equal(recallDownload(next).href,null);
+ const next=verified({channel:'public-qa',version:'0.7.0-qa',build:7});next.assetVerification.access='public';assert.equal(recallDownload(next).href,null);
 });
 test('the actual public QA CTA renders the verified APK and explicit experimental notice',()=>{
  const {RecallDownload}=load('src/features/recall/recall-download.tsx',{'./release':{recallRelease,recallDownload,recallFileSize,recallReleasePresentation}});
  const html=renderToStaticMarkup(React.createElement(RecallDownload));
- assert.ok(html.includes(recallRelease.downloadUrl));assert.ok(html.includes('Download Recall for Android'));assert.ok(html.includes('Do not store personal'));assert.ok(!html.includes('disabled=""'));
+ assert.ok(html.includes(recallRelease.downloadUrl));assert.ok(html.includes('Download Recall v0.6 for Android'));assert.ok(html.includes('Do not store personal'));assert.ok(!html.includes('disabled=""'));
+});
+
+test('v0.6 cannot inherit v0.5 authorization, signature or public asset proof',()=>{
+ const oldHash='cda186cef81034e2d187dfffec82b507ffe2689aa740aa80a78da3253024be2b';
+ const r=recallRelease;
+ assert.equal(r.downloadUrl,'https://github.com/Wumbologist-1/recall-android-releases/releases/download/v0.6.0-qa.6/recall-0.6.0-d009-qa-arm64-x86_64.apk');
+ assert.equal(r.signatureVerification.certificateSha256,'e28c77cccb4d589fb1963f5159bd9b42fad66637532129d840edd8ecebcd42d5');
+ for(const overrides of [{publicQaAuthorization:{version:'0.5.0-qa',build:5,sha256:oldHash,authorizedAt:'2026-10-28'}},{signatureVerification:{...r.signatureVerification,sha256:oldHash}},{assetVerification:{...r.assetVerification,version:'0.5.0-qa',build:5,sha256:oldHash,bytes:564631164}}]) assert.equal(recallDownload({...r,...overrides}).href,null);
+ assert.notEqual(r.assetVerification.checkedAt,'2026-10-28T21:38:00Z');
+});
+test('all seven Luminance media files preserve the measured original PNG identities',()=>{
+ const proof=JSON.parse(readFileSync('docs/recall-luminance-media.json','utf8'));
+ assert.equal(proof.length,7);assert.deepEqual(proof.map(p=>p.file),recallScreens.map(s=>s.file));
+ let bytes=0;
+ for(const p of proof){const file=readFileSync('public'+recallScreenPath(p.file));bytes+=file.length;assert.equal(file.length,p.bytes);assert.equal(createHash('sha256').update(file).digest('hex'),p.sha256);assert.equal(file.readUInt32BE(16),1080);assert.equal(file.readUInt32BE(20),2400);}
+ assert.ok(bytes<2100000);
+ assert.ok(!recallScreens.some(s=>s.file==='final-save.png'));
+});
+test('the gallery exposes six readable originals and identifies the synthetic standalone evidence',()=>{
+ const {RecallGallery}=load('src/features/recall/recall-visual.tsx',{'next/image':{default:photo},'./screens':{recallScreens,recallScreenPath}});
+ const html=renderToStaticMarkup(React.createElement(RecallGallery));
+ assert.equal((html.match(/<figure/g)||[]).length,6);
+ for(const screen of recallScreens.slice(1)){assert.ok(html.includes(recallScreenPath(screen.file)));assert.ok(html.includes(`id="screen-${screen.id}"`));}
+ assert.ok(!html.includes('original-memory-qa.png'));
+});
+test('the rendered page keeps v0.6 security and factual boundaries explicit',()=>{
+ const {RecallVisual,RecallGallery}=load('src/features/recall/recall-visual.tsx',{'next/image':{default:photo},'./screens':{recallScreens,recallScreenPath}});
+ const {RecallDownload}=load('src/features/recall/recall-download.tsx',{'./release':{recallRelease,recallDownload,recallFileSize,recallReleasePresentation}});
+ const {default:Page}=load('src/app/projects/recall/page.tsx',{'next/image':{default:photo},'@/components/ui/section':{Section:({children,...props})=>React.createElement('section',props,children)},'@/components/ui/action-link':{ActionLink:({href,children})=>React.createElement('a',{href},children)},'@/features/recall/recall-visual':{RecallVisual,RecallGallery},'@/features/recall/recall-download':{RecallDownload},'@/features/recall/screens':{recallScreens,recallScreenPath},'@/features/recall/release':{recallRelease,recallReleasePresentation},'@/config/site':load('src/config/site.ts')});
+ const html=renderToStaticMarkup(React.createElement(Page));
+ for(const phrase of ['Meet the new Recall.','six completed turns','82 passing host tests','website release did not rerun','Android 11 / API 30','permanently','Native OpenSSL maintenance','Free-form factual output remains disabled','Do not store personal'])assert.ok(html.includes(phrase),phrase);
+ assert.ok(!html.includes('biometric app lock are not available'));
+ assert.ok(!html.includes('65 passing host tests'));
 });

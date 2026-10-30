@@ -7,6 +7,7 @@ export function RecallDownload() {
   const classification = release.channel === "internal-qa" ? "Internal QA / Synthetic-data testing" : presentation.stage;
   return <div className={styles.download}>
     <div className={styles.downloadTop}><div><p className={styles.kicker}>ANDROID / {classification}</p><h3>Keep a little more.<br />Carry a little less.</h3></div><span className={styles.releaseBadge}>{release.version} / Build {release.build}</span></div>
+    <p className={styles.local}>Free experimental QA · Android {release.minAndroid}+ · Approximately {Math.round(release.bytes / 1000000)} MB</p>
     <dl className={styles.releaseFacts}>
       <div><dt>Version / build</dt><dd>{release.version} / {release.build}</dd></div>
       <div><dt>Platform / minimum</dt><dd>Android {release.minAndroid} or newer</dd></div>
@@ -17,6 +18,7 @@ export function RecallDownload() {
       {action.href ? <a className={styles.downloadButton} href={action.href} target="_blank" rel="noopener noreferrer" aria-describedby="recall-download-status">{action.label} ↗</a> : <button type="button" className={styles.downloadButton} disabled aria-describedby="recall-download-status">{action.label}</button>}
       <p id="recall-download-status">{action.reason}</p>
     </div>
+    <p className={styles.appLockNotice}><strong>App lock has additional requirements.</strong> Android 11 / API 30 or later and a secure device screen lock are required. Device-credential behavior was verified on an emulator; physical biometric and hardware-backed key qualification remain outstanding. No credential recovery/export is available. Losing protected-key access may permanently make the vault inaccessible.</p>
     <p className={styles.qaNotice}>{presentation.notice}</p>
     <details className={styles.details}><summary>Package identity & verification</summary>
       <p>Package identity verified locally{release.assetVerification?.access === "public" ? " and against a complete anonymous public download" : ""}. Signed with a dedicated QA identity. This is not an independent security certification or production approval.</p>
