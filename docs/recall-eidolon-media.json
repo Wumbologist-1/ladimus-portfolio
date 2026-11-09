@@ -1,0 +1,103 @@
+{
+  "assets": [
+    {
+      "file": "public/images/recall/eidolon/core.webp",
+      "kind": "original-generated-app-artwork-derivative",
+      "source": "Recall Android assets/studio/core.png",
+      "sourceCheckpoint": "bae2c463839bfee7b56049f727192e11a5fb7931",
+      "sourceSha256": "f4f4183e1e38e163d8ba546e8f981f3c405c0b41eff2367bcdaab0ae7d588a5d",
+      "sha256": "a927e9506f9cb346bad8e179950a7d0fb0925540fb7e3348ea3342e56c1309e1",
+      "bytes": 144444,
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "transformation": "Sharp WebP quality85, no upscale, original dimensions/aspect preserved",
+      "originStatement": "Original generated artwork for Directive010; not an app screenshot",
+      "proves": "Artwork identity only. Not an Android screen, theme readability proof or ambient-effects qualification."
+    },
+    {
+      "file": "public/images/recall/eidolon/castle.webp",
+      "kind": "original-generated-app-artwork-derivative",
+      "source": "Recall Android assets/studio/castle.png",
+      "sourceCheckpoint": "bae2c463839bfee7b56049f727192e11a5fb7931",
+      "sourceSha256": "f73e7389b9496090efe20e702cc31644794d66a664110786d3dec50aaf7f64c0",
+      "sha256": "7d83ad25517c5fcdb3056e46ea18c719220f72acae5913a993afca677fde4d92",
+      "bytes": 208266,
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "transformation": "Sharp WebP quality85, no upscale, original dimensions/aspect preserved",
+      "originStatement": "Original generated artwork for Directive010; not an app screenshot",
+      "proves": "Artwork identity only. Not an Android screen, theme readability proof or ambient-effects qualification."
+    },
+    {
+      "file": "public/images/recall/eidolon/sunset.webp",
+      "kind": "original-generated-app-artwork-derivative",
+      "source": "Recall Android assets/studio/sunset.png",
+      "sourceCheckpoint": "bae2c463839bfee7b56049f727192e11a5fb7931",
+      "sourceSha256": "c22db81264a7d1ee3437141f893d6eab028f17a4dd7d184e7a0932f4ff0437ca",
+      "sha256": "b1751dc9e89d074817b16d19472bbe672ae7ee583ebf045d2a134272790516b6",
+      "bytes": 309972,
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "transformation": "Sharp WebP quality85, no upscale, original dimensions/aspect preserved",
+      "originStatement": "Original generated artwork for Directive010; not an app screenshot",
+      "proves": "Artwork identity only. Not an Android screen, theme readability proof or ambient-effects qualification."
+    },
+    {
+      "file": "public/images/recall/eidolon/aurora.webp",
+      "kind": "original-generated-app-artwork-derivative",
+      "source": "Recall Android assets/studio/aurora.png",
+      "sourceCheckpoint": "bae2c463839bfee7b56049f727192e11a5fb7931",
+      "sourceSha256": "25816c913e540b4b5dff701476993ed6c079e8e6d788f9b1a4d3c500f769430c",
+      "sha256": "46f720c759f182057b269273f02698c0cfaf94627000a55fe4481720d05d822b",
+      "bytes": 135864,
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "transformation": "Sharp WebP quality85, no upscale, original dimensions/aspect preserved",
+      "originStatement": "Original generated artwork for Directive010; not an app screenshot",
+      "proves": "Artwork identity only. Not an Android screen, theme readability proof or ambient-effects qualification."
+    },
+    {
+      "file": "public/images/recall/eidolon/vision-build10.jpg",
+      "kind": "authentic-historical-android-emulator-capture",
+      "source": "Recall engineering handoff vision-after-restart.jpg",
+      "androidBuild": 10,
+      "syntheticContent": true,
+      "editedForPortfolio": false,
+      "sha256": "0acda593a7b4bb01a32dc0bd656ec3c7a8729ecf8809f4233f1d1668e24e6814",
+      "bytes": 73738,
+      "dimensions": [
+        413,
+        946
+      ],
+      "proves": "Historical app reopen showing preserved synthetic original and edited/reviewed version2 description, not raw unchanged model output or RC23 UI."
+    },
+    {
+      "file": "public/images/recall/eidolon/pixels-build14.jpg",
+      "kind": "authentic-historical-android-emulator-capture",
+      "source": "Recall engineering handoff visual-retrieval-bicycle-20261107.jpg",
+      "androidBuild": 14,
+      "syntheticContent": true,
+      "editedForPortfolio": false,
+      "sha256": "9a3478507f659ef01a74f20e6949b2451afeb2d3c7feefc1fc6e3ca690dbdbf8",
+      "bytes": 62536,
+      "dimensions": [
+        413,
+        946
+      ],
+      "proves": "Historical explicit visual retrieval original, not an RC23 screenshot or broad model-accuracy benchmark."
+    }
+  ],
+  "legacyMedia": "docs/recall-luminance-media.json (unchanged seven authentic v0.6 captures)",
+  "branding": "Existing public/images/Ladimus_logo.png unchanged; no replacement logo",
+  "composition": "Hero combines original Core artwork with unedited historical build10 capture in a CSS phone frame; visible caption identifies composition and historical provenance",
+  "rc23ScreenshotsAvailable": false,
+  "permissionBasis": "User portfolio directive authorizes the original app artworks and synthetic historical captures for this local review implementation. No stock assets or third-party photography added. Public deployment remains separately restricted."
+}

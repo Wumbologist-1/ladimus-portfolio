@@ -1,0 +1,2322 @@
+TAP version 13
+# (node:46500) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/luist/Documents/Codex/2026-10-31/files-pasted-by-the-user-recall/work/ladimus-portfolio/src/features/ask-ladimus/service.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to C:\\Users\\luist\\Documents\\Codex\\2026-10-31\\files-pasted-by-the-user-recall\\work\\ladimus-portfolio\\package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: bounded claim detection reports all material categories and explicit overflow
+ok 1 - bounded claim detection reports all material categories and explicit overflow
+  ---
+  duration_ms: 3.4091
+  type: 'test'
+  ...
+# Subtest: exact production questions exercise authored synthesis and independent verification
+ok 2 - exact production questions exercise authored synthesis and independent verification
+  ---
+  duration_ms: 144.4698
+  type: 'test'
+  ...
+# Subtest: exact privacy regression retains the deterministic refusal and zero model calls
+ok 3 - exact privacy regression retains the deterministic refusal and zero model calls
+  ---
+  duration_ms: 0.8824
+  type: 'test'
+  ...
+# Subtest: gap requests with missing provider configuration preserve evidence without inventing a static answer
+ok 4 - gap requests with missing provider configuration preserve evidence without inventing a static answer
+  ---
+  duration_ms: 12.4256
+  type: 'test'
+  ...
+# Subtest: different unsupported tools supply bounded domain context, never fabricated career facts
+ok 5 - different unsupported tools supply bounded domain context, never fabricated career facts
+  ---
+  duration_ms: 39.5327
+  type: 'test'
+  ...
+# Subtest: known aliases keep direct evidence and GitHub Actions retains all three professional systems
+ok 6 - known aliases keep direct evidence and GitHub Actions retains all three professional systems
+  ---
+  duration_ms: 10.6766
+  type: 'test'
+  ...
+# Subtest: linked direct skill beats a tool profile, but unresolved or guarded skills cannot prove experience
+ok 7 - linked direct skill beats a tool profile, but unresolved or guarded skills cannot prove experience
+  ---
+  duration_ms: 2.6372
+  type: 'test'
+  ...
+# Subtest: negative facts, planned work, and unsupported skill metadata do not become direct experience
+ok 8 - negative facts, planned work, and unsupported skill metadata do not become direct experience
+  ---
+  duration_ms: 2.2519
+  type: 'test'
+  ...
+# Subtest: transfer retrieval is deterministic, bounded, and suppresses retail/historical and RAG noise
+ok 9 - transfer retrieval is deterministic, bounded, and suppresses retail/historical and RAG noise
+  ---
+  duration_ms: 33.7381
+  type: 'test'
+  ...
+# Subtest: unfamiliar/multiple tools and guarded requirements enter the same evidence packet path
+ok 10 - unfamiliar/multiple tools and guarded requirements enter the same evidence packet path
+  ---
+  duration_ms: 24.2839
+  type: 'test'
+  ...
+# (node:46996) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/luist/Documents/Codex/2026-10-31/files-pasted-by-the-user-recall/work/ladimus-portfolio/src/features/ask-ladimus/client-request.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to C:\\Users\\luist\\Documents\\Codex\\2026-10-31\\files-pasted-by-the-user-recall\\work\\ladimus-portfolio\\package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: stream handles complete line
+ok 11 - stream handles complete line
+  ---
+  duration_ms: 3.312
+  type: 'test'
+  ...
+# Subtest: stream handles JSON split across chunks
+ok 12 - stream handles JSON split across chunks
+  ---
+  duration_ms: 0.2239
+  type: 'test'
+  ...
+# Subtest: stream handles multiple lifecycle events buffered together
+ok 13 - stream handles multiple lifecycle events buffered together
+  ---
+  duration_ms: 0.1295
+  type: 'test'
+  ...
+# Subtest: stream handles final record at EOF without newline
+ok 14 - stream handles final record at EOF without newline
+  ---
+  duration_ms: 0.1608
+  type: 'test'
+  ...
+# Subtest: stream handles empty chunks
+ok 15 - stream handles empty chunks
+  ---
+  duration_ms: 0.3521
+  type: 'test'
+  ...
+# Subtest: stream decodes a multibyte character split at every UTF-8 byte boundary
+ok 16 - stream decodes a multibyte character split at every UTF-8 byte boundary
+  ---
+  duration_ms: 22.3703
+  type: 'test'
+  ...
+# Subtest: partial records never execute; final malformed data and invalid UTF-8 fail safely
+ok 17 - partial records never execute; final malformed data and invalid UTF-8 fail safely
+  ---
+  duration_ms: 1.2295
+  type: 'test'
+  ...
+# Subtest: EOF without a terminal result is interrupted, and response:error ends immediately
+ok 18 - EOF without a terminal result is interrupted, and response:error ends immediately
+  ---
+  duration_ms: 0.3861
+  type: 'test'
+  ...
+# Subtest: underlying connection failures are interrupted rather than malformed JSON
+ok 19 - underlying connection failures are interrupted rather than malformed JSON
+  ---
+  duration_ms: 0.3814
+  type: 'test'
+  ...
+# Subtest: stream enforces a total byte budget even across small valid chunks
+ok 20 - stream enforces a total byte budget even across small valid chunks
+  ---
+  duration_ms: 0.4693
+  type: 'test'
+  ...
+# Subtest: event validation rejects plausible names with invalid required payloads
+ok 21 - event validation rejects plausible names with invalid required payloads
+  ---
+  duration_ms: 0.2614
+  type: 'test'
+  ...
+# Subtest: inactivity fires without valid progress and clears every timer
+ok 22 - inactivity fires without valid progress and clears every timer
+  ---
+  duration_ms: 0.2044
+  type: 'test'
+  ...
+# Subtest: real progress survives long pauses beyond the former client cliff but absolute ceiling remains fixed
+ok 23 - real progress survives long pauses beyond the former client cliff but absolute ceiling remains fixed
+  ---
+  duration_ms: 0.1114
+  type: 'test'
+  ...
+# Subtest: watchdog cleanup is idempotent and ignores later progress
+ok 24 - watchdog cleanup is idempotent and ignores later progress
+  ---
+  duration_ms: 0.0467
+  type: 'test'
+  ...
+# Subtest: buffer bytes and blank lines cannot reset the inactivity watchdog
+ok 25 - buffer bytes and blank lines cannot reset the inactivity watchdog
+  ---
+  duration_ms: 0.2342
+  type: 'test'
+  ...
+# Subtest: valid events reset inactivity across long pauses and a final EOF response
+ok 26 - valid events reset inactivity across long pauses and a final EOF response
+  ---
+  duration_ms: 7.3041
+  type: 'test'
+  ...
+# Subtest: intentional user_abort cancels a stalled reader cleanly
+ok 27 - intentional user_abort cancels a stalled reader cleanly
+  ---
+  duration_ms: 14.4617
+  type: 'test'
+  ...
+# Subtest: intentional navigation_abort cancels a stalled reader cleanly
+ok 28 - intentional navigation_abort cancels a stalled reader cleanly
+  ---
+  duration_ms: 1.2079
+  type: 'test'
+  ...
+# Subtest: busy backdrop remains open while explicit cancellation remains available
+ok 29 - busy backdrop remains open while explicit cancellation remains available
+  ---
+  duration_ms: 2.4897
+  type: 'test'
+  ...
+# Subtest: HTTP 429 preserves Retry-After and never automatically retries
+ok 30 - HTTP 429 preserves Retry-After and never automatically retries
+  ---
+  duration_ms: 1.3198
+  type: 'test'
+  ...
+# Subtest: HTTP 503 preserves Retry-After and never automatically retries
+ok 31 - HTTP 503 preserves Retry-After and never automatically retries
+  ---
+  duration_ms: 0.3188
+  type: 'test'
+  ...
+# Subtest: shared NAT desktop/iOS/Android requests remain bounded at eight, with conservative alternatives evaluated
+ok 32 - shared NAT desktop/iOS/Android requests remain bounded at eight, with conservative alternatives evaluated
+  ---
+  duration_ms: 0.333
+  type: 'test'
+  ...
+# Subtest: 429 handler includes retry guidance and safe classification without reading rejected body
+ok 33 - 429 handler includes retry guidance and safe classification without reading rejected body
+  ---
+  duration_ms: 144.6962
+  type: 'test'
+  ...
+# Subtest: prose rejects system-pr-assistant--5
+ok 34 - prose rejects system-pr-assistant--5
+  ---
+  duration_ms: 0.057
+  type: 'test'
+  ...
+# Subtest: prose rejects project-ladimus-review--3
+ok 35 - prose rejects project-ladimus-review--3
+  ---
+  duration_ms: 0.0208
+  type: 'test'
+  ...
+# Subtest: prose rejects employment-romtech-devops-2026--1
+ok 36 - prose rejects employment-romtech-devops-2026--1
+  ---
+  duration_ms: 0.0162
+  type: 'test'
+  ...
+# Subtest: prose rejects a--123456
+ok 37 - prose rejects a--123456
+  ---
+  duration_ms: 0.0152
+  type: 'test'
+  ...
+# Subtest: prose rejects **bold**
+ok 38 - prose rejects **bold**
+  ---
+  duration_ms: 0.0157
+  type: 'test'
+  ...
+# Subtest: prose rejects __bold__
+ok 39 - prose rejects __bold__
+  ---
+  duration_ms: 0.014
+  type: 'test'
+  ...
+# Subtest: prose rejects \# Heading
+ok 40 - prose rejects \# Heading
+  ---
+  duration_ms: 0.0143
+  type: 'test'
+  ...
+# Subtest: prose rejects \#\# Heading
+ok 41 - prose rejects \#\# Heading
+  ---
+  duration_ms: 0.0141
+  type: 'test'
+  ...
+# Subtest: prose rejects ```code```
+ok 42 - prose rejects ```code```
+  ---
+  duration_ms: 0.0133
+  type: 'test'
+  ...
+# Subtest: prose rejects [link](https://example.org)
+ok 43 - prose rejects [link](https://example.org)
+  ---
+  duration_ms: 0.013
+  type: 'test'
+  ...
+# Subtest: prose rejects [1]
+ok 44 - prose rejects [1]
+  ---
+  duration_ms: 0.0123
+  type: 'test'
+  ...
+# Subtest: prose rejects [source]
+ok 45 - prose rejects [source]
+  ---
+  duration_ms: 0.0125
+  type: 'test'
+  ...
+# Subtest: prose rejects Evidence-derived assessment: The strongest case
+ok 46 - prose rejects Evidence-derived assessment: The strongest case
+  ---
+  duration_ms: 0.0176
+  type: 'test'
+  ...
+# Subtest: prose rejects Direct evidence: Luis
+ok 47 - prose rejects Direct evidence: Luis
+  ---
+  duration_ms: 0.0127
+  type: 'test'
+  ...
+# Subtest: prose rejects Grounded synthesis: Text
+ok 48 - prose rejects Grounded synthesis: Text
+  ---
+  duration_ms: 0.0144
+  type: 'test'
+  ...
+# Subtest: prose rejects Synthesis: Text
+ok 49 - prose rejects Synthesis: Text
+  ---
+  duration_ms: 0.0126
+  type: 'test'
+  ...
+# Subtest: natural limitations and engineering terms remain plain prose
+ok 50 - natural limitations and engineering terms remain plain prose
+  ---
+  duration_ms: 0.0419
+  type: 'test'
+  ...
+# Subtest: artifact rejection uses bounded correction followed by independent verification, never stripping prose
+ok 51 - artifact rejection uses bounded correction followed by independent verification, never stripping prose
+  ---
+  duration_ms: 13.6612
+  type: 'test'
+  ...
+# Subtest: exact evaluative presentation regressions return clean authored prose after correction
+ok 52 - exact evaluative presentation regressions return clean authored prose after correction
+  ---
+  duration_ms: 56.4817
+  type: 'test'
+  ...
+# Subtest: busy 503 rejects the body and logs only a coarse HTTP classification
+ok 53 - busy 503 rejects the body and logs only a coarse HTTP classification
+  ---
+  duration_ms: 14.9399
+  type: 'test'
+  ...
+# Subtest: valid terminal response completes even if transport cancellation cannot finish
+ok 54 - valid terminal response completes even if transport cancellation cannot finish
+  ---
+  duration_ms: 0.3493
+  type: 'test'
+  ...
+# Subtest: varied thematic questions prefer multiple concrete system sources without one-query overfitting
+ok 55 - varied thematic questions prefer multiple concrete system sources without one-query overfitting
+  ---
+  duration_ms: 27.3831
+  type: 'test'
+  ...
+# Subtest: broad philosophy retrieval retains complementary concrete AI mechanisms instead of lexical tie winners
+ok 56 - broad philosophy retrieval retains complementary concrete AI mechanisms instead of lexical tie winners
+  ---
+  duration_ms: 17.9797
+  type: 'test'
+  ...
+# (node:12916) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/luist/Documents/Codex/2026-10-31/files-pasted-by-the-user-recall/work/ladimus-portfolio/src/features/ask-ladimus/corpus.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to C:\\Users\\luist\\Documents\\Codex\\2026-10-31\\files-pasted-by-the-user-recall\\work\\ladimus-portfolio\\package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: public schema, unique stable IDs, bounded deterministic chunks
+ok 57 - public schema, unique stable IDs, bounded deterministic chunks
+  ---
+  duration_ms: 2.7341
+  type: 'test'
+  ...
+# Subtest: public artifacts pass privacy scanning without logging contents
+ok 58 - public artifacts pass privacy scanning without logging contents
+  ---
+  duration_ms: 7.0516
+  type: 'test'
+  ...
+# Subtest: ingestion whitelists facts and never promotes notes or uncertain education dates
+ok 59 - ingestion whitelists facts and never promotes notes or uncertain education dates
+  ---
+  duration_ms: 0.7647
+  type: 'test'
+  ...
+# Subtest: all skill and hint evidence references resolve
+ok 60 - all skill and hint evidence references resolve
+  ---
+  duration_ms: 0.3266
+  type: 'test'
+  ...
+# Subtest: canonical titles, maturity distinctions and measurable impact survive ingestion
+ok 61 - canonical titles, maturity distinctions and measurable impact survive ingestion
+  ---
+  duration_ms: 0.2486
+  type: 'test'
+  ...
+# Subtest: lexical, metadata, intent and skill evidence ranking are deterministic and bounded
+ok 62 - lexical, metadata, intent and skill evidence ranking are deterministic and bounded
+  ---
+  duration_ms: 64.2418
+  type: 'test'
+  ...
+# Subtest: all supplied acceptance topics retrieve evidence
+ok 63 - all supplied acceptance topics retrieve evidence
+  ---
+  duration_ms: 51.0419
+  type: 'test'
+  ...
+# Subtest: production phrasing ignores possessives and question fillers while preserving engineering relevance
+ok 64 - production phrasing ignores possessives and question fillers while preserving engineering relevance
+  ---
+  duration_ms: 25.0445
+  type: 'test'
+  ...
+# Subtest: production impact and named prototype queries retain decisive evidence
+ok 65 - production impact and named prototype queries retain decisive evidence
+  ---
+  duration_ms: 21.3213
+  type: 'test'
+  ...
+# Subtest: query shape and bounds reject invalid input
+ok 66 - query shape and bounds reject invalid input
+  ---
+  duration_ms: 0.3543
+  type: 'test'
+  ...
+# Subtest: private and injection requests are refused before provider use
+ok 67 - private and injection requests are refused before provider use
+  ---
+  duration_ms: 1.7013
+  type: 'test'
+  ...
+# Subtest: conflict, seniority and years questions are qualified
+ok 68 - conflict, seniority and years questions are qualified
+  ---
+  duration_ms: 0.953
+  type: 'test'
+  ...
+# Subtest: no evidence never invokes model
+ok 69 - no evidence never invokes model
+  ---
+  duration_ms: 10.7206
+  type: 'test'
+  ...
+# Subtest: authored answer maps every unit to retrieved evidence and exercises real stages
+ok 70 - authored answer maps every unit to retrieved evidence and exercises real stages
+  ---
+  duration_ms: 23.3863
+  type: 'test'
+  ...
+# Subtest: provider unavailable preserves retrieved evidence without claiming generation
+ok 71 - provider unavailable preserves retrieved evidence without claiming generation
+  ---
+  duration_ms: 3.1119
+  type: 'test'
+  ...
+# {"event":"ask_ladimus_query","failure":"http_429","query":"","intent":"rate_limited","evidence_ids":[],"status":"rate_limited","latency_ms":0}
+# {"event":"ask_ladimus_query","failure":"http_503","query":"","intent":"career","evidence_ids":[],"status":"service_busy","latency_ms":0}
+# Subtest: provider failure, malformed output, fabricated evidence and timeout settle safely
+ok 72 - provider failure, malformed output, fabricated evidence and timeout settle safely
+  ---
+  duration_ms: 20.1678
+  type: 'test'
+  ...
+# Subtest: empty synthesis with usable evidence fails closed
+ok 73 - empty synthesis with usable evidence fails closed
+  ---
+  duration_ms: 3.5659
+  type: 'test'
+  ...
+# Subtest: rate limiter windows, identities and bounds
+ok 74 - rate limiter windows, identities and bounds
+  ---
+  duration_ms: 0.1552
+  type: 'test'
+  ...
+# Subtest: POST /api/ask validates JSON, query limits, content type, origin and byte bounds
+ok 75 - POST /api/ask validates JSON, query limits, content type, origin and byte bounds
+  ---
+  duration_ms: 30.7308
+  type: 'test'
+  ...
+# Subtest: POST streams actual phases, bounded evidence and final answer
+ok 76 - POST streams actual phases, bounded evidence and final answer
+  ---
+  duration_ms: 15.6322
+  type: 'test'
+  ...
+# Subtest: POST no-evidence and provider failure responses carry no stack traces
+ok 77 - POST no-evidence and provider failure responses carry no stack traces
+  ---
+  duration_ms: 10.009
+  type: 'test'
+  ...
+# Subtest: POST rate limit returns graceful 429 and Retry-After
+ok 78 - POST rate limit returns graceful 429 and Retry-After
+  ---
+  duration_ms: 33.4442
+  type: 'test'
+  ...
+# Subtest: POST concurrency bound rejects excess active generation
+ok 79 - POST concurrency bound rejects excess active generation
+  ---
+  duration_ms: 13.5291
+  type: 'test'
+  ...
+# Subtest: server corpus and provider credentials have no client import boundary
+ok 80 - server corpus and provider credentials have no client import boundary
+  ---
+  duration_ms: 2.7764
+  type: 'test'
+  ...
+# (node:12328) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/luist/Documents/Codex/2026-10-31/files-pasted-by-the-user-recall/work/ladimus-portfolio/src/features/ask-ladimus/evidence-packet.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to C:\\Users\\luist\\Documents\\Codex\\2026-10-31\\files-pasted-by-the-user-recall\\work\\ladimus-portfolio\\package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: real provider sends active authored synthesis and an independent verdict-only request
+ok 81 - real provider sends active authored synthesis and an independent verdict-only request
+  ---
+  duration_ms: 17.2664
+  type: 'test'
+  ...
+# Subtest: provider response bytes, completion status, JSON and HTTPS configuration are bounded
+ok 82 - provider response bytes, completion status, JSON and HTTPS configuration are bounded
+  ---
+  duration_ms: 2.562
+  type: 'test'
+  ...
+# Subtest: GPT-6 Luna uses supported low effort while unrelated models keep their request contract
+ok 83 - GPT-6 Luna uses supported low effort while unrelated models keep their request contract
+  ---
+  duration_ms: 0.7803
+  type: 'test'
+  ...
+# Subtest: Luna constrains author and verdict shapes independently without constraining prose or positive verdicts
+ok 84 - Luna constrains author and verdict shapes independently without constraining prose or positive verdicts
+  ---
+  duration_ms: 1.2803
+  type: 'test'
+  ...
+# Subtest: provider distinguishes incomplete output and expressly verifies assessments over premises rather than verbatim conclusions
+ok 85 - provider distinguishes incomplete output and expressly verifies assessments over premises rather than verbatim conclusions
+  ---
+  duration_ms: 1.5498
+  type: 'test'
+  ...
+# Subtest: strict author schema constrains follow-up count and approved candidates without prescribing answer prose
+ok 86 - strict author schema constrains follow-up count and approved candidates without prescribing answer prose
+  ---
+  duration_ms: 0.7469
+  type: 'test'
+  ...
+# Subtest: plain thematic prose preserves per-system maturity and uncited external learning has the correct unit kind
+ok 87 - plain thematic prose preserves per-system maturity and uncited external learning has the correct unit kind
+  ---
+  duration_ms: 0.4945
+  type: 'test'
+  ...
+# (node:46960) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/luist/Documents/Codex/2026-10-31/files-pasted-by-the-user-recall/work/ladimus-portfolio/src/features/ask-ladimus/query-language.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to C:\\Users\\luist\\Documents\\Codex\\2026-10-31\\files-pasted-by-the-user-recall\\work\\ladimus-portfolio\\package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: paraphrase matrix has at least 100 independent natural-language cases
+ok 88 - paraphrase matrix has at least 100 independent natural-language cases
+  ---
+  duration_ms: 2.2089
+  type: 'test'
+  ...
+# Subtest: query language / role / What makes Luis qualified for AI engineering roles?
+ok 89 - query language / role / What makes Luis qualified for AI engineering roles?
+  ---
+  duration_ms: 8.2577
+  type: 'test'
+  ...
+# Subtest: query language / role / What qualifies him for applied AI?
+ok 90 - query language / role / What qualifies him for applied AI?
+  ---
+  duration_ms: 4.3895
+  type: 'test'
+  ...
+# Subtest: query language / role / Why is he qualified for backend engineering?
+ok 91 - query language / role / Why is he qualified for backend engineering?
+  ---
+  duration_ms: 1.7979
+  type: 'test'
+  ...
+# Subtest: query language / role / How is he qualified for platform engineering?
+ok 92 - query language / role / How is he qualified for platform engineering?
+  ---
+  duration_ms: 1.8699
+  type: 'test'
+  ...
+# Subtest: query language / role / Is Luis a suitable AI engineering candidate?
+ok 93 - query language / role / Is Luis a suitable AI engineering candidate?
+  ---
+  duration_ms: 1.7626
+  type: 'test'
+  ...
+# Subtest: query language / role / Is he well suited to AI engineering?
+ok 94 - query language / role / Is he well suited to AI engineering?
+  ---
+  duration_ms: 1.1923
+  type: 'test'
+  ...
+# Subtest: query language / role / Would Luis be a good fit for an AI platform position?
+ok 95 - query language / role / Would Luis be a good fit for an AI platform position?
+  ---
+  duration_ms: 1.0587
+  type: 'test'
+  ...
+# Subtest: query language / role / Would he be a strong fit for software engineering?
+ok 96 - query language / role / Would he be a strong fit for software engineering?
+  ---
+  duration_ms: 1.3468
+  type: 'test'
+  ...
+# Subtest: query language / role / Is he a credible AI engineering candidate?
+ok 97 - query language / role / Is he a credible AI engineering candidate?
+  ---
+  duration_ms: 1.1028
+  type: 'test'
+  ...
+# Subtest: query language / role / How well positioned is he for backend engineering?
+ok 98 - query language / role / How well positioned is he for backend engineering?
+  ---
+  duration_ms: 0.864
+  type: 'test'
+  ...
+# Subtest: query language / role / Is Luis prepared for cloud engineering?
+ok 99 - query language / role / Is Luis prepared for cloud engineering?
+  ---
+  duration_ms: 0.8941
+  type: 'test'
+  ...
+# Subtest: query language / role / Is he ready for an applied AI role?
+ok 100 - query language / role / Is he ready for an applied AI role?
+  ---
+  duration_ms: 0.8759
+  type: 'test'
+  ...
+# Subtest: query language / role / What makes Luis competitive for AI engineering?
+ok 101 - query language / role / What makes Luis competitive for AI engineering?
+  ---
+  duration_ms: 0.9634
+  type: 'test'
+  ...
+# Subtest: query language / role / Is he appropriate for an automation engineering role?
+ok 102 - query language / role / Is he appropriate for an automation engineering role?
+  ---
+  duration_ms: 0.7444
+  type: 'test'
+  ...
+# Subtest: query language / role / Is he capable of AI developer tooling?
+ok 103 - query language / role / Is he capable of AI developer tooling?
+  ---
+  duration_ms: 0.7092
+  type: 'test'
+  ...
+# Subtest: query language / role / Is Luis worth considering for a quality engineering role?
+ok 104 - query language / role / Is Luis worth considering for a quality engineering role?
+  ---
+  duration_ms: 0.7604
+  type: 'test'
+  ...
+# Subtest: query language / role / Is he worth interviewing for an applied AI role?
+ok 105 - query language / role / Is he worth interviewing for an applied AI role?
+  ---
+  duration_ms: 0.8884
+  type: 'test'
+  ...
+# Subtest: query language / role / Should I interview Luis for agentic AI engineering?
+ok 106 - query language / role / Should I interview Luis for agentic AI engineering?
+  ---
+  duration_ms: 1.61
+  type: 'test'
+  ...
+# Subtest: query language / role / Why should I interview Luis for an applied AI role?
+ok 107 - query language / role / Why should I interview Luis for an applied AI role?
+  ---
+  duration_ms: 1.3945
+  type: 'test'
+  ...
+# Subtest: query language / role / Should we hire him for backend engineering?
+ok 108 - query language / role / Should we hire him for backend engineering?
+  ---
+  duration_ms: 1.3912
+  type: 'test'
+  ...
+# Subtest: query language / role / Why hire Luis for platform engineering?
+ok 109 - query language / role / Why hire Luis for platform engineering?
+  ---
+  duration_ms: 1.3691
+  type: 'test'
+  ...
+# Subtest: query language / role / Why should we hire him?
+ok 110 - query language / role / Why should we hire him?
+  ---
+  duration_ms: 0.9909
+  type: 'test'
+  ...
+# Subtest: query language / role / Would he succeed in an AI engineering role?
+ok 111 - query language / role / Would he succeed in an AI engineering role?
+  ---
+  duration_ms: 0.7386
+  type: 'test'
+  ...
+# Subtest: query language / role / Would he work well in a developer tools role?
+ok 112 - query language / role / Would he work well in a developer tools role?
+  ---
+  duration_ms: 0.7772
+  type: 'test'
+  ...
+# Subtest: query language / role / Could he handle an infrastructure engineering role?
+ok 113 - query language / role / Could he handle an infrastructure engineering role?
+  ---
+  duration_ms: 1.6738
+  type: 'test'
+  ...
+# Subtest: query language / role / Could he perform in software engineering?
+ok 114 - query language / role / Could he perform in software engineering?
+  ---
+  duration_ms: 1.4334
+  type: 'test'
+  ...
+# Subtest: query language / role / Would you consider him for a platform engineering role?
+ok 115 - query language / role / Would you consider him for a platform engineering role?
+  ---
+  duration_ms: 1.8302
+  type: 'test'
+  ...
+# Subtest: query language / role / His background: is it aligned with an AI platform role?
+ok 116 - query language / role / His background: is it aligned with an AI platform role?
+  ---
+  duration_ms: 1.4628
+  type: 'test'
+  ...
+# Subtest: query language / role / Does his work show alignment with applied AI?
+ok 117 - query language / role / Does his work show alignment with applied AI?
+  ---
+  duration_ms: 1.4109
+  type: 'test'
+  ...
+# Subtest: query language / role / Is he positioned for developer productivity engineering?
+ok 118 - query language / role / Is he positioned for developer productivity engineering?
+  ---
+  duration_ms: 1.4315
+  type: 'test'
+  ...
+# Subtest: query language / skeptical / Does Luis actually have AI engineering experience?
+ok 119 - query language / skeptical / Does Luis actually have AI engineering experience?
+  ---
+  duration_ms: 1.4088
+  type: 'test'
+  ...
+# Subtest: query language / skeptical / Isn't he basically just a DevOps engineer?
+ok 120 - query language / skeptical / Isn't he basically just a DevOps engineer?
+  ---
+  duration_ms: 1.7435
+  type: 'test'
+  ...
+# Subtest: query language / skeptical / Is the AI work real or mostly side projects?
+ok 121 - query language / skeptical / Is the AI work real or mostly side projects?
+  ---
+  duration_ms: 1.3981
+  type: 'test'
+  ...
+# Subtest: query language / skeptical / Did he actually build these systems?
+ok 122 - query language / skeptical / Did he actually build these systems?
+  ---
+  duration_ms: 1.3595
+  type: 'test'
+  ...
+# Subtest: query language / skeptical / How much of this was really his work?
+ok 123 - query language / skeptical / How much of this was really his work?
+  ---
+  duration_ms: 1.3171
+  type: 'test'
+  ...
+# Subtest: query language / skeptical / Was any of this actually production?
+ok 124 - query language / skeptical / Was any of this actually production?
+  ---
+  duration_ms: 1.3465
+  type: 'test'
+  ...
+# Subtest: query language / skeptical / Did these tools ever get used?
+ok 125 - query language / skeptical / Did these tools ever get used?
+  ---
+  duration_ms: 1.5411
+  type: 'test'
+  ...
+# Subtest: query language / skeptical / Is this mostly prototype work?
+ok 126 - query language / skeptical / Is this mostly prototype work?
+  ---
+  duration_ms: 1.2198
+  type: 'test'
+  ...
+# Subtest: query language / skeptical / Is Ladimus Review just a demo?
+ok 127 - query language / skeptical / Is Ladimus Review just a demo?
+  ---
+  duration_ms: 1.2763
+  type: 'test'
+  ...
+# Subtest: query language / skeptical / Was the PR Assistant actually deployed?
+ok 128 - query language / skeptical / Was the PR Assistant actually deployed?
+  ---
+  duration_ms: 1.6699
+  type: 'test'
+  ...
+# Subtest: query language / skeptical / Does he really have backend experience?
+ok 129 - query language / skeptical / Does he really have backend experience?
+  ---
+  duration_ms: 1.649
+  type: 'test'
+  ...
+# Subtest: query language / skeptical / Did he really use GitHub Actions professionally?
+ok 130 - query language / skeptical / Did he really use GitHub Actions professionally?
+  ---
+  duration_ms: 1.4325
+  type: 'test'
+  ...
+# Subtest: query language / depth / How deep is Luis's GitHub Actions experience?
+ok 131 - query language / depth / How deep is Luis's GitHub Actions experience?
+  ---
+  duration_ms: 1.3247
+  type: 'test'
+  ...
+# Subtest: query language / depth / Has he actually used Azure professionally?
+ok 132 - query language / depth / Has he actually used Azure professionally?
+  ---
+  duration_ms: 1.2772
+  type: 'test'
+  ...
+# Subtest: query language / depth / What did he actually do with FastAPI?
+ok 133 - query language / depth / What did he actually do with FastAPI?
+  ---
+  duration_ms: 1.2834
+  type: 'test'
+  ...
+# Subtest: query language / depth / How substantial is his RAG experience?
+ok 134 - query language / depth / How substantial is his RAG experience?
+  ---
+  duration_ms: 1.6787
+  type: 'test'
+  ...
+# Subtest: query language / depth / Is his Python experience professional or mostly personal?
+ok 135 - query language / depth / Is his Python experience professional or mostly personal?
+  ---
+  duration_ms: 0.9799
+  type: 'test'
+  ...
+# Subtest: query language / depth / What is his degree of Azure experience?
+ok 136 - query language / depth / What is his degree of Azure experience?
+  ---
+  duration_ms: 0.7982
+  type: 'test'
+  ...
+# Subtest: query language / depth / What is the extent of his CI/CD experience?
+ok 137 - query language / depth / What is the extent of his CI/CD experience?
+  ---
+  duration_ms: 0.7518
+  type: 'test'
+  ...
+# Subtest: query language / depth / What level of exposure has he had to Docker?
+ok 138 - query language / depth / What level of exposure has he had to Docker?
+  ---
+  duration_ms: 0.717
+  type: 'test'
+  ...
+# Subtest: query language / depth / How proficient is he with SQL?
+ok 139 - query language / depth / How proficient is he with SQL?
+  ---
+  duration_ms: 1.0017
+  type: 'test'
+  ...
+# Subtest: query language / depth / Is he comfortable with Python?
+ok 140 - query language / depth / Is he comfortable with Python?
+  ---
+  duration_ms: 0.7376
+  type: 'test'
+  ...
+# Subtest: query language / depth / How extensively did he use GitHub Actions?
+ok 141 - query language / depth / How extensively did he use GitHub Actions?
+  ---
+  duration_ms: 0.7073
+  type: 'test'
+  ...
+# Subtest: query language / depth / How broadly has he worked with Azure?
+ok 142 - query language / depth / How broadly has he worked with Azure?
+  ---
+  duration_ms: 0.6894
+  type: 'test'
+  ...
+# Subtest: query language / maturity / Which AI systems actually made it to production?
+ok 143 - query language / maturity / Which AI systems actually made it to production?
+  ---
+  duration_ms: 0.7255
+  type: 'test'
+  ...
+# Subtest: query language / maturity / Was ROMGuide production?
+ok 144 - query language / maturity / Was ROMGuide production?
+  ---
+  duration_ms: 1.0032
+  type: 'test'
+  ...
+# Subtest: query language / maturity / What was only a prototype?
+ok 145 - query language / maturity / What was only a prototype?
+  ---
+  duration_ms: 0.6135
+  type: 'test'
+  ...
+# Subtest: query language / maturity / How mature was the Android Test Agent?
+ok 146 - query language / maturity / How mature was the Android Test Agent?
+  ---
+  duration_ms: 0.683
+  type: 'test'
+  ...
+# Subtest: query language / maturity / Did PR Assistant actually get onboarded?
+ok 147 - query language / maturity / Did PR Assistant actually get onboarded?
+  ---
+  duration_ms: 0.641
+  type: 'test'
+  ...
+# Subtest: query language / maturity / Was that an internal-use tool?
+ok 148 - query language / maturity / Was that an internal-use tool?
+  ---
+  duration_ms: 0.6486
+  type: 'test'
+  ...
+# Subtest: query language / maturity / Which work was a proof of concept?
+ok 149 - query language / maturity / Which work was a proof of concept?
+  ---
+  duration_ms: 0.8786
+  type: 'test'
+  ...
+# Subtest: query language / maturity / Was ROMGuide experimental?
+ok 150 - query language / maturity / Was ROMGuide experimental?
+  ---
+  duration_ms: 0.5973
+  type: 'test'
+  ...
+# Subtest: query language / maturity / Which systems were live validated?
+ok 151 - query language / maturity / Which systems were live validated?
+  ---
+  duration_ms: 0.6229
+  type: 'test'
+  ...
+# Subtest: query language / maturity / Was anything only a scaffold?
+ok 152 - query language / maturity / Was anything only a scaffold?
+  ---
+  duration_ms: 0.6501
+  type: 'test'
+  ...
+# Subtest: query language / maturity / Were any designs never released?
+ok 153 - query language / maturity / Were any designs never released?
+  ---
+  duration_ms: 0.648
+  type: 'test'
+  ...
+# Subtest: query language / maturity / Was PR Assistant rolled out?
+ok 154 - query language / maturity / Was PR Assistant rolled out?
+  ---
+  duration_ms: 1.3742
+  type: 'test'
+  ...
+# Subtest: query language / ownership / What systems did Luis own end to end?
+ok 155 - query language / ownership / What systems did Luis own end to end?
+  ---
+  duration_ms: 1.3464
+  type: 'test'
+  ...
+# Subtest: query language / ownership / What did he personally build versus support?
+ok 156 - query language / ownership / What did he personally build versus support?
+  ---
+  duration_ms: 1.4015
+  type: 'test'
+  ...
+# Subtest: query language / ownership / Where did he have production ownership?
+ok 157 - query language / ownership / Where did he have production ownership?
+  ---
+  duration_ms: 1.2904
+  type: 'test'
+  ...
+# Subtest: query language / ownership / Did he architect anything himself?
+ok 158 - query language / ownership / Did he architect anything himself?
+  ---
+  duration_ms: 0.8955
+  type: 'test'
+  ...
+# Subtest: query language / ownership / What was he responsible for?
+ok 159 - query language / ownership / What was he responsible for?
+  ---
+  duration_ms: 1.3458
+  type: 'test'
+  ...
+# Subtest: query language / ownership / Which services did he maintain?
+ok 160 - query language / ownership / Which services did he maintain?
+  ---
+  duration_ms: 1.2589
+  type: 'test'
+  ...
+# Subtest: query language / ownership / What did he implement?
+ok 161 - query language / ownership / What did he implement?
+  ---
+  duration_ms: 1.1107
+  type: 'test'
+  ...
+# Subtest: query language / ownership / What part did he own?
+ok 162 - query language / ownership / What part did he own?
+  ---
+  duration_ms: 0.9164
+  type: 'test'
+  ...
+# Subtest: query language / ownership / What did he design from idea to production?
+ok 163 - query language / ownership / What did he design from idea to production?
+  ---
+  duration_ms: 0.7153
+  type: 'test'
+  ...
+# Subtest: query language / ownership / Which platform did he operate?
+ok 164 - query language / ownership / Which platform did he operate?
+  ---
+  duration_ms: 0.8586
+  type: 'test'
+  ...
+# Subtest: query language / impact / What results can Luis actually prove?
+ok 165 - query language / impact / What results can Luis actually prove?
+  ---
+  duration_ms: 0.7436
+  type: 'test'
+  ...
+# Subtest: query language / impact / What numbers show the Teams automation was used?
+ok 166 - query language / impact / What numbers show the Teams automation was used?
+  ---
+  duration_ms: 0.7422
+  type: 'test'
+  ...
+# Subtest: query language / impact / What measurable impact did his automation have?
+ok 167 - query language / impact / What measurable impact did his automation have?
+  ---
+  duration_ms: 0.6852
+  type: 'test'
+  ...
+# Subtest: query language / impact / How much adoption did the bot get?
+ok 168 - query language / impact / How much adoption did the bot get?
+  ---
+  duration_ms: 0.642
+  type: 'test'
+  ...
+# Subtest: query language / impact / What operational value did his work deliver?
+ok 169 - query language / impact / What operational value did his work deliver?
+  ---
+  duration_ms: 1.4347
+  type: 'test'
+  ...
+# Subtest: query language / impact / What did his automation accomplish?
+ok 170 - query language / impact / What did his automation accomplish?
+  ---
+  duration_ms: 1.2672
+  type: 'test'
+  ...
+# Subtest: query language / impact / What improved through his automation?
+ok 171 - query language / impact / What improved through his automation?
+  ---
+  duration_ms: 1.1342
+  type: 'test'
+  ...
+# Subtest: query language / impact / Which outcomes are documented?
+ok 172 - query language / impact / Which outcomes are documented?
+  ---
+  duration_ms: 0.6597
+  type: 'test'
+  ...
+# Subtest: query language / impact / What volume of requests is recorded?
+ok 173 - query language / impact / What volume of requests is recorded?
+  ---
+  duration_ms: 0.6741
+  type: 'test'
+  ...
+# Subtest: query language / impact / What was the reboot success rate?
+ok 174 - query language / impact / What was the reboot success rate?
+  ---
+  duration_ms: 0.802
+  type: 'test'
+  ...
+# Subtest: query language / ai / Tell me about his applied AI work.
+ok 175 - query language / ai / Tell me about his applied AI work.
+  ---
+  duration_ms: 0.6348
+  type: 'test'
+  ...
+# Subtest: query language / ai / What generative AI systems did he develop?
+ok 176 - query language / ai / What generative AI systems did he develop?
+  ---
+  duration_ms: 0.6388
+  type: 'test'
+  ...
+# Subtest: query language / ai / Does he have GenAI experience?
+ok 177 - query language / ai / Does he have GenAI experience?
+  ---
+  duration_ms: 0.6624
+  type: 'test'
+  ...
+# Subtest: query language / ai / Has he integrated language models?
+ok 178 - query language / ai / Has he integrated language models?
+  ---
+  duration_ms: 0.6266
+  type: 'test'
+  ...
+# Subtest: query language / ai / What AI tooling has he built?
+ok 179 - query language / ai / What AI tooling has he built?
+  ---
+  duration_ms: 1.2269
+  type: 'test'
+  ...
+# Subtest: query language / ai / What are his LLM engineering examples?
+ok 180 - query language / ai / What are his LLM engineering examples?
+  ---
+  duration_ms: 1.3324
+  type: 'test'
+  ...
+# Subtest: query language / agentic / Explain his agent orchestration work.
+ok 181 - query language / agentic / Explain his agent orchestration work.
+  ---
+  duration_ms: 1.1988
+  type: 'test'
+  ...
+# Subtest: query language / agentic / What coding agents has he built?
+ok 182 - query language / agentic / What coding agents has he built?
+  ---
+  duration_ms: 1.2244
+  type: 'test'
+  ...
+# Subtest: query language / agentic / How does specialist routing work?
+ok 183 - query language / agentic / How does specialist routing work?
+  ---
+  duration_ms: 0.8567
+  type: 'test'
+  ...
+# Subtest: query language / agentic / What developer agents did he implement?
+ok 184 - query language / agentic / What developer agents did he implement?
+  ---
+  duration_ms: 0.8158
+  type: 'test'
+  ...
+# Subtest: query language / agentic / Describe his agentic systems.
+ok 185 - query language / agentic / Describe his agentic systems.
+  ---
+  duration_ms: 0.6108
+  type: 'test'
+  ...
+# Subtest: query language / agentic / Which agent workflows are documented?
+ok 186 - query language / agentic / Which agent workflows are documented?
+  ---
+  duration_ms: 0.6299
+  type: 'test'
+  ...
+# Subtest: query language / safety / How does Luis keep AI safe?
+ok 187 - query language / safety / How does Luis keep AI safe?
+  ---
+  duration_ms: 0.7038
+  type: 'test'
+  ...
+# Subtest: query language / safety / What makes his agent systems trustworthy?
+ok 188 - query language / safety / What makes his agent systems trustworthy?
+  ---
+  duration_ms: 0.7242
+  type: 'test'
+  ...
+# Subtest: query language / safety / Who has final authority?
+ok 189 - query language / safety / Who has final authority?
+  ---
+  duration_ms: 0.7848
+  type: 'test'
+  ...
+# Subtest: query language / safety / What prevents stale generated changes from being applied?
+ok 190 - query language / safety / What prevents stale generated changes from being applied?
+  ---
+  duration_ms: 0.7471
+  type: 'test'
+  ...
+# Subtest: query language / safety / How does human approval work in his agents?
+ok 191 - query language / safety / How does human approval work in his agents?
+  ---
+  duration_ms: 0.6726
+  type: 'test'
+  ...
+# Subtest: query language / safety / What safeguards constrain code agents?
+ok 192 - query language / safety / What safeguards constrain code agents?
+  ---
+  duration_ms: 0.6404
+  type: 'test'
+  ...
+# Subtest: query language / safety / How does provenance work?
+ok 193 - query language / safety / How does provenance work?
+  ---
+  duration_ms: 0.5944
+  type: 'test'
+  ...
+# Subtest: query language / safety / What detects tampering?
+ok 194 - query language / safety / What detects tampering?
+  ---
+  duration_ms: 1.1039
+  type: 'test'
+  ...
+# Subtest: query language / safety / How are repository state and current HEAD checked?
+ok 195 - query language / safety / How are repository state and current HEAD checked?
+  ---
+  duration_ms: 0.9576
+  type: 'test'
+  ...
+# Subtest: query language / safety / Why do his workflows fail closed?
+ok 196 - query language / safety / Why do his workflows fail closed?
+  ---
+  duration_ms: 0.6501
+  type: 'test'
+  ...
+# Subtest: query language / rag / What RAG work has Luis done?
+ok 197 - query language / rag / What RAG work has Luis done?
+  ---
+  duration_ms: 0.6776
+  type: 'test'
+  ...
+# Subtest: query language / rag / Has he built source-grounded assistants?
+ok 198 - query language / rag / Has he built source-grounded assistants?
+  ---
+  duration_ms: 0.6601
+  type: 'test'
+  ...
+# Subtest: query language / rag / What experience does he have with retrieval?
+ok 199 - query language / rag / What experience does he have with retrieval?
+  ---
+  duration_ms: 0.8442
+  type: 'test'
+  ...
+# Subtest: query language / rag / How does Ladimus Agent know when not to answer?
+ok 200 - query language / rag / How does Ladimus Agent know when not to answer?
+  ---
+  duration_ms: 0.7591
+  type: 'test'
+  ...
+# Subtest: query language / rag / How does ROMGuide compare with Ladimus Agent?
+ok 201 - query language / rag / How does ROMGuide compare with Ladimus Agent?
+  ---
+  duration_ms: 0.7058
+  type: 'test'
+  ...
+# Subtest: query language / rag / What knowledge-base systems did he develop?
+ok 202 - query language / rag / What knowledge-base systems did he develop?
+  ---
+  duration_ms: 0.6537
+  type: 'test'
+  ...
+# Subtest: query language / rag / Has he used ChromaDB?
+ok 203 - query language / rag / Has he used ChromaDB?
+  ---
+  duration_ms: 0.8683
+  type: 'test'
+  ...
+# Subtest: query language / rag / Describe his retrieval augmented generation projects.
+ok 204 - query language / rag / Describe his retrieval augmented generation projects.
+  ---
+  duration_ms: 1.5179
+  type: 'test'
+  ...
+# Subtest: query language / backend / Does Luis have real backend engineering experience?
+ok 205 - query language / backend / Does Luis have real backend engineering experience?
+  ---
+  duration_ms: 1.4558
+  type: 'test'
+  ...
+# Subtest: query language / backend / What APIs has he worked on?
+ok 206 - query language / backend / What APIs has he worked on?
+  ---
+  duration_ms: 0.9781
+  type: 'test'
+  ...
+# Subtest: query language / backend / Has he built services or mostly infrastructure?
+ok 207 - query language / backend / Has he built services or mostly infrastructure?
+  ---
+  duration_ms: 0.6661
+  type: 'test'
+  ...
+# Subtest: query language / backend / How much actual application development has he done?
+ok 208 - query language / backend / How much actual application development has he done?
+  ---
+  duration_ms: 0.6586
+  type: 'test'
+  ...
+# Subtest: query language / backend / What software development work is documented?
+ok 209 - query language / backend / What software development work is documented?
+  ---
+  duration_ms: 0.8875
+  type: 'test'
+  ...
+# Subtest: query language / backend / What middleware did he implement?
+ok 210 - query language / backend / What middleware did he implement?
+  ---
+  duration_ms: 0.6246
+  type: 'test'
+  ...
+# Subtest: query language / backend / What Python systems did he build?
+ok 211 - query language / backend / What Python systems did he build?
+  ---
+  duration_ms: 0.6303
+  type: 'test'
+  ...
+# Subtest: query language / backend / What C sharp work has he done?
+ok 212 - query language / backend / What C sharp work has he done?
+  ---
+  duration_ms: 0.6064
+  type: 'test'
+  ...
+# Subtest: query language / cloud / What platform engineering has Luis done?
+ok 213 - query language / cloud / What platform engineering has Luis done?
+  ---
+  duration_ms: 0.6224
+  type: 'test'
+  ...
+# Subtest: query language / cloud / How strong is his Azure experience?
+ok 214 - query language / cloud / How strong is his Azure experience?
+  ---
+  duration_ms: 0.8149
+  type: 'test'
+  ...
+# Subtest: query language / cloud / Has he operated containerized production services?
+ok 215 - query language / cloud / Has he operated containerized production services?
+  ---
+  duration_ms: 0.6616
+  type: 'test'
+  ...
+# Subtest: query language / cloud / What deployment responsibilities did he have?
+ok 216 - query language / cloud / What deployment responsibilities did he have?
+  ---
+  duration_ms: 0.6449
+  type: 'test'
+  ...
+# Subtest: query language / cloud / How did he manage rollback?
+ok 217 - query language / cloud / How did he manage rollback?
+  ---
+  duration_ms: 0.5965
+  type: 'test'
+  ...
+# Subtest: query language / cloud / What does his dev ops work cover?
+ok 218 - query language / cloud / What does his dev ops work cover?
+  ---
+  duration_ms: 0.6294
+  type: 'test'
+  ...
+# Subtest: query language / cloud / What CI CD pipelines did he build?
+ok 219 - query language / cloud / What CI CD pipelines did he build?
+  ---
+  duration_ms: 0.7994
+  type: 'test'
+  ...
+# Subtest: query language / cloud / Has he used Microsoft Azure Container Apps?
+ok 220 - query language / cloud / Has he used Microsoft Azure Container Apps?
+  ---
+  duration_ms: 0.6509
+  type: 'test'
+  ...
+# Subtest: query language / testing / What AI testing systems has he built?
+ok 221 - query language / testing / What AI testing systems has he built?
+  ---
+  duration_ms: 0.6569
+  type: 'test'
+  ...
+# Subtest: query language / testing / Did Luis work on Android test automation?
+ok 222 - query language / testing / Did Luis work on Android test automation?
+  ---
+  duration_ms: 0.6504
+  type: 'test'
+  ...
+# Subtest: query language / testing / What testing frameworks has he used?
+ok 223 - query language / testing / What testing frameworks has he used?
+  ---
+  duration_ms: 0.6216
+  type: 'test'
+  ...
+# Subtest: query language / testing / How were generated tests validated?
+ok 224 - query language / testing / How were generated tests validated?
+  ---
+  duration_ms: 0.7814
+  type: 'test'
+  ...
+# Subtest: query language / testing / Has he used JUnit?
+ok 225 - query language / testing / Has he used JUnit?
+  ---
+  duration_ms: 0.5776
+  type: 'test'
+  ...
+# Subtest: query language / testing / What instrumented testing work did he do?
+ok 226 - query language / testing / What instrumented testing work did he do?
+  ---
+  duration_ms: 0.6378
+  type: 'test'
+  ...
+# Subtest: query language / testing / What Gradle workflows are documented?
+ok 227 - query language / testing / What Gradle workflows are documented?
+  ---
+  duration_ms: 0.6018
+  type: 'test'
+  ...
+# Subtest: query language / testing / What automated regression tests did he generate?
+ok 228 - query language / testing / What automated regression tests did he generate?
+  ---
+  duration_ms: 0.7279
+  type: 'test'
+  ...
+# Subtest: query language / comparison / Compare PR Assistant and Ladimus Review.
+ok 229 - query language / comparison / Compare PR Assistant and Ladimus Review.
+  ---
+  duration_ms: 1.1323
+  type: 'test'
+  ...
+# Subtest: query language / comparison / What distinguishes ROMGuide from Ladimus Agent?
+ok 230 - query language / comparison / What distinguishes ROMGuide from Ladimus Agent?
+  ---
+  duration_ms: 0.6991
+  type: 'test'
+  ...
+# Subtest: query language / comparison / PR Assistant versus Android Test Agent?
+ok 231 - query language / comparison / PR Assistant versus Android Test Agent?
+  ---
+  duration_ms: 0.6873
+  type: 'test'
+  ...
+# Subtest: query language / comparison / What is the difference between ROMGuide and Ladimus Agent?
+ok 232 - query language / comparison / What is the difference between ROMGuide and Ladimus Agent?
+  ---
+  duration_ms: 0.7041
+  type: 'test'
+  ...
+# Subtest: query language / comparison / How do the code-gating and test-agent systems compare?
+ok 233 - query language / comparison / How do the code-gating and test-agent systems compare?
+  ---
+  duration_ms: 0.7176
+  type: 'test'
+  ...
+# Subtest: query language / pattern / What do his AI projects have in common?
+ok 234 - query language / pattern / What do his AI projects have in common?
+  ---
+  duration_ms: 0.8875
+  type: 'test'
+  ...
+# Subtest: query language / pattern / What philosophy appears across his work?
+ok 235 - query language / pattern / What philosophy appears across his work?
+  ---
+  duration_ms: 0.6621
+  type: 'test'
+  ...
+# Subtest: query language / pattern / What ties together his engineering projects?
+ok 236 - query language / pattern / What ties together his engineering projects?
+  ---
+  duration_ms: 0.6647
+  type: 'test'
+  ...
+# Subtest: query language / pattern / What is the common thread in his AI tools?
+ok 237 - query language / pattern / What is the common thread in his AI tools?
+  ---
+  duration_ms: 0.6735
+  type: 'test'
+  ...
+# Subtest: query language / pattern / Which patterns recur in his systems?
+ok 238 - query language / pattern / Which patterns recur in his systems?
+  ---
+  duration_ms: 0.6598
+  type: 'test'
+  ...
+# Subtest: query language / pattern / How consistent is his approach to AI reliability?
+ok 239 - query language / pattern / How consistent is his approach to AI reliability?
+  ---
+  duration_ms: 0.8934
+  type: 'test'
+  ...
+# Subtest: query language / gap / He's never used Pulumi. What transfers?
+ok 240 - query language / gap / He's never used Pulumi. What transfers?
+  ---
+  duration_ms: 0.6454
+  type: 'test'
+  ...
+# Subtest: query language / gap / How much would he need to ramp up on Terraform?
+ok 241 - query language / gap / How much would he need to ramp up on Terraform?
+  ---
+  duration_ms: 1.3758
+  type: 'test'
+  ...
+# Subtest: query language / gap / Would ArgoCD be new to him?
+ok 242 - query language / gap / Would ArgoCD be new to him?
+  ---
+  duration_ms: 1.2027
+  type: 'test'
+  ...
+# Subtest: query language / gap / What adjacent experience would transfer to Ansible?
+ok 243 - query language / gap / What adjacent experience would transfer to Ansible?
+  ---
+  duration_ms: 1.5074
+  type: 'test'
+  ...
+# Subtest: query language / gap / Which skills are missing for a Kubernetes role?
+ok 244 - query language / gap / Which skills are missing for a Kubernetes role?
+  ---
+  duration_ms: 1.2714
+  type: 'test'
+  ...
+# Subtest: query language / gap / What would he need to learn about Datadog?
+ok 245 - query language / gap / What would he need to learn about Datadog?
+  ---
+  duration_ms: 1.0853
+  type: 'test'
+  ...
+# Subtest: query language / strength / Where is Luis strongest technically?
+ok 246 - query language / strength / Where is Luis strongest technically?
+  ---
+  duration_ms: 0.6473
+  type: 'test'
+  ...
+# Subtest: query language / strength / Where is the evidence thinner?
+ok 247 - query language / strength / Where is the evidence thinner?
+  ---
+  duration_ms: 0.6173
+  type: 'test'
+  ...
+# Subtest: query language / strength / What would you validate during an interview?
+ok 248 - query language / strength / What would you validate during an interview?
+  ---
+  duration_ms: 0.8623
+  type: 'test'
+  ...
+# Subtest: query language / strength / What parts of his AI background are most proven?
+ok 249 - query language / strength / What parts of his AI background are most proven?
+  ---
+  duration_ms: 0.6851
+  type: 'test'
+  ...
+# Subtest: query language / strength / Where is the evidence less established?
+ok 250 - query language / strength / Where is the evidence less established?
+  ---
+  duration_ms: 0.6277
+  type: 'test'
+  ...
+# Subtest: query language / strength / What hiring concerns should we investigate?
+ok 251 - query language / strength / What hiring concerns should we investigate?
+  ---
+  duration_ms: 0.6492
+  type: 'test'
+  ...
+# Subtest: query language / historical / Was Luis an AI Engineer at ROMTech?
+ok 252 - query language / historical / Was Luis an AI Engineer at ROMTech?
+  ---
+  duration_ms: 0.6474
+  type: 'test'
+  ...
+# Subtest: query language / historical / Was he an AI Platform Engineer?
+ok 253 - query language / historical / Was he an AI Platform Engineer?
+  ---
+  duration_ms: 0.7944
+  type: 'test'
+  ...
+# Subtest: query language / historical / Did he work as a Backend Engineer?
+ok 254 - query language / historical / Did he work as a Backend Engineer?
+  ---
+  duration_ms: 0.6429
+  type: 'test'
+  ...
+# Subtest: query language / historical / His official title was what?
+ok 255 - query language / historical / His official title was what?
+  ---
+  duration_ms: 0.5953
+  type: 'test'
+  ...
+# Subtest: query language / historical / Was his job title Senior AI Engineer?
+ok 256 - query language / historical / Was his job title Senior AI Engineer?
+  ---
+  duration_ms: 0.6814
+  type: 'test'
+  ...
+# Subtest: query language / historical / Was he promoted to Platform Engineer?
+ok 257 - query language / historical / Was he promoted to Platform Engineer?
+  ---
+  duration_ms: 0.6281
+  type: 'test'
+  ...
+# Subtest: query language / ambiguous / How deep?
+ok 258 - query language / ambiguous / How deep?
+  ---
+  duration_ms: 0.8357
+  type: 'test'
+  ...
+# Subtest: query language / ambiguous / What about that?
+ok 259 - query language / ambiguous / What about that?
+  ---
+  duration_ms: 0.6002
+  type: 'test'
+  ...
+# Subtest: query language / ambiguous / Was it real?
+ok 260 - query language / ambiguous / Was it real?
+  ---
+  duration_ms: 0.5451
+  type: 'test'
+  ...
+# Subtest: query language / ambiguous / Did he?
+ok 261 - query language / ambiguous / Did he?
+  ---
+  duration_ms: 0.525
+  type: 'test'
+  ...
+# Subtest: query language / ambiguous / How strong was it?
+ok 262 - query language / ambiguous / How strong was it?
+  ---
+  duration_ms: 0.5615
+  type: 'test'
+  ...
+# Subtest: query language / ambiguous / What about it?
+ok 263 - query language / ambiguous / What about it?
+  ---
+  duration_ms: 0.5686
+  type: 'test'
+  ...
+# Subtest: safe normalization unifies harmless phrasing without rewriting technology identity
+ok 264 - safe normalization unifies harmless phrasing without rewriting technology identity
+  ---
+  duration_ms: 0.3843
+  type: 'test'
+  ...
+# Subtest: multi-intent signals and supported subjects survive compact and negated wording
+ok 265 - multi-intent signals and supported subjects survive compact and negated wording
+  ---
+  duration_ms: 5.8765
+  type: 'test'
+  ...
+# Subtest: qualification invokes authored assessment and an independent verdict with technical premises
+ok 266 - qualification invokes authored assessment and an independent verdict with technical premises
+  ---
+  duration_ms: 47.2404
+  type: 'test'
+  ...
+# Subtest: target-role phrasing is permitted only for cited technical assessment; history and seniority remain guarded
+ok 267 - target-role phrasing is permitted only for cited technical assessment; history and seniority remain guarded
+  ---
+  duration_ms: 23.3162
+  type: 'test'
+  ...
+# Subtest: negation and recruiter assertions never create skill, title or maturity evidence
+ok 268 - negation and recruiter assertions never create skill, title or maturity evidence
+  ---
+  duration_ms: 30.3692
+  type: 'test'
+  ...
+# Subtest: contextless questions ask for a subject without retrieval or provider calls; privacy still runs first
+ok 269 - contextless questions ask for a subject without retrieval or provider calls; privacy still runs first
+  ---
+  duration_ms: 5.7504
+  type: 'test'
+  ...
+# Subtest: maturity and retrieval-grounded wording retain the decisive prototype and RAG records
+ok 270 - maturity and retrieval-grounded wording retain the decisive prototype and RAG records
+  ---
+  duration_ms: 22.7877
+  type: 'test'
+  ...
+# Subtest: the query release does not add provider planning or edit the v0.6.3.2 transport
+ok 271 - the query release does not add provider planning or edit the v0.6.3.2 transport
+  ---
+  duration_ms: 7.1073
+  type: 'test'
+  ...
+# (node:16752) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/luist/Documents/Codex/2026-10-31/files-pasted-by-the-user-recall/work/ladimus-portfolio/src/features/ask-ladimus/service.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to C:\\Users\\luist\\Documents\\Codex\\2026-10-31\\files-pasted-by-the-user-recall\\work\\ladimus-portfolio\\package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: production stage budgets retain route and client headroom and reserve the entire corrective pair
+ok 272 - production stage budgets retain route and client headroom and reserve the entire corrective pair
+  ---
+  duration_ms: 3.0024
+  type: 'test'
+  ...
+# Subtest: generation and verification time out independently and abort even stalled providers
+ok 273 - generation and verification time out independently and abort even stalled providers
+  ---
+  duration_ms: 167.3664
+  type: 'test'
+  ...
+# Subtest: the exact recruiter query may use both explicit stage budgets and is not limited by one generation stage
+ok 274 - the exact recruiter query may use both explicit stage budgets and is not limited by one generation stage
+  ---
+  duration_ms: 122.3068
+  type: 'test'
+  ...
+# Subtest: correction is skipped unless both corrective stages plus headroom fit
+ok 275 - correction is skipped unless both corrective stages plus headroom fit
+  ---
+  duration_ms: 13.4081
+  type: 'test'
+  ...
+# Subtest: a reserved correction can succeed and a stalled correction aborts without a third attempt
+ok 276 - a reserved correction can succeed and a stalled correction aborts without a third attempt
+  ---
+  duration_ms: 48.9191
+  type: 'test'
+  ...
+# Subtest: disconnect cancels generation, verification and correction immediately
+ok 277 - disconnect cancels generation, verification and correction immediately
+  ---
+  duration_ms: 20.8867
+  type: 'test'
+  ...
+# Subtest: provider and incomplete-generation errors are finite categories without sensitive payloads
+ok 278 - provider and incomplete-generation errors are finite categories without sensitive payloads
+  ---
+  duration_ms: 10.8441
+  type: 'test'
+  ...
+# Subtest: exact comparison reserves each named system before depth, even with reordered names or crowded ranking
+ok 279 - exact comparison reserves each named system before depth, even with reordered names or crowded ranking
+  ---
+  duration_ms: 63.9871
+  type: 'test'
+  ...
+# Subtest: false Android packet-absence claims are rejected, including when their citations name a different system
+ok 280 - false Android packet-absence claims are rejected, including when their citations name a different system
+  ---
+  duration_ms: 38.8587
+  type: 'test'
+  ...
+# Subtest: packet skill contradictions are rejected without blocking valid capability gaps or scope limitations
+ok 281 - packet skill contradictions are rejected without blocking valid capability gaps or scope limitations
+  ---
+  duration_ms: 41.908
+  type: 'test'
+  ...
+# Subtest: exact autonomy, recruiter and comparison queries use authored analysis and independent verification
+ok 282 - exact autonomy, recruiter and comparison queries use authored analysis and independent verification
+  ---
+  duration_ms: 81.7555
+  type: 'test'
+  ...
+# Subtest: assessment kind neither grants autonomous deployment facts nor lets a verifier rewrite its kind
+ok 283 - assessment kind neither grants autonomous deployment facts nor lets a verifier rewrite its kind
+  ---
+  duration_ms: 26.9666
+  type: 'test'
+  ...
+# Subtest: a packet contradiction can be corrected only through fresh grounding and verification
+ok 284 - a packet contradiction can be corrected only through fresh grounding and verification
+  ---
+  duration_ms: 18.8155
+  type: 'test'
+  ...
+# Subtest: corrective verification has its own hard stage timeout and total deadline remains authoritative
+ok 285 - corrective verification has its own hard stage timeout and total deadline remains authoritative
+  ---
+  duration_ms: 113.2752
+  type: 'test'
+  ...
+# Subtest: assessment of a target role is separate from claiming Luis held its title
+ok 286 - assessment of a target role is separate from claiming Luis held its title
+  ---
+  duration_ms: 23.4028
+  type: 'test'
+  ...
+# Subtest: known skill protection distinguishes direct absence from analytical depth limitations
+ok 287 - known skill protection distinguishes direct absence from analytical depth limitations
+  ---
+  duration_ms: 11.108
+  type: 'test'
+  ...
+# Subtest: structural diagnosis and technology context remain finite without rejected text
+ok 288 - structural diagnosis and technology context remain finite without rejected text
+  ---
+  duration_ms: 3.2819
+  type: 'test'
+  ...
+# Subtest: the exact autonomy request does not turn using his documented work into a tool gap
+ok 289 - the exact autonomy request does not turn using his documented work into a tool gap
+  ---
+  duration_ms: 32.5647
+  type: 'test'
+  ...
+# Subtest: recruiter assessment retains documented LLM integration and conditional scale gaps without inventing tool use
+ok 290 - recruiter assessment retains documented LLM integration and conditional scale gaps without inventing tool use
+  ---
+  duration_ms: 21.7349
+  type: 'test'
+  ...
+# Subtest: early corrective generation donates time to verification without extending its reserved pair
+ok 291 - early corrective generation donates time to verification without extending its reserved pair
+  ---
+  duration_ms: 186.6684
+  type: 'test'
+  ...
+# Subtest: finite semantic failure categories guide correction but never approve or rewrite an assessment
+ok 292 - finite semantic failure categories guide correction but never approve or rewrite an assessment
+  ---
+  duration_ms: 6.7656
+  type: 'test'
+  ...
+# Subtest: cannot be inferred qualifies a limit but can be inferred does not authorize it
+ok 293 - cannot be inferred qualifies a limit but can be inferred does not authorize it
+  ---
+  duration_ms: 12.2549
+  type: 'test'
+  ...
+# (node:43056) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/luist/Documents/Codex/2026-10-31/files-pasted-by-the-user-recall/work/ladimus-portfolio/src/features/ask-ladimus/grounding.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to C:\\Users\\luist\\Documents\\Codex\\2026-10-31\\files-pasted-by-the-user-recall\\work\\ladimus-portfolio\\package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: new prose, interpretation and model-selected structure are accepted without passage equality
+ok 294 - new prose, interpretation and model-selected structure are accepted without passage equality
+  ---
+  duration_ms: 13.8597
+  type: 'test'
+  ...
+# Subtest: schema and output bounds fail closed
+ok 295 - schema and output bounds fail closed
+  ---
+  duration_ms: 0.4683
+  type: 'test'
+  ...
+# Subtest: citations must be unique members of the actual retrieved set
+ok 296 - citations must be unique members of the actual retrieved set
+  ---
+  duration_ms: 0.1902
+  type: 'test'
+  ...
+# Subtest: critical claims cannot be authorized by valid IDs or positive verifier verdicts
+ok 297 - critical claims cannot be authorized by valid IDs or positive verifier verdicts
+  ---
+  duration_ms: 66.828
+  type: 'test'
+  ...
+# Subtest: numbers, dates and titles require the cited source, not merely some retrieved source
+ok 298 - numbers, dates and titles require the cited source, not merely some retrieved source
+  ---
+  duration_ms: 14.31
+  type: 'test'
+  ...
+# Subtest: prototype and designed work cannot become production or implementation
+ok 299 - prototype and designed work cannot become production or implementation
+  ---
+  duration_ms: 0.575
+  type: 'test'
+  ...
+# Subtest: general technical knowledge is allowed without becoming undocumented career experience
+ok 300 - general technical knowledge is allowed without becoming undocumented career experience
+  ---
+  duration_ms: 0.4694
+  type: 'test'
+  ...
+# Subtest: known professional skill evidence cannot be denied as insufficient
+ok 301 - known professional skill evidence cannot be denied as insufficient
+  ---
+  duration_ms: 9.4566
+  type: 'test'
+  ...
+# Subtest: semantic verifier must cover every unit once, preserve citations and never rewrite
+ok 302 - semantic verifier must cover every unit once, preserve citations and never rewrite
+  ---
+  duration_ms: 0.6286
+  type: 'test'
+  ...
+# Subtest: semantic rejection gets only one correction and no unverified answer escapes
+ok 303 - semantic rejection gets only one correction and no unverified answer escapes
+  ---
+  duration_ms: 4.448
+  type: 'test'
+  ...
+# Subtest: one corrective synthesis can pass but still requires a fresh verifier verdict
+ok 304 - one corrective synthesis can pass but still requires a fresh verifier verdict
+  ---
+  duration_ms: 3.9518
+  type: 'test'
+  ...
+# Subtest: deterministic rejection corrects once before any verifier is invoked
+ok 305 - deterministic rejection corrects once before any verifier is invoked
+  ---
+  duration_ms: 3.4149
+  type: 'test'
+  ...
+# Subtest: verification errors and stalls fail closed within the shared deadline
+ok 306 - verification errors and stalls fail closed within the shared deadline
+  ---
+  duration_ms: 31.8861
+  type: 'test'
+  ...
+# Subtest: cancellation settles even a provider which ignores abort
+ok 307 - cancellation settles even a provider which ignores abort
+  ---
+  duration_ms: 3.4886
+  type: 'test'
+  ...
+# Subtest: rendered paragraphs/lists preserve inspectable per-unit citations
+ok 308 - rendered paragraphs/lists preserve inspectable per-unit citations
+  ---
+  duration_ms: 138.8849
+  type: 'test'
+  ...
+# Subtest: assessment semantics and citations survive without a redundant visible prose label
+ok 309 - assessment semantics and citations survive without a redundant visible prose label
+  ---
+  duration_ms: 0.7974
+  type: 'test'
+  ...
+# Subtest: guard terms inside negative source qualifiers never authorize positive adoption or ROI
+ok 310 - guard terms inside negative source qualifiers never authorize positive adoption or ROI
+  ---
+  duration_ms: 4.2193
+  type: 'test'
+  ...
+# Subtest: a pre-aborted request invokes no provider and has no unhandled rejection
+ok 311 - a pre-aborted request invokes no provider and has no unhandled rejection
+  ---
+  duration_ms: 4.0999
+  type: 'test'
+  ...
+# Subtest: negative qualifications and discipline language remain usable without invented tools
+ok 312 - negative qualifications and discipline language remain usable without invented tools
+  ---
+  duration_ms: 5.511
+  type: 'test'
+  ...
+# Subtest: prose citations are rejected while numeric career claims still require cited support
+ok 313 - prose citations are rejected while numeric career claims still require cited support
+  ---
+  duration_ms: 4.3469
+  type: 'test'
+  ...
+# Subtest: a merged scaffold mentioning absent production metrics is not production evidence
+ok 314 - a merged scaffold mentioning absent production metrics is not production evidence
+  ---
+  duration_ms: 0.3399
+  type: 'test'
+  ...
+# Subtest: a target role or learning gap is not a positive guarded-tool experience assertion
+ok 315 - a target role or learning gap is not a positive guarded-tool experience assertion
+  ---
+  duration_ms: 8.2977
+  type: 'test'
+  ...
+# Subtest: future guarded-tool experience requirements do not authorize existing experience
+ok 316 - future guarded-tool experience requirements do not authorize existing experience
+  ---
+  duration_ms: 5.4914
+  type: 'test'
+  ...
+# Subtest: deterministic correction gets only a bounded parsed draft, never a provider payload
+ok 317 - deterministic correction gets only a bounded parsed draft, never a provider payload
+  ---
+  duration_ms: 7.2551
+  type: 'test'
+  ...
+# Subtest: inline references cannot borrow a supported metric to disguise an invalid source
+ok 318 - inline references cannot borrow a supported metric to disguise an invalid source
+  ---
+  duration_ms: 7.4047
+  type: 'test'
+  ...
+# Subtest: verification failure events distinguish malformed verdicts from unsupported semantics without exposing prose
+ok 319 - verification failure events distinguish malformed verdicts from unsupported semantics without exposing prose
+  ---
+  duration_ms: 3.8909
+  type: 'test'
+  ...
+# (node:7556) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/luist/Documents/Codex/2026-10-31/files-pasted-by-the-user-recall/work/ladimus-portfolio/src/features/ask-ladimus/telemetry.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to C:\\Users\\luist\\Documents\\Codex\\2026-10-31\\files-pasted-by-the-user-recall\\work\\ladimus-portfolio\\package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: email and phone redaction precedes bounded query logging
+ok 320 - email and phone redaction precedes bounded query logging
+  ---
+  duration_ms: 2.2269
+  type: 'test'
+  ...
+# Subtest: known keys, bearer tokens, JWTs, credentials, and opaque tokens are removed
+ok 321 - known keys, bearer tokens, JWTs, credentials, and opaque tokens are removed
+  ---
+  duration_ms: 0.4539
+  type: 'test'
+  ...
+# Subtest: URLs, credentials, query strings, and fragments are not logged
+ok 322 - URLs, credentials, query strings, and fragments are not logged
+  ---
+  duration_ms: 0.11
+  type: 'test'
+  ...
+# Subtest: query text is bounded and control characters cannot forge log entries
+ok 323 - query text is bounded and control characters cannot forge log entries
+  ---
+  duration_ms: 0.3859
+  type: 'test'
+  ...
+# Subtest: event whitelists fields, bounds IDs and duration, and discards metadata
+ok 324 - event whitelists fields, bounds IDs and duration, and discards metadata
+  ---
+  duration_ms: 0.8004
+  type: 'test'
+  ...
+# Subtest: private-policy queries are omitted, not merely partially redacted
+ok 325 - private-policy queries are omitted, not merely partially redacted
+  ---
+  duration_ms: 0.0992
+  type: 'test'
+  ...
+# Subtest: structured log provider emits one typed event without private/provider fields
+ok 326 - structured log provider emits one typed event without private/provider fields
+  ---
+  duration_ms: 0.5063
+  type: 'test'
+  ...
+# Subtest: real service structured logs never serialize rejected provider output or full evidence
+ok 327 - real service structured logs never serialize rejected provider output or full evidence
+  ---
+  duration_ms: 25.9386
+  type: 'test'
+  ...
+# Subtest: sync throws, async rejections, and stalled telemetry do not fail or delay Ask
+ok 328 - sync throws, async rejections, and stalled telemetry do not fail or delay Ask
+  ---
+  duration_ms: 60.7605
+  type: 'test'
+  ...
+# Subtest: service records one completion and bounded stage events without provider payloads or corpus fields
+ok 329 - service records one completion and bounded stage events without provider payloads or corpus fields
+  ---
+  duration_ms: 27.6993
+  type: 'test'
+  ...
+# Subtest: handler never combines request metadata with query logs, including rate limits
+ok 330 - handler never combines request metadata with query logs, including rate limits
+  ---
+  duration_ms: 70.0527
+  type: 'test'
+  ...
+# Subtest: UI disclosure is present and telemetry stays outside client imports
+ok 331 - UI disclosure is present and telemetry stays outside client imports
+  ---
+  duration_ms: 3.0358
+  type: 'test'
+  ...
+# Subtest: stage telemetry proves bounded correction and remains an explicit whitelist
+ok 332 - stage telemetry proves bounded correction and remains an explicit whitelist
+  ---
+  duration_ms: 0.2738
+  type: 'test'
+  ...
+# Subtest: deterministic connected topology and bounded backing stores
+ok 333 - deterministic connected topology and bounded backing stores
+  ---
+  duration_ms: 10.3267
+  type: 'test'
+  ...
+# Subtest: damping is time based, bounded, and stationary for zero time
+ok 334 - damping is time based, bounded, and stationary for zero time
+  ---
+  duration_ms: 0.3059
+  type: 'test'
+  ...
+# Subtest: paused canvas refreshes after resizing offscreen or hidden, without a loop
+ok 335 - paused canvas refreshes after resizing offscreen or hidden, without a loop
+  ---
+  duration_ms: 59.6208
+  type: 'test'
+  ...
+# Subtest: fine pointer changes positions; coarse pointer has no residual or new parallax
+ok 336 - fine pointer changes positions; coarse pointer has no residual or new parallax
+  ---
+  duration_ms: 63.2555
+  type: 'test'
+  ...
+# Subtest: visibility, pause, repeated scheduling and disposal keep one or zero loops
+ok 337 - visibility, pause, repeated scheduling and disposal keep one or zero loops
+  ---
+  duration_ms: 32.0747
+  type: 'test'
+  ...
+# Subtest: sustained expensive frames downgrade once without oscillation
+ok 338 - sustained expensive frames downgrade once without oscillation
+  ---
+  duration_ms: 28.3635
+  type: 'test'
+  ...
+# Subtest: bounded regions share one browser frame and release all scheduled work
+ok 339 - bounded regions share one browser frame and release all scheduled work
+  ---
+  duration_ms: 5.4256
+  type: 'test'
+  ...
+# Subtest: one session preference controls all regions and survives route remounts
+ok 340 - one session preference controls all regions and survives route remounts
+  ---
+  duration_ms: 3.9049
+  type: 'test'
+  ...
+# Subtest: routed signals are connected, bounded, expire, and clear
+ok 341 - routed signals are connected, bounded, expire, and clear
+  ---
+  duration_ms: 0.4306
+  type: 'test'
+  ...
+# Subtest: tap gesture rejects scrolling, dragging, and long press
+ok 342 - tap gesture rejects scrolling, dragging, and long press
+  ---
+  duration_ms: 0.2465
+  type: 'test'
+  ...
+# Subtest: decorative target filter rejects content and interactive targets
+ok 343 - decorative target filter rejects content and interactive targets
+  ---
+  duration_ms: 0.0963
+  type: 'test'
+  ...
+# Subtest: renderer dispatch respects pause, gesture, target, and disposal
+ok 344 - renderer dispatch respects pause, gesture, target, and disposal
+  ---
+  duration_ms: 47.0829
+  type: 'test'
+  ...
+# Subtest: identity budgets are finite and authority is calmer than possibility
+ok 345 - identity budgets are finite and authority is calmer than possibility
+  ---
+  duration_ms: 0.0986
+  type: 'test'
+  ...
+# Subtest: scroll and pointer cancellation invalidate a pending tap
+ok 346 - scroll and pointer cancellation invalidate a pending tap
+  ---
+  duration_ms: 21.2195
+  type: 'test'
+  ...
+# Subtest: compact transition clears old routes and enforces the smaller signal budget
+ok 347 - compact transition clears old routes and enforces the smaller signal budget
+  ---
+  duration_ms: 15.9612
+  type: 'test'
+  ...
+# Subtest: intelligence bridge drives real evidence clusters, bounded signals, failure and cleanup
+ok 348 - intelligence bridge drives real evidence clusters, bounded signals, failure and cleanup
+  ---
+  duration_ms: 16.8803
+  type: 'test'
+  ...
+# Subtest: semantic events carry only bounded actual evidence IDs and subscriptions release
+ok 349 - semantic events carry only bounded actual evidence IDs and subscriptions release
+  ---
+  duration_ms: 0.1153
+  type: 'test'
+  ...
+# Subtest: mobile intelligence events retain compact budgets and no success state on missing evidence
+ok 350 - mobile intelligence events retain compact budgets and no success state on missing evidence
+  ---
+  duration_ms: 17.5091
+  type: 'test'
+  ...
+# (node:31244) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/luist/Documents/Codex/2026-10-31/files-pasted-by-the-user-recall/work/ladimus-portfolio/src/features/recall/release.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to C:\\Users\\luist\\Documents\\Codex\\2026-10-31\\files-pasted-by-the-user-recall\\work\\ladimus-portfolio\\package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the current public QA identity preserves separate production approvals
+ok 351 - the current public QA identity preserves separate production approvals
+  ---
+  duration_ms: 1.422
+  type: 'test'
+  ...
+# Subtest: internal QA requires identity-bound restricted distribution even if a public URL is supplied
+ok 352 - internal QA requires identity-bound restricted distribution even if a public URL is supplied
+  ---
+  duration_ms: 0.1646
+  type: 'test'
+  ...
+# Subtest: public beta requires both explicit founder and release-gate approvals, plus verified public access
+ok 353 - public beta requires both explicit founder and release-gate approvals, plus verified public access
+  ---
+  duration_ms: 0.2572
+  type: 'test'
+  ...
+# Subtest: changing sha256 invalidates old asset verification
+ok 354 - changing sha256 invalidates old asset verification
+  ---
+  duration_ms: 0.084
+  type: 'test'
+  ...
+# Subtest: changing bytes invalidates old asset verification
+ok 355 - changing bytes invalidates old asset verification
+  ---
+  duration_ms: 0.0566
+  type: 'test'
+  ...
+# Subtest: changing filename invalidates old asset verification
+ok 356 - changing filename invalidates old asset verification
+  ---
+  duration_ms: 0.0467
+  type: 'test'
+  ...
+# Subtest: changing version invalidates old asset verification
+ok 357 - changing version invalidates old asset verification
+  ---
+  duration_ms: 0.0434
+  type: 'test'
+  ...
+# Subtest: changing build invalidates old asset verification
+ok 358 - changing build invalidates old asset verification
+  ---
+  duration_ms: 0.0419
+  type: 'test'
+  ...
+# Subtest: changing downloadUrl invalidates old asset verification
+ok 359 - changing downloadUrl invalidates old asset verification
+  ---
+  duration_ms: 0.1538
+  type: 'test'
+  ...
+# Subtest: unsafe or wrong asset destination stays disabled: http://downloads.example.test/recall-0.6.0-d009-qa-arm64-x86_64.apk
+ok 360 - unsafe or wrong asset destination stays disabled: http://downloads.example.test/recall-0.6.0-d009-qa-arm64-x86_64.apk
+  ---
+  duration_ms: 0.2243
+  type: 'test'
+  ...
+# Subtest: unsafe or wrong asset destination stays disabled: file:///C:/recall.apk
+ok 361 - unsafe or wrong asset destination stays disabled: file:///C:/recall.apk
+  ---
+  duration_ms: 0.084
+  type: 'test'
+  ...
+# Subtest: unsafe or wrong asset destination stays disabled: C:\\recall.apk
+ok 362 - unsafe or wrong asset destination stays disabled: C:\\recall.apk
+  ---
+  duration_ms: 0.0431
+  type: 'test'
+  ...
+# Subtest: unsafe or wrong asset destination stays disabled: https://localhost/recall-0.6.0-d009-qa-arm64-x86_64.apk
+ok 363 - unsafe or wrong asset destination stays disabled: https://localhost/recall-0.6.0-d009-qa-arm64-x86_64.apk
+  ---
+  duration_ms: 0.028
+  type: 'test'
+  ...
+# Subtest: unsafe or wrong asset destination stays disabled: https://user:secret@example.test/recall-0.6.0-d009-qa-arm64-x86_64.apk
+ok 364 - unsafe or wrong asset destination stays disabled: https://user:secret@example.test/recall-0.6.0-d009-qa-arm64-x86_64.apk
+  ---
+  duration_ms: 0.0269
+  type: 'test'
+  ...
+# Subtest: unsafe or wrong asset destination stays disabled: https://downloads.example.test/releases/recall-0.6.0-d009-qa-arm64-x86_64.apk
+ok 365 - unsafe or wrong asset destination stays disabled: https://downloads.example.test/releases/recall-0.6.0-d009-qa-arm64-x86_64.apk
+  ---
+  duration_ms: 0.0281
+  type: 'test'
+  ...
+# Subtest: unsafe or wrong asset destination stays disabled: https://downloads.example.test/releases/recall-0.6.0-d009-qa-arm64-x86_64.apk\#fragment
+ok 366 - unsafe or wrong asset destination stays disabled: https://downloads.example.test/releases/recall-0.6.0-d009-qa-arm64-x86_64.apk\#fragment
+  ---
+  duration_ms: 0.0258
+  type: 'test'
+  ...
+# Subtest: unsafe or wrong asset destination stays disabled: https://downloads.example.test/archive/source.zip
+ok 367 - unsafe or wrong asset destination stays disabled: https://downloads.example.test/archive/source.zip
+  ---
+  duration_ms: 0.0238
+  type: 'test'
+  ...
+# Subtest: unsafe or wrong asset destination stays disabled: https://downloads.example.test/archive/source.tar.gz
+ok 368 - unsafe or wrong asset destination stays disabled: https://downloads.example.test/archive/source.tar.gz
+  ---
+  duration_ms: 0.0331
+  type: 'test'
+  ...
+# Subtest: the published media is the small authentic synthetic QA capture
+ok 369 - the published media is the small authentic synthetic QA capture
+  ---
+  duration_ms: 1.2568
+  type: 'test'
+  ...
+# Subtest: all three project cards use their explicit visual; Recall cannot fall through to Review
+ok 370 - all three project cards use their explicit visual; Recall cannot fall through to Review
+  ---
+  duration_ms: 85.8035
+  type: 'test'
+  ...
+# Subtest: the actual download UI renders verified metadata and a disabled control without any APK href
+ok 371 - the actual download UI renders verified metadata and a disabled control without any APK href
+  ---
+  duration_ms: 25.3909
+  type: 'test'
+  ...
+# Subtest: public QA requires identity-bound founder authorization, public proof and a verified signature
+ok 372 - public QA requires identity-bound founder authorization, public proof and a verified signature
+  ---
+  duration_ms: 0.3161
+  type: 'test'
+  ...
+# Subtest: the actual public QA CTA renders the verified APK and explicit experimental notice
+ok 373 - the actual public QA CTA renders the verified APK and explicit experimental notice
+  ---
+  duration_ms: 14.4537
+  type: 'test'
+  ...
+# Subtest: v0.6 cannot inherit v0.5 authorization, signature or public asset proof
+ok 374 - v0.6 cannot inherit v0.5 authorization, signature or public asset proof
+  ---
+  duration_ms: 0.203
+  type: 'test'
+  ...
+# Subtest: all seven Luminance media files preserve the measured original PNG identities
+ok 375 - all seven Luminance media files preserve the measured original PNG identities
+  ---
+  duration_ms: 7.5561
+  type: 'test'
+  ...
+# Subtest: the gallery exposes six readable originals and identifies the synthetic standalone evidence
+ok 376 - the gallery exposes six readable originals and identifies the synthetic standalone evidence
+  ---
+  duration_ms: 10.072
+  type: 'test'
+  ...
+# Subtest: the EIDOLON page separates engineering progress, unavailable RC23 and legacy evidence
+ok 377 - the EIDOLON page separates engineering progress, unavailable RC23 and legacy evidence
+  ---
+  duration_ms: 61.1896
+  type: 'test'
+  ...
+# Subtest: RC23 never inherits legacy download, authorization or asset proof
+ok 378 - RC23 never inherits legacy download, authorization or asset proof
+  ---
+  duration_ms: 0.2197
+  type: 'test'
+  ...
+# Subtest: all four studio choices have compact real artwork and an honest initial preview
+ok 379 - all four studio choices have compact real artwork and an honest initial preview
+  ---
+  duration_ms: 6.6557
+  type: 'test'
+  ...
+1..379
+# tests 379
+# suites 0
+# pass 379
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1267.8345

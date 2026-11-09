@@ -1,0 +1,86 @@
+[
+  {
+    "file": "eidolon-1440.png",
+    "bytes": 2968716,
+    "sha256": "5afbfb0187017329120349fb3e6e2a7cee057da7314cdb7bad10abc5e7bc9819",
+    "scope": "Local rendered website proof; section images are pixel crops of the final full-page screenshots, not Android captures"
+  },
+  {
+    "file": "eidolon-360.png",
+    "bytes": 1489681,
+    "sha256": "618b91f601543e239def7107dfa33222398354df78700df9e3afe8c48e22ed66",
+    "scope": "Local rendered website proof; section images are pixel crops of the final full-page screenshots, not Android captures"
+  },
+  {
+    "file": "eidolon-390.png",
+    "bytes": 1590139,
+    "sha256": "bf2785d4ca23a162f27fb653750576592f843bbfb2b51c8cefc34cf9aa111211",
+    "scope": "Local rendered website proof; section images are pixel crops of the final full-page screenshots, not Android captures"
+  },
+  {
+    "file": "eidolon-768.png",
+    "bytes": 1709398,
+    "sha256": "f33da2a88d23689873ed0a03355132fffaaeb9289bfe0b886fc6f5ee8ab2e370",
+    "scope": "Local rendered website proof; section images are pixel crops of the final full-page screenshots, not Android captures"
+  },
+  {
+    "file": "eidolon-font-200.png",
+    "bytes": 5292306,
+    "sha256": "ab2ac67637e2880f2bd141f62360f059bcafacfbb8c22b3c8aa4319adf4051c7",
+    "scope": "Local rendered website proof; section images are pixel crops of the final full-page screenshots, not Android captures"
+  },
+  {
+    "file": "eidolon-release-1440.png",
+    "bytes": 77264,
+    "sha256": "469b71b03fef59d80698088025da1338930aa9551b9e74aefe06f69f51c044ce",
+    "scope": "Local rendered website proof; section images are pixel crops of the final full-page screenshots, not Android captures"
+  },
+  {
+    "file": "eidolon-release-390.png",
+    "bytes": 51189,
+    "sha256": "4a8afbe22920cfede988cea99f3ac2e8109664b23d3bce3328cfbc36712d44b4",
+    "scope": "Local rendered website proof; section images are pixel crops of the final full-page screenshots, not Android captures"
+  },
+  {
+    "file": "eidolon-studio-aurora.png",
+    "bytes": 724514,
+    "sha256": "77955583da041a0cf44388848cd5b86a4b00aa52eea04e94ce00fed1551c0a17",
+    "scope": "Local rendered website proof; section images are pixel crops of the final full-page screenshots, not Android captures"
+  },
+  {
+    "file": "eidolon-studio-castle.png",
+    "bytes": 834035,
+    "sha256": "d90a533d67d5806b6a13e0ad78b4e8dcd3dd2a2fa995d5939b378ffa22438600",
+    "scope": "Local rendered website proof; section images are pixel crops of the final full-page screenshots, not Android captures"
+  },
+  {
+    "file": "eidolon-studio-ladimus.png",
+    "bytes": 669054,
+    "sha256": "01eed9d4e6461809c3b7a37c8cf8fe87a25b2d33a93a0cfe1401f9b5f24f6b46",
+    "scope": "Local rendered website proof; section images are pixel crops of the final full-page screenshots, not Android captures"
+  },
+  {
+    "file": "eidolon-studio-mobile.png",
+    "bytes": 276312,
+    "sha256": "af7aaa38c3dd6a20cab0af4ce938eebe40a1994124f50ee121b468dea2b63d76",
+    "scope": "Local rendered website proof; section images are pixel crops of the final full-page screenshots, not Android captures"
+  },
+  {
+    "file": "eidolon-studio-pixel.png",
+    "bytes": 960946,
+    "sha256": "b87713ac9bb29a1d99c4db2a36dba74b2c7e70bbd5089409b0b64fde0b830ee0",
+    "scope": "Local rendered website proof; section images are pixel crops of the final full-page screenshots, not Android captures"
+  },
+  {
+    "file": "eidolon-vision-1440.png",
+    "bytes": 234898,
+    "sha256": "f92b148ab28c81ad43dbf392e916b50d689b6fa025fe0b52748b21cd23ea9608",
+    "scope": "Local rendered website proof; section images are pixel crops of the final full-page screenshots, not Android captures"
+  },
+  {
+    "file": "eidolon-vision-390.png",
+    "bytes": 103485,
+    "sha256": "3c8b2dca16331796709cd88c9013dc18d3d599c2774ce76f4b5509a1130a1384",
+    "scope": "Local rendered website proof; section images are pixel crops of the final full-page screenshots, not Android captures"
+  }
+]

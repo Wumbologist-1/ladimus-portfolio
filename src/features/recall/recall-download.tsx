@@ -6,8 +6,8 @@ export function RecallDownload() {
   const presentation = recallReleasePresentation(release);
   const classification = release.channel === "internal-qa" ? "Internal QA / Synthetic-data testing" : presentation.stage;
   return <div className={styles.download}>
-    <div className={styles.downloadTop}><div><p className={styles.kicker}>ANDROID / {classification}</p><h3>Keep a little more.<br />Carry a little less.</h3></div><span className={styles.releaseBadge}>{release.version} / Build {release.build}</span></div>
-    <p className={styles.local}>Free experimental QA · Android {release.minAndroid}+ · Approximately {Math.round(release.bytes / 1000000)} MB</p>
+    <div className={styles.downloadTop}><div><p className={styles.kicker}>LEGACY LUMINANCE / {classification}</p><h3>Legacy v0.6 experimental QA.</h3></div><span className={styles.releaseBadge}>{release.version} / Build {release.build}</span></div>
+    <p className={styles.local}>Earlier Luminance build · Android {release.minAndroid}+ · Approximately {Math.round(release.bytes / 1000000)} MB</p>
     <dl className={styles.releaseFacts}>
       <div><dt>Version / build</dt><dd>{release.version} / {release.build}</dd></div>
       <div><dt>Platform / minimum</dt><dd>Android {release.minAndroid} or newer</dd></div>
@@ -21,7 +21,7 @@ export function RecallDownload() {
     <p className={styles.appLockNotice}><strong>App lock has additional requirements.</strong> Android 11 / API 30 or later and a secure device screen lock are required. Device-credential behavior was verified on an emulator; physical biometric and hardware-backed key qualification remain outstanding. No credential recovery/export is available. Losing protected-key access may permanently make the vault inaccessible.</p>
     <p className={styles.qaNotice}>{presentation.notice}</p>
     <details className={styles.details}><summary>Package identity & verification</summary>
-      <p>Package identity verified locally{release.assetVerification?.access === "public" ? " and against a complete anonymous public download" : ""}. Signed with a dedicated QA identity. This is not an independent security certification or production approval.</p>
+      <p>Legacy v0.6 package identity verified locally{release.assetVerification?.access === "public" ? " and against a complete anonymous public download" : ""}. Signed with a dedicated QA identity. This is not an independent security certification or production approval.</p>
       <dl className={styles.identity}><div><dt>Filename</dt><dd>{release.filename}</dd></div><div><dt>SHA-256</dt><dd><code>{release.sha256}</code></dd></div></dl>
       <p>After downloading an approved package, calculate its SHA-256 checksum with your operating system’s file-hashing tool and compare every character. A match identifies this package; it does not prove the software is safe.</p>
     </details>

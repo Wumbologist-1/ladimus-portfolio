@@ -8,6 +8,7 @@ import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 import {recallRelease,recallDownload,recallFileSize,recallReleasePresentation} from '../src/features/recall/release.ts';
 import {recallScreens,recallScreenPath} from '../src/features/recall/screens.ts';
+import {eidolonRelease,eidolonCheckpoint,vaultEnvironments} from '../src/features/recall/eidolon.ts';
 
 const asset='https://downloads.example.test/releases/'+recallRelease.filename;
 function verified(overrides={}){
@@ -58,7 +59,7 @@ test('all three project cards use their explicit visual; Recall cannot fall thro
  for(const project of data.projects){
   const html=renderToStaticMarkup(React.createElement(ProjectCard,{project}));
   assert.ok(html.includes(project.detailUrl));
-  if(project.slug==='recall'){assert.ok(html.includes('/images/recall/luminance/final-home.png'));assert.ok(!html.includes('Review-only diagram'));assert.ok(html.includes('Public QA'));}
+  if(project.slug==='recall'){assert.ok(html.includes('/images/recall/luminance/final-home.png'));assert.ok(!html.includes('Review-only diagram'));assert.ok(html.includes('Internal QA'));assert.ok(html.includes('Historical v0.6 capture'));}
   if(project.slug==='ladimus-review'){assert.ok(html.includes('Review-only diagram'));assert.ok(!html.includes('luminance/final-home.png'));}
   if(project.slug==='ask-ladimus'){assert.ok(html.includes('Bounded retrieval'));assert.ok(!html.includes('luminance/final-home.png'));}
  }
@@ -107,12 +108,35 @@ test('the gallery exposes six readable originals and identifies the synthetic st
  for(const screen of recallScreens.slice(1)){assert.ok(html.includes(recallScreenPath(screen.file)));assert.ok(html.includes(`id="screen-${screen.id}"`));}
  assert.ok(!html.includes('original-memory-qa.png'));
 });
-test('the rendered page keeps v0.6 security and factual boundaries explicit',()=>{
+test('the EIDOLON page separates engineering progress, unavailable RC23 and legacy evidence',()=>{
  const {RecallVisual,RecallGallery}=load('src/features/recall/recall-visual.tsx',{'next/image':{default:photo},'./screens':{recallScreens,recallScreenPath}});
  const {RecallDownload}=load('src/features/recall/recall-download.tsx',{'./release':{recallRelease,recallDownload,recallFileSize,recallReleasePresentation}});
- const {default:Page}=load('src/app/projects/recall/page.tsx',{'next/image':{default:photo},'@/components/ui/section':{Section:({children,...props})=>React.createElement('section',props,children)},'@/components/ui/action-link':{ActionLink:({href,children})=>React.createElement('a',{href},children)},'@/features/recall/recall-visual':{RecallVisual,RecallGallery},'@/features/recall/recall-download':{RecallDownload},'@/features/recall/screens':{recallScreens,recallScreenPath},'@/features/recall/release':{recallRelease,recallReleasePresentation},'@/config/site':load('src/config/site.ts')});
+ const {default:Page}=load('src/app/projects/recall/page.tsx',{'next/image':{default:photo},'@/components/ui/section':{Section:({children,...props})=>React.createElement('section',props,children)},'@/components/ui/action-link':{ActionLink:({href,children})=>React.createElement('a',{href},children)},'@/features/recall/recall-visual':{RecallVisual,RecallGallery},'@/features/recall/recall-download':{RecallDownload},'@/features/recall/screens':{recallScreens,recallScreenPath},'@/features/recall/release':{recallRelease,recallReleasePresentation},'@/features/recall/eidolon':{eidolonRelease,eidolonCheckpoint},'@/features/recall/vault-studio':{VaultStudio:()=>React.createElement('div',null,'Four artwork environments')},'@/config/site':load('src/config/site.ts')});
  const html=renderToStaticMarkup(React.createElement(Page));
- for(const phrase of ['Meet the new Recall.','six completed turns','82 passing host tests','website release did not rerun','Android 11 / API 30','permanently','Native OpenSSL maintenance','Free-form factual output remains disabled','Do not store personal'])assert.ok(html.includes(phrase),phrase);
+ for(const phrase of ['PROJECT EIDOLON','Source Review','156','does not rerun Android qualification','Unsupported OpenSSL 3.3.2','permanently','Legacy v0.6 experimental QA','no public download','Do not store personal','historical build 10','General retrieval fusion is experimental','Advanced natural conversational synthesis and image chat are disabled'])assert.ok(html.includes(phrase),phrase);
  assert.ok(!html.includes('biometric app lock are not available'));
  assert.ok(!html.includes('65 passing host tests'));
+});
+
+
+test('RC23 never inherits legacy download, authorization or asset proof',()=>{
+ assert.equal(eidolonRelease.build,23);assert.equal(eidolonRelease.version,'0.7.0-qa');
+ assert.equal(eidolonRelease.sha256,'7d1148e2199b56a08927fe09da517c06055bcea31e84d58da7794118d3dbbf82');
+ assert.equal(recallDownload(eidolonRelease).href,null);
+ assert.equal(eidolonRelease.publicQaAuthorization,null);assert.equal(eidolonRelease.assetVerification,null);
+ for(const channel of ['public-qa','public-beta','internal-qa']) {
+  const inherited={...eidolonRelease,channel,downloadUrl:recallRelease.downloadUrl,assetVerification:recallRelease.assetVerification,publicQaAuthorization:recallRelease.publicQaAuthorization};
+  assert.equal(recallDownload(inherited).href,null);
+ }
+});
+
+test('all four studio choices have compact real artwork and an honest initial preview',()=>{
+ assert.deepEqual(vaultEnvironments.map(t=>t.name),['Ladimus Core','Castle Night','Pixel Sunset','Aurora Vault']);
+ for(const t of vaultEnvironments)assert.ok(statSync(`public/images/recall/eidolon/${t.id}.webp`).size<500000);
+ const {VaultStudio}=load('src/features/recall/vault-studio.tsx',{'next/image':{default:photo},'./eidolon':{vaultEnvironments}});
+ const html=renderToStaticMarkup(React.createElement(VaultStudio));
+ assert.equal((html.match(/aria-pressed="true"/g)||[]).length,1);
+ assert.equal((html.match(/<button/g)||[]).length,4);
+ assert.ok(html.includes('ORIGINAL APP ARTWORK'));assert.ok(html.includes('not a simulated app screen'));assert.ok(html.includes('remain unverified'));
+ assert.ok(!html.includes('castle.webp')); // nonselected large images are not eagerly rendered
 });

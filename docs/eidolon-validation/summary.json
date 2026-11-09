@@ -1,0 +1,47 @@
+{
+  "scope": "Portfolio website validation, not new Android qualification",
+  "sourceBaseline": "8535693feb541446f10dd183d47200a70c9866d8",
+  "reviewBranch": "feat/recall-eidolon-showcase",
+  "localPreview": "http://127.0.0.1:3123/projects/recall",
+  "legacyDownloadCheck": {
+    "method": "anonymous HEAD, redirects followed",
+    "status": 200,
+    "bytes": 564963288,
+    "checkedAt": "2026-11-09T05:19:42.039Z",
+    "newCompleteHashVerification": false,
+    "historicalCompleteVerificationRecordUnchanged": true
+  },
+  "regressions": {
+    "tests": 379,
+    "passed": 379,
+    "typecheck": "passed",
+    "eslint": "passed",
+    "productionBuild": "passed",
+    "formatter": "no repository formatter configured"
+  },
+  "unchangedBoundaries": [
+    "legacy release authorization and integrity policy",
+    "package.json/package-lock.json",
+    "Next/Vercel configuration",
+    "shared site header/layout/navigation",
+    "Ask Ladimus implementation",
+    "Ladimus Review implementation",
+    "Android source and all APK/model weights"
+  ],
+  "baselineDependencyAudit": {
+    "moderate": 8,
+    "high": 4,
+    "critical": 1,
+    "lockfileChanged": false,
+    "note": "Separate dependency/security remediation required before production promotion; no audit-fix performed"
+  },
+  "browserDriver": "Isolated playwright-core with existing headless Microsoft Edge; no app dependency added",
+  "accessibilityScanner": "Isolated axe-core; no confirmed violations, gradient contrast review remains manual",
+  "deployment": {
+    "remotePush": false,
+    "productionMerge": false,
+    "vercelDeploy": false,
+    "apkPublished": false,
+    "modelPacksUploaded": false
+  }
+}

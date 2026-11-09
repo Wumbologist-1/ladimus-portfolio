@@ -1,0 +1,2 @@
+# Preserve measured QA receipts, including tool-generated whitespace.
+docs/eidolon-validation/** -text -whitespace

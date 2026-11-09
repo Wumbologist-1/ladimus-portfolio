@@ -5,14 +5,14 @@ import styles from "./recall.module.css";
 export function RecallVisual({hero = false}: {hero?: boolean}) {
   const screen = recallScreens[0];
   return <figure className={`${styles.visual} ${hero ? styles.heroVisual : ""}`} aria-label="Recall Android QA application capture">
-    <div className={styles.visualLabel}><span>PROJECT LUMINANCE</span><span>Public QA</span></div>
+    <div className={styles.visualLabel}><span>PROJECT EIDOLON</span><span>v0.7 · Internal QA</span></div>
     <div className={styles.device}>
       <Image src={recallScreenPath(screen.file)} width={1080} height={2400}
         sizes={hero ? "(max-width: 640px) 72vw, 280px" : "220px"}
         alt={screen.alt}
         preload={hero} />
     </div>
-    <figcaption>Actual QA capture · synthetic content · Android emulator<br />
+    <figcaption>Historical v0.6 capture · synthetic content · Android emulator<br />
       {hero && <a href={recallScreenPath(screen.file)} target="_blank" rel="noopener noreferrer">View full-size Home capture ↗</a>}
     </figcaption>
   </figure>;

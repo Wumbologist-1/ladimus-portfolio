@@ -1,0 +1,213 @@
+{
+  "story": "Discover Recall from featured work, inspect EIDOLON capabilities and artwork, then distinguish internal RC23 from separately authorized legacy download.",
+  "viewports": [
+    {
+      "innerWidth": 360,
+      "scrollWidth": 360,
+      "offenders": [],
+      "width": 360,
+      "anchorTargetsValid": true,
+      "themeTouchTargets": [
+        {
+          "height": 60,
+          "width": 156
+        },
+        {
+          "height": 60,
+          "width": 156
+        },
+        {
+          "height": 60,
+          "width": 156
+        },
+        {
+          "height": 60,
+          "width": 156
+        }
+      ]
+    },
+    {
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "offenders": [],
+      "width": 390,
+      "anchorTargetsValid": true,
+      "themeTouchTargets": [
+        {
+          "height": 60,
+          "width": 171
+        },
+        {
+          "height": 60,
+          "width": 171
+        },
+        {
+          "height": 60,
+          "width": 171
+        },
+        {
+          "height": 60,
+          "width": 171
+        }
+      ]
+    },
+    {
+      "innerWidth": 430,
+      "scrollWidth": 430,
+      "offenders": [],
+      "width": 430,
+      "anchorTargetsValid": true,
+      "themeTouchTargets": [
+        {
+          "height": 60,
+          "width": 191
+        },
+        {
+          "height": 60,
+          "width": 191
+        },
+        {
+          "height": 60,
+          "width": 191
+        },
+        {
+          "height": 60,
+          "width": 191
+        }
+      ]
+    },
+    {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "offenders": [],
+      "width": 768,
+      "anchorTargetsValid": true,
+      "themeTouchTargets": [
+        {
+          "height": 60,
+          "width": 170.625
+        },
+        {
+          "height": 60,
+          "width": 170.640625
+        },
+        {
+          "height": 60,
+          "width": 170.640625
+        },
+        {
+          "height": 60,
+          "width": 170.640625
+        }
+      ]
+    },
+    {
+      "innerWidth": 1024,
+      "scrollWidth": 1024,
+      "offenders": [],
+      "width": 1024,
+      "anchorTargetsValid": true,
+      "themeTouchTargets": [
+        {
+          "height": 60,
+          "width": 229.515625
+        },
+        {
+          "height": 60,
+          "width": 229.515625
+        },
+        {
+          "height": 60,
+          "width": 229.515625
+        },
+        {
+          "height": 60,
+          "width": 229.53125
+        }
+      ]
+    },
+    {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "offenders": [],
+      "width": 1440,
+      "anchorTargetsValid": true,
+      "themeTouchTargets": [
+        {
+          "height": 60,
+          "width": 298
+        },
+        {
+          "height": 60,
+          "width": 298
+        },
+        {
+          "height": 60,
+          "width": 298
+        },
+        {
+          "height": 60,
+          "width": 298
+        }
+      ]
+    }
+  ],
+  "themes": [
+    {
+      "name": "Ladimus Core",
+      "selected": true,
+      "imageDecoded": true
+    },
+    {
+      "name": "Castle Night",
+      "selected": true,
+      "imageDecoded": true
+    },
+    {
+      "name": "Pixel Sunset",
+      "selected": true,
+      "imageDecoded": true
+    },
+    {
+      "name": "Aurora Vault",
+      "selected": true,
+      "imageDecoded": true
+    }
+  ],
+  "consoleErrors": [],
+  "knownBaselineWarnings": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "url": "http://127.0.0.1:3123/favicon.ico"
+    }
+  ],
+  "pageErrors": [],
+  "failedRequests": [],
+  "keyboardThemeSelection": true,
+  "focusOutline": "solid",
+  "apkLinks": [
+    {
+      "href": "https://github.com/Wumbologist-1/recall-android-releases/releases/download/v0.6.0-qa.6/recall-0.6.0-d009-qa-arm64-x86_64.apk",
+      "label": "Download Recall v0.6 for Android ↗"
+    }
+  ],
+  "reducedMotionAnimation": "none",
+  "fontScaling200": {
+    "innerWidth": 390,
+    "scrollWidth": 390,
+    "offenders": []
+  },
+  "mobileThemeSelection": true,
+  "accessibility": {
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "help": "Elements must meet minimum color contrast ratio thresholds"
+      }
+    ]
+  },
+  "sharedRoutesPassed": true,
+  "noJavaScriptContent": true,
+  "passed": true
+}
