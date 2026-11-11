@@ -1,5 +1,13 @@
 .page { --eidolon: #91edbb; --silver: #dae8e2; color: #e8eeeb; background: #080e0c; }
 .page p { text-wrap: pretty; }
+.founderPanel { margin-block: 2rem; padding: clamp(1rem, 4vw, 2.5rem); border: 1px solid #52765d; border-radius: .6rem; background: #101f17; }
+.founderPanel h3, .founderGuide > h3 { font-size: clamp(1.4rem, 3vw, 2rem); letter-spacing: -.035em; margin-block: 1rem; }
+.founderPanel > p, .founderGuide p, .founderGuide li { color: #c0d0c5; font-size: .9rem; line-height: 1.85; margin-block: 1rem; }
+.founderButton { display: inline-flex; align-items: center; gap: 1rem; min-height: 48px; padding: .8rem 1.2rem; border: 1px solid #a6e5b6; border-radius: .35rem; color: #0b1a10; background: #b2edbd; font-weight: 600; text-decoration: none; }
+.founderButton:focus-visible { outline: 3px solid #e7fff0; outline-offset: 5px; }
+.founderGuide { margin-top: 3rem; scroll-margin-top: 6rem; }
+.founderGuide ol, .founderGuide ul { padding-left: 1.3rem; }
+.founderGuide code, .founderPanel dd { overflow-wrap: anywhere; }
 .page h2 { font-size: clamp(2rem, 4.6vw, 4rem); font-weight: 450; letter-spacing: -.055em; line-height: 1.09; }
 .page h2 em { color: var(--eidolon); font-style: normal; }
 .page a { text-decoration-thickness: 1px; }

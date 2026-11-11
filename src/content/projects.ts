@@ -22,7 +22,7 @@ export const askLadimus = {
 } as const satisfies Project;
 export const recall = {
   slug: "recall", visual: "recall", title: "Recall",
-  summary: "Your private second memory for Android. Project EIDOLON adds local image understanding, caption-independent photo search and four Vault Studio environments. v0.7 is internal QA only; no public EIDOLON download.",
+  summary: "Your private second memory for Android. Project EIDOLON adds local image understanding, caption-independent photo search and four Vault Studio environments. Build 26 is software qualified for private founder QA; hardware acceptance and public availability remain pending.",
   category: "Consumer Software / On-Device AI", technologies: ["Android", "React Native", "Kotlin", "C++ / JNI", "llama.cpp", "SQLCipher"],
   themes: ["Android engineering", "Offline AI", "Encrypted local storage", "Local image understanding", "Multimodal retrieval"],
   status: "internal-qa", featured: true, detailUrl: "/projects/recall",

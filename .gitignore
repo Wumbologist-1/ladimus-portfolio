@@ -38,3 +38,9 @@ scratch/
 # private ingestion sources and generated private drafts
 private/
 /work/
+
+# Release binaries and optional weights belong in the private artifact host.
+*.apk
+*.gguf
+qwen3-vl-2b.zip
+embeddinggemma-2.zip

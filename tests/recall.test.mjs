@@ -111,9 +111,10 @@ test('the gallery exposes six readable originals and identifies the synthetic st
 test('the EIDOLON page separates engineering progress, unavailable RC23 and legacy evidence',()=>{
  const {RecallVisual,RecallGallery}=load('src/features/recall/recall-visual.tsx',{'next/image':{default:photo},'./screens':{recallScreens,recallScreenPath}});
  const {RecallDownload}=load('src/features/recall/recall-download.tsx',{'./release':{recallRelease,recallDownload,recallFileSize,recallReleasePresentation}});
- const {default:Page}=load('src/app/projects/recall/page.tsx',{'next/image':{default:photo},'@/components/ui/section':{Section:({children,...props})=>React.createElement('section',props,children)},'@/components/ui/action-link':{ActionLink:({href,children})=>React.createElement('a',{href},children)},'@/features/recall/recall-visual':{RecallVisual,RecallGallery},'@/features/recall/recall-download':{RecallDownload},'@/features/recall/screens':{recallScreens,recallScreenPath},'@/features/recall/release':{recallRelease,recallReleasePresentation},'@/features/recall/eidolon':{eidolonRelease,eidolonCheckpoint},'@/features/recall/vault-studio':{VaultStudio:()=>React.createElement('div',null,'Four artwork environments')},'@/config/site':load('src/config/site.ts')});
+ const founder=load('src/features/recall/founder-access.tsx',{'./founder-release':load('src/features/recall/founder-release.ts')});
+ const {default:Page}=load('src/app/projects/recall/page.tsx',{'@/features/recall/founder-access':founder,'next/image':{default:photo},'@/components/ui/section':{Section:({children,...props})=>React.createElement('section',props,children)},'@/components/ui/action-link':{ActionLink:({href,children})=>React.createElement('a',{href},children)},'@/features/recall/recall-visual':{RecallVisual,RecallGallery},'@/features/recall/recall-download':{RecallDownload},'@/features/recall/screens':{recallScreens,recallScreenPath},'@/features/recall/release':{recallRelease,recallReleasePresentation},'@/features/recall/eidolon':{eidolonRelease,eidolonCheckpoint},'@/features/recall/vault-studio':{VaultStudio:()=>React.createElement('div',null,'Four artwork environments')},'@/config/site':load('src/config/site.ts')});
  const html=renderToStaticMarkup(React.createElement(Page));
- for(const phrase of ['PROJECT EIDOLON','Source Review','156','does not rerun Android qualification','Unsupported OpenSSL 3.3.2','permanently','Legacy v0.6 experimental QA','no public download','Do not store personal','historical build 10','General retrieval fusion is experimental','Advanced natural conversational synthesis and image chat are disabled'])assert.ok(html.includes(phrase),phrase);
+ for(const phrase of ['PROJECT EIDOLON','Source Review','167','does not rerun Android qualification','Unsupported OpenSSL 3.3.2','permanently','Legacy v0.6 experimental QA','no public download','Do not store personal','historical build 10','General retrieval fusion is experimental','Advanced natural conversational synthesis and image chat remain disabled in Build 26'])assert.ok(html.includes(phrase),phrase);
  assert.ok(!html.includes('biometric app lock are not available'));
  assert.ok(!html.includes('65 passing host tests'));
 });
@@ -139,4 +140,17 @@ test('all four studio choices have compact real artwork and an honest initial pr
  assert.equal((html.match(/<button/g)||[]).length,4);
  assert.ok(html.includes('ORIGINAL APP ARTWORK'));assert.ok(html.includes('not a simulated app screen'));assert.ok(html.includes('remain unverified'));
  assert.ok(!html.includes('castle.webp')); // nonselected large images are not eagerly rendered
+});
+
+test('founder UI exposes only the authenticated host entry and fails closed without verification',()=>{
+ const distribution=load('src/features/recall/founder-release.ts');
+ for(const verified of [true,false]){
+  const data={...distribution,founderRelease:{...distribution.founderRelease,verification:verified?distribution.founderRelease.verification:null}};
+  const {FounderAccess}=load('src/features/recall/founder-access.tsx',{'./founder-release':data});
+  const html=renderToStaticMarkup(React.createElement(FounderAccess));
+  assert.ok(!/href="[^"]*\.apk/.test(html));assert.ok(!html.includes('recall-android-releases'));
+  assert.ok(html.includes('not public beta'));assert.ok(html.includes('566,701,644'));
+  if(verified){assert.ok(html.includes('https://github.com/login?return_to='));assert.ok(html.includes('Founder QA Download'));}
+  else {assert.ok(!html.includes('https://github.com/login'));assert.ok(html.includes('artifact verification is incomplete'));}
+ }
 });

@@ -28,6 +28,6 @@ export function VaultStudio() {
         <p>{theme.description}</p>
       </figcaption>
     </figure>
-    <p className={styles.small}>Explore the artwork, not a simulated app screen. All four selections persisted in RC23 restart checks. Current Android graphical readability and advanced ambient effects remain unverified.</p>
+    <p className={styles.small}>Explore the artwork, not a simulated app screen. All four themes persisted through protected Build 26 restarts; default emulator readability was reviewed. Physical foldable readability and advanced ambient effects remain unverified.</p>
   </div>;
 }
