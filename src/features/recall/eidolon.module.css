@@ -150,6 +150,7 @@
   .identity { grid-template-columns: repeat(2,minmax(0,1fr)); }
 }
 @media(max-width:47.99rem) {
+  .page section.releaseSection[id], .founderGuide { scroll-margin-block-start: 14rem; }
   .heroScene { width: min(100%,440px); justify-self: center; }
   .heroCopy .eyebrow { max-width: 38ch; }
   .chapterNav { justify-content: start; gap: .3rem 1.2rem; }
