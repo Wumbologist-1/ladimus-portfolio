@@ -1,0 +1,7 @@
+{
+  "status": "SUPERSEDED",
+  "reason": "Sequential complete anonymous stream did not finish within the bounded engineering window. No completion/hash success was claimed. Replaced by explicit resumable range verification of every ordered byte.",
+  "startedAt": "2026-11-12T23:44:15Z",
+  "stoppedAt": "2026-11-13T00:00:03.300369+00:00",
+  "artifactModified": false
+}

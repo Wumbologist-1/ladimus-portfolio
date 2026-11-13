@@ -1,0 +1,25 @@
+{
+  "id": 443635280,
+  "tag_name": "v0.7.0-qa.27",
+  "html_url": "https://github.com/Wumbologist-1/recall-android-releases/releases/tag/v0.7.0-qa.27",
+  "draft": false,
+  "prerelease": true,
+  "immutable": true,
+  "published_at": "2026-11-12T23:44:14Z",
+  "assets": [
+    {
+      "id": 741502254,
+      "name": "recall-0.7.0-platinum-ascension-build27-final-qa-arm64-x86_64.apk",
+      "size": 566966197,
+      "digest": "sha256:ff775627bc973ea29f2bdabdb365f6b270eb9b32c4a0f5002ac6d9faedfa0862",
+      "browser_download_url": "https://github.com/Wumbologist-1/recall-android-releases/releases/download/v0.7.0-qa.27/recall-0.7.0-platinum-ascension-build27-final-qa-arm64-x86_64.apk"
+    },
+    {
+      "id": 741502251,
+      "name": "SHA256SUMS-build27.txt",
+      "size": 133,
+      "digest": "sha256:892f58983d2bf02a8186fa06561491dcdffe567c475829927a55452ffeedaeb6",
+      "browser_download_url": "https://github.com/Wumbologist-1/recall-android-releases/releases/download/v0.7.0-qa.27/SHA256SUMS-build27.txt"
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+
+> ladimus-portfolio@0.1.0 test:rag
+> node --experimental-strip-types --test tests/ask-ladimus.test.mjs
+
+TAP version 13
+# (node:39944) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Projects/Ladimus/repos/ladimus-portfolio/src/features/ask-ladimus/corpus.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to C:\\Projects\\Ladimus\\repos\\ladimus-portfolio\\package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: public schema, unique stable IDs, bounded deterministic chunks
+ok 1 - public schema, unique stable IDs, bounded deterministic chunks
+  ---
+  duration_ms: 11.0336
+  type: 'test'
+  ...
+# Subtest: public artifacts pass privacy scanning without logging contents
+ok 2 - public artifacts pass privacy scanning without logging contents
+  ---
+  duration_ms: 6.0235
+  type: 'test'
+  ...
+# Subtest: ingestion whitelists facts and never promotes notes or uncertain education dates
+ok 3 - ingestion whitelists facts and never promotes notes or uncertain education dates
+  ---
+  duration_ms: 0.4832
+  type: 'test'
+  ...
+# Subtest: all skill and hint evidence references resolve
+ok 4 - all skill and hint evidence references resolve
+  ---
+  duration_ms: 0.1825
+  type: 'test'
+  ...
+# Subtest: canonical titles, maturity distinctions and measurable impact survive ingestion
+ok 5 - canonical titles, maturity distinctions and measurable impact survive ingestion
+  ---
+  duration_ms: 0.1203
+  type: 'test'
+  ...
+# Subtest: lexical, metadata, intent and skill evidence ranking are deterministic and bounded
+ok 6 - lexical, metadata, intent and skill evidence ranking are deterministic and bounded
+  ---
+  duration_ms: 65.3399
+  type: 'test'
+  ...
+# Subtest: all supplied acceptance topics retrieve evidence
+ok 7 - all supplied acceptance topics retrieve evidence
+  ---
+  duration_ms: 43.1084
+  type: 'test'
+  ...
+# Subtest: production phrasing ignores possessives and question fillers while preserving engineering relevance
+ok 8 - production phrasing ignores possessives and question fillers while preserving engineering relevance
+  ---
+  duration_ms: 30.9233
+  type: 'test'
+  ...
+# Subtest: production impact and named prototype queries retain decisive evidence
+ok 9 - production impact and named prototype queries retain decisive evidence
+  ---
+  duration_ms: 18.5129
+  type: 'test'
+  ...
+# Subtest: query shape and bounds reject invalid input
+ok 10 - query shape and bounds reject invalid input
+  ---
+  duration_ms: 0.6966
+  type: 'test'
+  ...
+# Subtest: private and injection requests are refused before provider use
+ok 11 - private and injection requests are refused before provider use
+  ---
+  duration_ms: 6.1991
+  type: 'test'
+  ...
+# Subtest: conflict, seniority and years questions are qualified
+ok 12 - conflict, seniority and years questions are qualified
+  ---
+  duration_ms: 0.9287
+  type: 'test'
+  ...
+# Subtest: no evidence never invokes model
+ok 13 - no evidence never invokes model
+  ---
+  duration_ms: 8.3578
+  type: 'test'
+  ...
+# Subtest: authored answer maps every unit to retrieved evidence and exercises real stages
+ok 14 - authored answer maps every unit to retrieved evidence and exercises real stages
+  ---
+  duration_ms: 24.5121
+  type: 'test'
+  ...
+# Subtest: provider unavailable preserves retrieved evidence without claiming generation
+ok 15 - provider unavailable preserves retrieved evidence without claiming generation
+  ---
+  duration_ms: 3.3336
+  type: 'test'
+  ...
+# {"event":"ask_ladimus_query","failure":"http_429","query":"","intent":"rate_limited","evidence_ids":[],"status":"rate_limited","latency_ms":0}
+# {"event":"ask_ladimus_query","failure":"http_503","query":"","intent":"career","evidence_ids":[],"status":"service_busy","latency_ms":0}
+# Subtest: provider failure, malformed output, fabricated evidence and timeout settle safely
+ok 16 - provider failure, malformed output, fabricated evidence and timeout settle safely
+  ---
+  duration_ms: 19.8305
+  type: 'test'
+  ...
+# Subtest: empty synthesis with usable evidence fails closed
+ok 17 - empty synthesis with usable evidence fails closed
+  ---
+  duration_ms: 4.0753
+  type: 'test'
+  ...
+# Subtest: rate limiter windows, identities and bounds
+ok 18 - rate limiter windows, identities and bounds
+  ---
+  duration_ms: 0.1524
+  type: 'test'
+  ...
+# Subtest: POST /api/ask validates JSON, query limits, content type, origin and byte bounds
+ok 19 - POST /api/ask validates JSON, query limits, content type, origin and byte bounds
+  ---
+  duration_ms: 33.3881
+  type: 'test'
+  ...
+# Subtest: POST streams actual phases, bounded evidence and final answer
+ok 20 - POST streams actual phases, bounded evidence and final answer
+  ---
+  duration_ms: 15.1183
+  type: 'test'
+  ...
+# Subtest: POST no-evidence and provider failure responses carry no stack traces
+ok 21 - POST no-evidence and provider failure responses carry no stack traces
+  ---
+  duration_ms: 9.9876
+  type: 'test'
+  ...
+# Subtest: POST rate limit returns graceful 429 and Retry-After
+ok 22 - POST rate limit returns graceful 429 and Retry-After
+  ---
+  duration_ms: 28.2537
+  type: 'test'
+  ...
+# Subtest: POST concurrency bound rejects excess active generation
+ok 23 - POST concurrency bound rejects excess active generation
+  ---
+  duration_ms: 13.145
+  type: 'test'
+  ...
+# Subtest: server corpus and provider credentials have no client import boundary
+ok 24 - server corpus and provider credentials have no client import boundary
+  ---
+  duration_ms: 2.5209
+  type: 'test'
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 24
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 524.6467

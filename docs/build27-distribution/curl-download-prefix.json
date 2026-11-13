@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "httpStatus": 206,
+  "bytes": 1048576,
+  "prefixSha256": "a2e785909124cb4052017e35e36fdc047e40c0c964cbe710fb098683c8ab65bc",
+  "matchesExactApprovedApkPrefix": true,
+  "anonymous": true,
+  "client": "curl --disable, no auth/cookies",
+  "checkedAt": "2026-11-13T00:09:39.357542+00:00"
+}

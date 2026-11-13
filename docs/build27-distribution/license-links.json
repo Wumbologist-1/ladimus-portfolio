@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "checkedAt": "2026-11-12T23:48:27.156940+00:00",
+  "results": [
+    {
+      "url": "https://github.com/Wumbologist-1/recall-android-releases/releases/download/recall-platinum-models-v1/MODEL-NOTICES.md",
+      "status": 200,
+      "bytes": 2980,
+      "sha256": "e844cdcab4a431faf37f97b1d46c6aacfc85c5550323ec90d4daca18600b0f6c",
+      "anonymous": true
+    },
+    {
+      "url": "https://github.com/Wumbologist-1/recall-android-releases/releases/download/recall-platinum-models-v1/APACHE-2.0.txt",
+      "status": 200,
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "anonymous": true
+    }
+  ],
+  "modelPackagesReuploaded": false
+}

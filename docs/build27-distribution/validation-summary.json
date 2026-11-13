@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "websiteTests": 432,
+  "typecheck": "PASS",
+  "eslint": "PASS",
+  "productionBuild": "PASS",
+  "diffCheck": "PASS",
+  "realBuiltHtml": {
+    "primaryApkLinks": 2,
+    "instructionsAndPrivacyAnchors": true
+  },
+  "reactReview": "Server components, no added client effects/dependencies, explicit anchor labels/QA descriptions, existing48px targets and wrapped action layout. Historical interactive Vault Studio unchanged.",
+  "historicalPolicyModulesUnchanged": true,
+  "androidSourceModified": false,
+  "apkRebuiltOrResigned": false,
+  "physicalAcceptance": "PENDING",
+  "visualBrowserQa": "Unavailable; see browser-qa.json",
+  "checkedAt": "2026-11-13T00:17:34.968163+00:00"
+}

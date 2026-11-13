@@ -59,7 +59,7 @@ test('all three project cards use their explicit visual; Recall cannot fall thro
  for(const project of data.projects){
   const html=renderToStaticMarkup(React.createElement(ProjectCard,{project}));
   assert.ok(html.includes(project.detailUrl));
-  if(project.slug==='recall'){assert.ok(html.includes('/images/recall/luminance/final-home.png'));assert.ok(!html.includes('Review-only diagram'));assert.ok(html.includes('Internal QA'));assert.ok(html.includes('Historical v0.6 capture'));}
+  if(project.slug==='recall'){assert.ok(html.includes('/images/recall/luminance/final-home.png'));assert.ok(!html.includes('Review-only diagram'));assert.ok(html.includes('Public QA'));assert.ok(html.includes('Historical v0.6 capture'));}
   if(project.slug==='ladimus-review'){assert.ok(html.includes('Review-only diagram'));assert.ok(!html.includes('luminance/final-home.png'));}
   if(project.slug==='ask-ladimus'){assert.ok(html.includes('Bounded retrieval'));assert.ok(!html.includes('luminance/final-home.png'));}
  }
@@ -112,9 +112,11 @@ test('the EIDOLON page separates engineering progress, unavailable RC23 and lega
  const {RecallVisual,RecallGallery}=load('src/features/recall/recall-visual.tsx',{'next/image':{default:photo},'./screens':{recallScreens,recallScreenPath}});
  const {RecallDownload}=load('src/features/recall/recall-download.tsx',{'./release':{recallRelease,recallDownload,recallFileSize,recallReleasePresentation}});
  const founder=load('src/features/recall/founder-access.tsx',{'./founder-release':load('src/features/recall/founder-release.ts')});
- const {default:Page}=load('src/app/projects/recall/page.tsx',{'@/features/recall/founder-access':founder,'next/image':{default:photo},'@/components/ui/section':{Section:({children,...props})=>React.createElement('section',props,children)},'@/components/ui/action-link':{ActionLink:({href,children})=>React.createElement('a',{href},children)},'@/features/recall/recall-visual':{RecallVisual,RecallGallery},'@/features/recall/recall-download':{RecallDownload},'@/features/recall/screens':{recallScreens,recallScreenPath},'@/features/recall/release':{recallRelease,recallReleasePresentation},'@/features/recall/eidolon':{eidolonRelease,eidolonCheckpoint},'@/features/recall/vault-studio':{VaultStudio:()=>React.createElement('div',null,'Four artwork environments')},'@/config/site':load('src/config/site.ts')});
+ const platinum=load('src/features/recall/platinum-release.ts',{'./release':{recallDownload}});
+ const platinumUi=load('src/features/recall/platinum-access.tsx',{'./platinum-release':platinum,'./release':{recallFileSize}});
+ const {default:Page}=load('src/app/projects/recall/page.tsx',{'@/features/recall/platinum-access':platinumUi,'@/features/recall/platinum-release':platinum,'@/features/recall/founder-access':founder,'next/image':{default:photo},'@/components/ui/section':{Section:({children,...props})=>React.createElement('section',props,children)},'@/components/ui/action-link':{ActionLink:({href,children})=>React.createElement('a',{href},children)},'@/features/recall/recall-visual':{RecallVisual,RecallGallery},'@/features/recall/recall-download':{RecallDownload},'@/features/recall/screens':{recallScreens,recallScreenPath},'@/features/recall/release':{recallRelease,recallReleasePresentation},'@/features/recall/eidolon':{eidolonRelease,eidolonCheckpoint},'@/features/recall/vault-studio':{VaultStudio:()=>React.createElement('div',null,'Four artwork environments')},'@/config/site':load('src/config/site.ts')});
  const html=renderToStaticMarkup(React.createElement(Page));
- for(const phrase of ['PROJECT EIDOLON','Source Review','167','does not rerun Android qualification','Unsupported OpenSSL 3.3.2','permanently','Legacy v0.6 experimental QA','no public download','Do not store personal','historical build 10','General retrieval fusion is experimental','Advanced natural conversational synthesis and image chat remain disabled in Build 26'])assert.ok(html.includes(phrase),phrase);
+ for(const phrase of ['PROJECT EIDOLON','Source Review','168','does not rerun Android qualification','Unsupported OpenSSL 3.3.2','permanently','Legacy v0.6 experimental QA','no public download','Do not store personal','historical build 10','General retrieval fusion is experimental','Advanced natural conversational synthesis and image chat remain disabled in Build 27'])assert.ok(html.includes(phrase),phrase);
  assert.ok(!html.includes('biometric app lock are not available'));
  assert.ok(!html.includes('65 passing host tests'));
 });

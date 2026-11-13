@@ -1,0 +1,7 @@
+{
+  "status": "UNVERIFIED_RUNTIME_UNAVAILABLE",
+  "iab": "createBrowserTab timed out; kernel reset",
+  "nativeBrowser": "sky activation failed to activate captured window twice after fresh selection",
+  "actionsPerformed": "Read-only app/window selection and activation attempts; no webpage input/download click",
+  "fallback": "Rendered server markup + anonymous production HTTP/download/anchor checks; no visual or physical installation claim"
+}

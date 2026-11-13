@@ -1,0 +1,321 @@
+{
+  "status": "PASS",
+  "url": "https://github.com/Wumbologist-1/recall-android-releases/releases/download/v0.7.0-qa.27/recall-0.7.0-platinum-ascension-build27-final-qa-arm64-x86_64.apk",
+  "anonymous": true,
+  "authorizationHeaderSent": false,
+  "cookiesSent": false,
+  "reportedBytes": 566966197,
+  "downloadedBytes": 566966197,
+  "sha256": "ff775627bc973ea29f2bdabdb365f6b270eb9b32c4a0f5002ac6d9faedfa0862",
+  "method": "Complete ordered byte-range download; full SHA-256 over all ranges; HTTP206 exact Content-Range and length checks",
+  "checkedAt": "2026-11-13T00:12:41.517445+00:00",
+  "seconds": 758.11,
+  "ranges": [
+    {
+      "index": 0,
+      "start": 0,
+      "end": 16777215,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 1,
+      "start": 16777216,
+      "end": 33554431,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 2,
+      "start": 33554432,
+      "end": 50331647,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 3,
+      "start": 50331648,
+      "end": 67108863,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 4,
+      "start": 67108864,
+      "end": 83886079,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 5,
+      "start": 83886080,
+      "end": 100663295,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 6,
+      "start": 100663296,
+      "end": 117440511,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 7,
+      "start": 117440512,
+      "end": 134217727,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 8,
+      "start": 134217728,
+      "end": 150994943,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 9,
+      "start": 150994944,
+      "end": 167772159,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 10,
+      "start": 167772160,
+      "end": 184549375,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 11,
+      "start": 184549376,
+      "end": 201326591,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 12,
+      "start": 201326592,
+      "end": 218103807,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 13,
+      "start": 218103808,
+      "end": 234881023,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 14,
+      "start": 234881024,
+      "end": 251658239,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 15,
+      "start": 251658240,
+      "end": 268435455,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 16,
+      "start": 268435456,
+      "end": 285212671,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 17,
+      "start": 285212672,
+      "end": 301989887,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 18,
+      "start": 301989888,
+      "end": 318767103,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 19,
+      "start": 318767104,
+      "end": 335544319,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 20,
+      "start": 335544320,
+      "end": 352321535,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 21,
+      "start": 352321536,
+      "end": 369098751,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 22,
+      "start": 369098752,
+      "end": 385875967,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 23,
+      "start": 385875968,
+      "end": 402653183,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 24,
+      "start": 402653184,
+      "end": 419430399,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 25,
+      "start": 419430400,
+      "end": 436207615,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 26,
+      "start": 436207616,
+      "end": 452984831,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 27,
+      "start": 452984832,
+      "end": 469762047,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 28,
+      "start": 469762048,
+      "end": 486539263,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 29,
+      "start": 486539264,
+      "end": 503316479,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 30,
+      "start": 503316480,
+      "end": 520093695,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 31,
+      "start": 520093696,
+      "end": 536870911,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 32,
+      "start": 536870912,
+      "end": 553648127,
+      "bytes": 16777216,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    },
+    {
+      "index": 33,
+      "start": 553648128,
+      "end": 566966196,
+      "bytes": 13318069,
+      "status": 206,
+      "etag": "\"0x8DF41168C5227A7\"",
+      "finalHost": "release-assets.githubusercontent.com"
+    }
+  ]
+}

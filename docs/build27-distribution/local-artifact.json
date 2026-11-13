@@ -1,0 +1,10 @@
+{
+  "sha256": "ff775627bc973ea29f2bdabdb365f6b270eb9b32c4a0f5002ac6d9faedfa0862",
+  "bytes": 566966197,
+  "certificateSha256": "e28c77cccb4d589fb1963f5159bd9b42fad66637532129d840edd8ecebcd42d5",
+  "sourceCommit": "9a26ee2cd13191302548031b794e3b9cdf4eb020",
+  "evidenceCommit": "1057c4b",
+  "rebuild": false,
+  "resign": false,
+  "checkedAt": "2026-11-12T23:45:52.121070+00:00"
+}

@@ -1,0 +1,384 @@
+TAP version 13
+# (node:40440) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Projects/Ladimus/repos/ladimus-portfolio/src/features/recall/founder-release.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to C:\\Projects\\Ladimus\\repos\\ladimus-portfolio\\package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: founder access enters GitHub authentication with an allowlisted private release, never a binary capability URL
+ok 1 - founder access enters GitHub authentication with an allowlisted private release, never a binary capability URL
+  ---
+  duration_ms: 2.6843
+  type: 'test'
+  ...
+# Subtest: a changed founder version cannot reuse prior verification
+ok 2 - a changed founder version cannot reuse prior verification
+  ---
+  duration_ms: 0.1202
+  type: 'test'
+  ...
+# Subtest: a changed founder build cannot reuse prior verification
+ok 3 - a changed founder build cannot reuse prior verification
+  ---
+  duration_ms: 0.0501
+  type: 'test'
+  ...
+# Subtest: a changed founder filename cannot reuse prior verification
+ok 4 - a changed founder filename cannot reuse prior verification
+  ---
+  duration_ms: 0.0442
+  type: 'test'
+  ...
+# Subtest: a changed founder bytes cannot reuse prior verification
+ok 5 - a changed founder bytes cannot reuse prior verification
+  ---
+  duration_ms: 0.0942
+  type: 'test'
+  ...
+# Subtest: a changed founder sha256 cannot reuse prior verification
+ok 6 - a changed founder sha256 cannot reuse prior verification
+  ---
+  duration_ms: 0.0422
+  type: 'test'
+  ...
+# Subtest: a changed founder package cannot reuse prior verification
+ok 7 - a changed founder package cannot reuse prior verification
+  ---
+  duration_ms: 0.0751
+  type: 'test'
+  ...
+# Subtest: a changed founder certificateSha256 cannot reuse prior verification
+ok 8 - a changed founder certificateSha256 cannot reuse prior verification
+  ---
+  duration_ms: 0.0403
+  type: 'test'
+  ...
+# Subtest: a changed founder abis cannot reuse prior verification
+ok 9 - a changed founder abis cannot reuse prior verification
+  ---
+  duration_ms: 0.1691
+  type: 'test'
+  ...
+# Subtest: a changed founder minSdk cannot reuse prior verification
+ok 10 - a changed founder minSdk cannot reuse prior verification
+  ---
+  duration_ms: 0.3895
+  type: 'test'
+  ...
+# Subtest: a changed founder targetSdk cannot reuse prior verification
+ok 11 - a changed founder targetSdk cannot reuse prior verification
+  ---
+  duration_ms: 0.4014
+  type: 'test'
+  ...
+# Subtest: a changed founder sourceCommit cannot reuse prior verification
+ok 12 - a changed founder sourceCommit cannot reuse prior verification
+  ---
+  duration_ms: 0.1349
+  type: 'test'
+  ...
+# Subtest: unexpected founder distribution channel fails closed
+ok 13 - unexpected founder distribution channel fails closed
+  ---
+  duration_ms: 0.1507
+  type: 'test'
+  ...
+# Subtest: unexpected founder distribution gateA fails closed
+ok 14 - unexpected founder distribution gateA fails closed
+  ---
+  duration_ms: 0.08
+  type: 'test'
+  ...
+# Subtest: unexpected founder distribution gateB fails closed
+ok 15 - unexpected founder distribution gateB fails closed
+  ---
+  duration_ms: 0.06
+  type: 'test'
+  ...
+# Subtest: unexpected founder distribution publicBetaApproved fails closed
+ok 16 - unexpected founder distribution publicBetaApproved fails closed
+  ---
+  duration_ms: 0.0288
+  type: 'test'
+  ...
+# Subtest: unexpected founder distribution repository fails closed
+ok 17 - unexpected founder distribution repository fails closed
+  ---
+  duration_ms: 0.0227
+  type: 'test'
+  ...
+# Subtest: unexpected founder distribution repository fails closed
+ok 18 - unexpected founder distribution repository fails closed
+  ---
+  duration_ms: 0.0202
+  type: 'test'
+  ...
+# Subtest: unexpected founder distribution tag fails closed
+ok 19 - unexpected founder distribution tag fails closed
+  ---
+  duration_ms: 0.0281
+  type: 'test'
+  ...
+# Subtest: missing host protection or invalid verification releaseId refuses the CTA
+ok 20 - missing host protection or invalid verification releaseId refuses the CTA
+  ---
+  duration_ms: 0.0713
+  type: 'test'
+  ...
+# Subtest: missing host protection or invalid verification assetId refuses the CTA
+ok 21 - missing host protection or invalid verification assetId refuses the CTA
+  ---
+  duration_ms: 0.0296
+  type: 'test'
+  ...
+# Subtest: missing host protection or invalid verification repositoryPrivate refuses the CTA
+ok 22 - missing host protection or invalid verification repositoryPrivate refuses the CTA
+  ---
+  duration_ms: 0.0311
+  type: 'test'
+  ...
+# Subtest: missing host protection or invalid verification ownerOnly refuses the CTA
+ok 23 - missing host protection or invalid verification ownerOnly refuses the CTA
+  ---
+  duration_ms: 0.024
+  type: 'test'
+  ...
+# Subtest: missing host protection or invalid verification immutable refuses the CTA
+ok 24 - missing host protection or invalid verification immutable refuses the CTA
+  ---
+  duration_ms: 0.0235
+  type: 'test'
+  ...
+# Subtest: missing host protection or invalid verification authenticatedDownloadSha256 refuses the CTA
+ok 25 - missing host protection or invalid verification authenticatedDownloadSha256 refuses the CTA
+  ---
+  duration_ms: 0.0265
+  type: 'test'
+  ...
+# Subtest: missing host protection or invalid verification bytes refuses the CTA
+ok 26 - missing host protection or invalid verification bytes refuses the CTA
+  ---
+  duration_ms: 0.0324
+  type: 'test'
+  ...
+# Subtest: missing host protection or invalid verification anonymousDenied refuses the CTA
+ok 27 - missing host protection or invalid verification anonymousDenied refuses the CTA
+  ---
+  duration_ms: 0.0233
+  type: 'test'
+  ...
+# Subtest: missing host protection or invalid verification checkedAt refuses the CTA
+ok 28 - missing host protection or invalid verification checkedAt refuses the CTA
+  ---
+  duration_ms: 0.0287
+  type: 'test'
+  ...
+# Subtest: missing identity or missing proof cannot enable the founder CTA
+ok 29 - missing identity or missing proof cannot enable the founder CTA
+  ---
+  duration_ms: 0.0383
+  type: 'test'
+  ...
+# Subtest: legacy public QA authorization cannot grant Build26 access or public beta approval
+ok 30 - legacy public QA authorization cannot grant Build26 access or public beta approval
+  ---
+  duration_ms: 0.8474
+  type: 'test'
+  ...
+# Subtest: founder guide keeps security, upgrade, resource and hardware gates explicit
+ok 31 - founder guide keeps security, upgrade, resource and hardware gates explicit
+  ---
+  duration_ms: 0.86
+  type: 'test'
+  ...
+# (node:40424) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Projects/Ladimus/repos/ladimus-portfolio/src/features/recall/release.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to C:\\Projects\\Ladimus\\repos\\ladimus-portfolio\\package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the current public QA identity preserves separate production approvals
+ok 32 - the current public QA identity preserves separate production approvals
+  ---
+  duration_ms: 2.2993
+  type: 'test'
+  ...
+# Subtest: internal QA requires identity-bound restricted distribution even if a public URL is supplied
+ok 33 - internal QA requires identity-bound restricted distribution even if a public URL is supplied
+  ---
+  duration_ms: 0.177
+  type: 'test'
+  ...
+# Subtest: public beta requires both explicit founder and release-gate approvals, plus verified public access
+ok 34 - public beta requires both explicit founder and release-gate approvals, plus verified public access
+  ---
+  duration_ms: 0.3128
+  type: 'test'
+  ...
+# Subtest: changing sha256 invalidates old asset verification
+ok 35 - changing sha256 invalidates old asset verification
+  ---
+  duration_ms: 0.1999
+  type: 'test'
+  ...
+# Subtest: changing bytes invalidates old asset verification
+ok 36 - changing bytes invalidates old asset verification
+  ---
+  duration_ms: 0.0823
+  type: 'test'
+  ...
+# Subtest: changing filename invalidates old asset verification
+ok 37 - changing filename invalidates old asset verification
+  ---
+  duration_ms: 0.0611
+  type: 'test'
+  ...
+# Subtest: changing version invalidates old asset verification
+ok 38 - changing version invalidates old asset verification
+  ---
+  duration_ms: 0.0544
+  type: 'test'
+  ...
+# Subtest: changing build invalidates old asset verification
+ok 39 - changing build invalidates old asset verification
+  ---
+  duration_ms: 0.2143
+  type: 'test'
+  ...
+# Subtest: changing downloadUrl invalidates old asset verification
+ok 40 - changing downloadUrl invalidates old asset verification
+  ---
+  duration_ms: 0.2874
+  type: 'test'
+  ...
+# Subtest: unsafe or wrong asset destination stays disabled: http://downloads.example.test/recall-0.6.0-d009-qa-arm64-x86_64.apk
+ok 41 - unsafe or wrong asset destination stays disabled: http://downloads.example.test/recall-0.6.0-d009-qa-arm64-x86_64.apk
+  ---
+  duration_ms: 0.4203
+  type: 'test'
+  ...
+# Subtest: unsafe or wrong asset destination stays disabled: file:///C:/recall.apk
+ok 42 - unsafe or wrong asset destination stays disabled: file:///C:/recall.apk
+  ---
+  duration_ms: 0.0942
+  type: 'test'
+  ...
+# Subtest: unsafe or wrong asset destination stays disabled: C:\\recall.apk
+ok 43 - unsafe or wrong asset destination stays disabled: C:\\recall.apk
+  ---
+  duration_ms: 0.0355
+  type: 'test'
+  ...
+# Subtest: unsafe or wrong asset destination stays disabled: https://localhost/recall-0.6.0-d009-qa-arm64-x86_64.apk
+ok 44 - unsafe or wrong asset destination stays disabled: https://localhost/recall-0.6.0-d009-qa-arm64-x86_64.apk
+  ---
+  duration_ms: 0.0277
+  type: 'test'
+  ...
+# Subtest: unsafe or wrong asset destination stays disabled: https://user:secret@example.test/recall-0.6.0-d009-qa-arm64-x86_64.apk
+ok 45 - unsafe or wrong asset destination stays disabled: https://user:secret@example.test/recall-0.6.0-d009-qa-arm64-x86_64.apk
+  ---
+  duration_ms: 0.0245
+  type: 'test'
+  ...
+# Subtest: unsafe or wrong asset destination stays disabled: https://downloads.example.test/releases/recall-0.6.0-d009-qa-arm64-x86_64.apk
+ok 46 - unsafe or wrong asset destination stays disabled: https://downloads.example.test/releases/recall-0.6.0-d009-qa-arm64-x86_64.apk
+  ---
+  duration_ms: 0.0309
+  type: 'test'
+  ...
+# Subtest: unsafe or wrong asset destination stays disabled: https://downloads.example.test/releases/recall-0.6.0-d009-qa-arm64-x86_64.apk\#fragment
+ok 47 - unsafe or wrong asset destination stays disabled: https://downloads.example.test/releases/recall-0.6.0-d009-qa-arm64-x86_64.apk\#fragment
+  ---
+  duration_ms: 0.0249
+  type: 'test'
+  ...
+# Subtest: unsafe or wrong asset destination stays disabled: https://downloads.example.test/archive/source.zip
+ok 48 - unsafe or wrong asset destination stays disabled: https://downloads.example.test/archive/source.zip
+  ---
+  duration_ms: 0.0235
+  type: 'test'
+  ...
+# Subtest: unsafe or wrong asset destination stays disabled: https://downloads.example.test/archive/source.tar.gz
+ok 49 - unsafe or wrong asset destination stays disabled: https://downloads.example.test/archive/source.tar.gz
+  ---
+  duration_ms: 0.0223
+  type: 'test'
+  ...
+# Subtest: the published media is the small authentic synthetic QA capture
+ok 50 - the published media is the small authentic synthetic QA capture
+  ---
+  duration_ms: 3.6816
+  type: 'test'
+  ...
+# Subtest: all three project cards use their explicit visual; Recall cannot fall through to Review
+ok 51 - all three project cards use their explicit visual; Recall cannot fall through to Review
+  ---
+  duration_ms: 106.0569
+  type: 'test'
+  ...
+# Subtest: the actual download UI renders verified metadata and a disabled control without any APK href
+ok 52 - the actual download UI renders verified metadata and a disabled control without any APK href
+  ---
+  duration_ms: 59.4163
+  type: 'test'
+  ...
+# Subtest: public QA requires identity-bound founder authorization, public proof and a verified signature
+ok 53 - public QA requires identity-bound founder authorization, public proof and a verified signature
+  ---
+  duration_ms: 0.5786
+  type: 'test'
+  ...
+# Subtest: the actual public QA CTA renders the verified APK and explicit experimental notice
+ok 54 - the actual public QA CTA renders the verified APK and explicit experimental notice
+  ---
+  duration_ms: 9.7887
+  type: 'test'
+  ...
+# Subtest: v0.6 cannot inherit v0.5 authorization, signature or public asset proof
+ok 55 - v0.6 cannot inherit v0.5 authorization, signature or public asset proof
+  ---
+  duration_ms: 0.2139
+  type: 'test'
+  ...
+# Subtest: all seven Luminance media files preserve the measured original PNG identities
+ok 56 - all seven Luminance media files preserve the measured original PNG identities
+  ---
+  duration_ms: 14.2121
+  type: 'test'
+  ...
+# Subtest: the gallery exposes six readable originals and identifies the synthetic standalone evidence
+ok 57 - the gallery exposes six readable originals and identifies the synthetic standalone evidence
+  ---
+  duration_ms: 11.645
+  type: 'test'
+  ...
+# Subtest: the EIDOLON page separates engineering progress, unavailable RC23 and legacy evidence
+ok 58 - the EIDOLON page separates engineering progress, unavailable RC23 and legacy evidence
+  ---
+  duration_ms: 121.2892
+  type: 'test'
+  ...
+# Subtest: RC23 never inherits legacy download, authorization or asset proof
+ok 59 - RC23 never inherits legacy download, authorization or asset proof
+  ---
+  duration_ms: 0.1832
+  type: 'test'
+  ...
+# Subtest: all four studio choices have compact real artwork and an honest initial preview
+ok 60 - all four studio choices have compact real artwork and an honest initial preview
+  ---
+  duration_ms: 8.2855
+  type: 'test'
+  ...
+# Subtest: founder UI exposes only the authenticated host entry and fails closed without verification
+ok 61 - founder UI exposes only the authenticated host entry and fails closed without verification
+  ---
+  duration_ms: 22.7669
+  type: 'test'
+  ...
+1..61
+# tests 61
+# suites 0
+# pass 61
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 938.7369
